@@ -1,2 +1,5 @@
 Sprint 0 Tasks: 
 
+Task 1 - Elliot will create a group message.
+Task 2 - All will add more issues to the product backlog. 
+Task 3 - 
