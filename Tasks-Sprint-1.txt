@@ -4,3 +4,4 @@
 [admin login: admin, cs3240team22]
 3. Add to Reports and Messages HTML code to make the reports and messages displayed 
 (in catalog/templates/catalog/list_reports.html and catalog/templates/catalog/list_messages.html)
+4. These should be done by Sprint 1: D1, C2, C3, I1, I2, I3
