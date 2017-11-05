@@ -2,4 +2,4 @@
 2. Rework the Admin Code 
 [regular login: team22; cs3240team22]
 [admin login: admin, cs3240team22]
-3. Add to Reports and Messages
+3. Add to Reports and Messages HTML code to make the reports and messages displayed 
