@@ -2,6 +2,6 @@
 2. Rework the Admin Code (Jennifer)
 [regular login: team22; cs3240team22]
 [admin login: admin, cs3240team22]
-3. Add to Reports and Messages HTML code to make the reports and messages displayed (Jennifer
+3. Add to Reports and Messages HTML code to make the reports and messages displayed (Jennifer)
 (in catalog/templates/catalog/list_reports.html (Rohan) and catalog/templates/catalog/list_messages.html (Elliott))
 4. These should be done by Sprint 1: D1, C2, C3, I1, I2, I3
