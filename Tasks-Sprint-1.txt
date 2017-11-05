@@ -1,3 +1,3 @@
 1. Consolidate and polish Github Issues
-2. Rework the Admin Code
+2. Rework the Admin Code [login: team22; cs3240team22]
 3. Add to Reports and Messages

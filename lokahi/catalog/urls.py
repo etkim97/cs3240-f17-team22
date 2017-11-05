@@ -10,7 +10,7 @@ urlpatterns += [
 ]
 
 urlpatterns += [   
-    url(r'^mymessages/$', views.ReportsByUserListView.as_view(), name='my-messages'),
+    url(r'^mymessages/$', views.MessagesByUserListView.as_view(), name='my-messages'),
 ]
 
 ########

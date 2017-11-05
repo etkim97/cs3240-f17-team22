@@ -64,7 +64,7 @@ class Message(models.Model):
 		"""
 		String for representing the Model object.
 		"""
-		return "Message for " + self.recipient
+		return "Message for " + str(self.recipient.username)
 
 	def get_absolute_url(self):
 		"""

@@ -70,6 +70,14 @@ class MessageDelete(DeleteView):
     success_url = reverse_lazy('messages')
 
 
+class MessagesByUserListView(LoginRequiredMixin,generic.ListView):
+    """
+    Generic class-based view accessible reports to current user. 
+    """
+    model = Message
+    template_name ='catalog/list_messages.html'
+    paginate_by = 10
+
 
 from django.contrib.auth.decorators import permission_required
 
