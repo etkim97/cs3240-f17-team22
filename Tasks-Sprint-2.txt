@@ -1,0 +1,6 @@
+1. Create account page (with different roles i.e. investor user, site manager, etc ...)
+2. Add all fields listed in C2 (timestamp, etc ...) to models for report
+3. Button/page to create report
+4. Button/page to create message
+5. Detail page for reports 
+6. Detail page for messages
