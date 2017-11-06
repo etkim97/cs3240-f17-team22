@@ -8,9 +8,10 @@
 
       {% for report in report_list %}
       <li>
-        <a href="{{ report.get_absolute_url }}">Name: {{ report.filename }} </a>,
+        <a href="{{ report.get_absolute_url }}">Name: {{ report.report_name }}</a>,
          Info: {{report.info}},
-          Privacy: {{report.privacy_setting}}
+         Files: {{report.filename}},
+         Privacy: {{report.privacy_setting}}
       </li>
       {% endfor %}
     </ul>
