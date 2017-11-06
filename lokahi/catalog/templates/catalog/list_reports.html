@@ -8,8 +8,9 @@
 
       {% for report in report_list %}
       <li>
-        <a href="{{ report.get_absolute_url }}">Name: {{ report.report_name }}</a>,
-         Info: {{report.info}},
+        <a href="{{ report.get_absolute_url }}">Name: {{report.report_name}}</a>,
+         Company: {{report.company_name}},
+         Phone #: {{report.company_phone}},
          Files: {{report.filename}},
          Privacy: {{report.privacy_setting}}
       </li>

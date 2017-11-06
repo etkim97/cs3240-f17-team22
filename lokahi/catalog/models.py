@@ -25,6 +25,13 @@ class Report(models.Model):
 	Model representing a report (but not a specific copy of a book).
 	"""
 	report_name = models.CharField(max_length=200)
+	company_name = models.CharField(max_length=40)
+	company_phone = models.CharField(max_length=15)
+	company_location = models.CharField(max_length=40)
+	company_country = models.CharField(max_length=40)
+	company_sector = models.CharField(max_length=40)
+	company_industry = models.CharField(max_length=40)
+	current_projects = 	models.TextField(help_text = "Enter a list of the current projects")
 	info = models.TextField(help_text = "Enter information about the business plan and/or project")
 
 	# Need to actually upload the file here
@@ -32,6 +39,8 @@ class Report(models.Model):
 
 	# Need to set private/public through user settings here
 	privacy_setting = models.CharField(max_length=10)
+	timestamp = models.DateTimeField(auto_now_add = True)
+
 
 	# Need to allow investor users to upload files
 
