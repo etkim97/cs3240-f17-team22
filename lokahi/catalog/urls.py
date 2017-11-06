@@ -7,6 +7,7 @@ urlpatterns = [
 
 urlpatterns += [   
     url(r'^myreports/$', views.ReportsByUserListView.as_view(), name='my-reports'),
+    url(r'^myreports/(?P<pk>\d+)$', views.ReportsByUserListView.as_view(), name='report-detail'),
 ]
 
 urlpatterns += [   

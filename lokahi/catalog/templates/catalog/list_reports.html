@@ -3,17 +3,19 @@
 {% block content %}
     <h1>Your Reports</h1>
 
-    <!-- {% if bookinstance_list %}
+    {% if report_list %}
     <ul>
 
-      {% for bookinst in bookinstance_list %} 
-      <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
-        <a href="{% url 'book-detail' bookinst.book.pk %}">{{bookinst.book.title}}</a> ({{ bookinst.due_back }})        
+      {% for report in report_list %}
+      <li>
+        <a href="{{ report.get_absolute_url }}">Name: {{ report.filename }} </a>,
+         Info: {{report.info}},
+          Privacy: {{report.privacy_setting}}
       </li>
       {% endfor %}
     </ul>
 
     {% else %}
-      <p>There are no books borrowed.</p>
-    {% endif %}   -->     
+      <p>There are no reports.</p>
+    {% endif %}
 {% endblock %}

@@ -13,6 +13,7 @@ admin.site.register(User, UserAdmin)
 
 
 # Define the admin class
+
 class ReportAdmin(admin.ModelAdmin):
     list_display = ('report_name', 'info', 'filename', 'privacy_setting')
 
