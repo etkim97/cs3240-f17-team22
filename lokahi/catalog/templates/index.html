@@ -1,21 +1,18 @@
 {% extends "base_generic.html" %}
 
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+</head>
+
 {% block content %}
-<h1>Lokahi Fintech Crowdfunding Home</h1>
-
-  <p>Welcome to <em>Lokahi Fintech Crowdfunding</em>: A System to Support Secure Crowdfunding Information Sharing between General Venture Capitalists and
-Companies Seeking Investment.</p>
-
-<!-- <h2>Dynamic content</h2>
-
-  <p>The library has the following record counts:</p>
-  <ul>
-    <li><strong>Books:</strong> {{ num_books }}</li>
-    <li><strong>Copies:</strong> {{ num_instances }}</li>
-    <li><strong>Copies available:</strong> {{ num_instances_available }}</li>
-    <li><strong>Authors:</strong> {{ num_authors }}</li>
-  </ul> -->
-
-<p>You have visited this page {{ num_visits }}{% if num_visits == 1 %} time{% else %} times{% endif %}.</p>
+<body>
+	{% load static %}
+	<h1>Lokahi Fintech Crowdfunding</h1>
+  	<p>Welcome to Locahi Fintech! A System to Support Secure Crowdfunding Information Sharing between General Venture Capitalists and Companies Seeking Investment.</p>
+  	<p>Please Sign In or Create an Account to continue.</p>
+</body>
 
 {% endblock %}
