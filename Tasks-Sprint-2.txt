@@ -4,5 +4,5 @@
 4. Button/page to create message [Rohan]
 5. Detail page for reports [Elliott]
 6. Detail page for messages [Elliott]
-7. Ensure that messages are sent from one user to another [Jenny]
+7. Ensure that messages are sent from one user to another (Sprint 2-4) [Jenny]
 8. Add CSS/HTML [Gina]
