@@ -28,10 +28,16 @@ h1{
 h2{
 	padding-left: 1em;
 	padding-top: 1em;
+	color: #585858;
 }
 
 p{
 	font-size: 1.5em;
+	color: #585858;
+}
+
+a{
+	color: #585858;
 }
 
 html{

@@ -11,8 +11,12 @@
 <body>
 	{% load static %}
 	<h1>Lokahi Fintech Crowdfunding</h1>
-  	<p>Welcome to Locahi Fintech! A System to Support Secure Crowdfunding Information Sharing between General Venture Capitalists and Companies Seeking Investment.</p>
-  	<p>Please Sign In or Create an Account to continue.</p>
+	{% if user.is_authenticated %}
+		<p>Welcome!</p>
+	{% else %}
+  		<p>Welcome to Locahi Fintech! A System to Support Secure Crowdfunding Information Sharing between General Venture Capitalists and Companies Seeking Investment.</p>
+  		<p>Please <a href="{% url 'login'%}?next={{request.path}}">Sign In</a> or <a href="{% url 'signup'%}">Create an Account</a> to continue.</p>
+  	{% endif %}
 </body>
 
 {% endblock %}

@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -42,4 +44,8 @@ urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 #Add Django site authentication urls (for login, logout, password management)
 urlpatterns += [
     url(r'^accounts/', include('django.contrib.auth.urls')),
+]
+
+urlpatterns += [
+    url(r'^logout/$', auth_views.logout, name='logout'),
 ]
