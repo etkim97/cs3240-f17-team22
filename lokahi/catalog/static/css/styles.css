@@ -1,5 +1,119 @@
-.sidebar-nav {
-    margin-top: 20px;
-    padding: 0;
+ul {
+/*    margin-top: 20px;
+    padding: 0;*/
     list-style: none;
+    margin-right: 1em;
+    /*float: right;*/
+    /*padding-right: 100px;*/
+}
+
+.col-sm-2 {
+	float: right;
+	background-color: white;
+}
+
+.col-sm-10 {
+	width: 85%;
+}
+
+body{
+	margin: 2em 5em;
+}
+
+h1{
+	color: #585858;
+	font-size: 3em;
+}
+
+h2{
+	padding-left: 1em;
+	padding-top: 1em;
+	color: #585858;
+}
+
+p{
+	font-size: 1.5em;
+	color: #585858;
+}
+
+a{
+	color: #585858;
+}
+
+html{
+	background-color: #E4E4E6;
+}
+
+li{
+	padding-top: 0.5em;
+	font-size: 1em;
+	font-color: white;
+}
+
+menu{
+	display: block;
+
+}
+
+#header nav ul li a[href="#menu"] {
+	-webkit-tap-highlight-color: transparent;
+	width: 4em;
+	text-indent: 4em;
+	font-size: 1em;
+	overflow: hidden;
+	padding: 0;
+	white-space: nowrap;
+	}
+
+#menu {
+/*	-moz-transform: translateX(22em);
+	-webkit-transform: translateX(22em);
+	-ms-transform: translateX(22em);
+	transform: translateX(22em);*/
+	-moz-transition: -moz-transform 0.45s ease, visibility 0.45s;
+	-webkit-transition: -webkit-transform 0.45s ease, visibility 0.45s;
+	-ms-transition: -ms-transform 0.45s ease, visibility 0.45s;
+	/*transition: transform 0.45s ease, visibility 0.45s;*/
+	position: fixed;
+	top: 0;
+	right: 0;
+	width: 15%;
+	max-width: 80%;
+	height: 100%;
+	-webkit-overflow-scrolling: touch;
+	background: #585858;
+	color: #ffffff;
+	cursor: default;
+	/*visibility: hidden;*/
+	z-index: 10002;
+	background-color: #ADAEE0;
+	justify-content: right;
+	}
+
+a {
+	-moz-transition: border-bottom-color 0.2s ease, color 0.2s ease;
+	-webkit-transition: border-bottom-color 0.2s ease, color 0.2s ease;
+	-ms-transition: border-bottom-color 0.2s ease, color 0.2s ease;
+	transition: border-bottom-color 0.2s ease, color 0.2s ease;
+	text-decoration: none;
+	color: black;
+	border-bottom: dotted 1px rgba(88, 88, 88, 0.5);
+}
+
+	a:hover {
+		border-bottom-color: transparent;
+		color: white !important;
+	}
+
+.image{
+	max-height: 200px;
+	display: inline-block;
+	position: relative;
+	display: block;
+	vertical-align: baseline;
+}
+
+.image img{
+	border-radius : 4px;
+	display: block;
 }

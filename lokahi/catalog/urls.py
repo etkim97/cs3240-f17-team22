@@ -1,5 +1,7 @@
 from django.conf.urls import url
 from . import views
+from . import views as core_views
+
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
@@ -12,6 +14,10 @@ urlpatterns += [
 
 urlpatterns += [   
     url(r'^mymessages/$', views.MessagesByUserListView.as_view(), name='my-messages'),
+]
+
+urlpatterns += [
+    url(r'^signup/$', core_views.signup, name='signup'),
 ]
 
 ########

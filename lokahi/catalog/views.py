@@ -23,7 +23,11 @@ def index(request):
         context={'num_visits':num_visits}, 
     )
 
-
+def createAccount(request):
+    return render(
+        request,
+        'create_account.html',
+        )
 
 from django.views import generic
 
@@ -85,10 +89,23 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 import datetime
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import redirect
 
-from .forms import RenewBookForm
-
-
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('home')
+    else:
+        form = UserCreationForm()
+    return render(request, 'signup.html', {'form': form})
 # Use this template to update reports
 
 # @permission_required('catalog.can_mark_returned')
