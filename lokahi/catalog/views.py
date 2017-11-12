@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 from .models import User, Report, Message
@@ -106,6 +106,18 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, 'signup.html', {'form': form})
+
+
+@csrf_exempt
+def report(request):
+    return render(request, 'report.html')
+
+@csrf_exempt
+def message(request):
+    return render(request, 'message.html')
+
+
+
 # Use this template to update reports
 
 # @permission_required('catalog.can_mark_returned')

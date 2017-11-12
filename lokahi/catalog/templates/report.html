@@ -1,0 +1,26 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Create a Report</h1>
+	<form action="{% url 'report' %}" method="post">
+    	<label for="filename">Enter name: </label>
+    	<input id="filename" type="text" name="name_field" value="Title"><br>
+    	<label for="CompanyName">Enter Company Name: </label>
+    	<input id="cn" type = "text" name="cn_field" value="Name"><br>
+        <label for="CompanyPhone">Enter Company Phone: </label>
+    	<input id="phone" type="text" name="phone_field" value="(***)***-****"><br>
+        <label for="CompanyLocation">Enter Location: </label>
+    	<input id="location" type="text" name="location_field" value="Location"><br>
+        <label for="CompanyCountry">Enter Country: </label>
+    	<input id="country" type="text" name="country_field" value="Country"><br>
+        <label for="CompanySector">Enter Sector: </label>
+    	<input id="sector" type="text" name="sector_field" value="Sector"><br>
+        <label for="CompanyIndustry">Enter Industry: </label>
+    	<input id="industry" type="text" name="industry_field" value="Industry"><br
+        <label for="CompanyProject">Enter Current Project: </label>
+    	<input id="project" type="text" name="project_field" value="Project"><br>
+        <label for="CompanyInfo">Enter Information about Company or Project: </label>
+    	<input id="info" type="text" name="info_field" value="Info"><br>
+    	<input type="submit" value="Create">
+	</form>
+{% endblock %}

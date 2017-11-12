@@ -1,0 +1,12 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Create a Message</h1>
+	<form action="{% url 'message' %}" method="post">
+        <label for="Recipient">Enter Recipient: </label>
+    	<input id="recipient" type="text" name="recipient_field" value="Name"><br>
+    	<label for="MessageInfo">Enter Message Info: </label>
+    	<input id="mi" type = "text" name="mi_field" value="text"><br>
+        <input type="submit" value="Create">
+    </form>
+{% endblock %}

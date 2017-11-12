@@ -19,7 +19,12 @@ urlpatterns += [
 urlpatterns += [
     url(r'^signup/$', core_views.signup, name='signup'),
 ]
-
+urlpatterns += [
+url(r'^report/$', core_views.report, name='report'),
+]
+urlpatterns += [
+url(r'^message/$', core_views.message, name='message'),
+]
 ########
 
 # urlpatterns += [
