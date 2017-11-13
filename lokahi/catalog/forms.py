@@ -20,3 +20,16 @@ class RenewBookForm(forms.Form):
 
         # Remember to always return the cleaned data.
         return data
+
+class signUp(forms.Form):
+    first_name = forms.CharField(label="First Name")
+    last_name = forms.CharField(label="Last Name")
+    company = forms.CharField(label="Company", required=False)
+    username = forms.CharField(label="Username")
+    email = forms.EmailField(label="E-mail")
+    OPTIONS = (
+        ('a',"Investor"),
+        ('b',"Company"),
+        )
+    user_type = forms.ChoiceField(choices=OPTIONS)
+    password = forms.CharField(label="Password")

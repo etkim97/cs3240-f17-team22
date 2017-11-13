@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+#from forms.py import reportForm
+
 # Create your views here.
 
 from .models import User, Report, Message
-
+from .forms import *
 def index(request):
     """
     View function for home page of site.
@@ -96,28 +98,39 @@ import datetime
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect
+from django.db import models
+from django.contrib.auth.models import User
 
 def signup(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = signUp(request.POST)
         if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('home')
+            user = User.objects.create_user(form.cleaned_data['username'])
+            user.first_name = form.cleaned_data['first_name']
+            user.last_name = form.cleaned_data['last_name']
+            user.company = form.cleaned_data['company']
+            user.password=form.cleaned_data['password']
+            user.email = form.cleaned_data['email']
+            user.user_type = form.cleaned_data['user_type']
+            user.save()
+            # print(form.cleaned_data['username'])
+            return redirect('/')
     else:
-        form = UserCreationForm()
+        form = signUp()
     return render(request, 'signup.html', {'form': form})
 
 
 @csrf_exempt
 def report(request):
+    if request.method == 'POST':
+
+        return redirect('index')
     return render(request, 'report.html')
 
 @csrf_exempt
 def message(request):
+    if request.method == 'POST':
+        return redirect('index')
     return render(request, 'message.html')
 
 
@@ -151,4 +164,8 @@ def message(request):
 #         proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
 #         form = RenewBookForm(initial={'renewal_date': proposed_renewal_date,})
 
+<<<<<<< HEAD
 #     return render(request, 'catalog/book_renew_librarian.html', {'form': form, 'bookinst':book_inst})
+=======
+#     return render(request, 'catalog/book_renew_librarian.html', {'form': form, 'bookinst':book_inst})
+>>>>>>> 767863616310a2fa46b4b2959a0c1e16e5aa9da0
