@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+#from forms.py import reportForm
+
 # Create your views here.
 
 from .models import User, Report, Message
@@ -110,10 +112,15 @@ def signup(request):
 
 @csrf_exempt
 def report(request):
+    if request.method == 'POST':
+
+        return redirect('index')
     return render(request, 'report.html')
 
 @csrf_exempt
 def message(request):
+    if request.method == 'POST':
+        return redirect('index')
     return render(request, 'message.html')
 
 
