@@ -1,29 +1,32 @@
 from django.conf.urls import url
-from . import views
-from . import views as core_views
+from catalog import views, views_reports, views_messages
 
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-]
 
-urlpatterns += [   
     url(r'^myreports/$', views.ReportsByUserListView.as_view(), name='my-reports'),
     url(r'^myreports/(?P<pk>\d+)$', views.ReportsByUserListView.as_view(), name='report-detail'),
-]
 
-urlpatterns += [   
     url(r'^mymessages/$', views.MessagesByUserListView.as_view(), name='my-messages'),
+    #add URL detail for messages
+
+    url(r'^report/(?P<report_id>[0-9]+|(all))$', views_report.report, name='report'),
+    url(r'^report/create$', views_report.create_report, name='create_report'),
+    url(r'^report/delete/(?P<report_id>[0-9]+)$', views_book.delete_report, name='delete_report'),
 ]
 
 urlpatterns += [
-    url(r'^signup/$', core_views.signup, name='signup'),
+    url(r'^signup/$', views.signup, name='signup'),
+]
+
+
+
+urlpatterns += [
+url(r'^report/$', views.report, name='report'),
 ]
 urlpatterns += [
-url(r'^report/$', core_views.report, name='report'),
-]
-urlpatterns += [
-url(r'^message/$', core_views.message, name='message'),
+url(r'^message/$', views.message, name='message'),
 ]
 ########
 
