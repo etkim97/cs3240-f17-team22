@@ -2,11 +2,9 @@
 
 {% block content %}
   <h1>Sign up</h1>
-	<form action="/team_name_url/" method="post">
-    	<label for="username">Enter name: </label>
-    	<input id="team_name" type="text" name="name_field" value="username"><br>
-    	<label for="password">Enter password: </label>
-    	<input id="pass" type = "text" name="name_field" value="*********"><br>
-    	<input type="submit" value="OK">
+	<form action="" method="post">
+    	{% csrf_token %}
+    	{{ form.as_p }}
+    	<input type = "submit" value = "Sign Up!"/>
 	</form> 
 {% endblock %}
