@@ -119,23 +119,14 @@ def signup(request):
 @csrf_exempt
 def report(request):
     if request.method == 'POST':
-<<<<<<< HEAD
- 
-            return redirect('index')
-=======
 
         return redirect('index')
->>>>>>> cf2f0f43a202a242f80d9306e9486d9f7df12095
     return render(request, 'report.html')
 
 @csrf_exempt
 def message(request):
     if request.method == 'POST':
-<<<<<<< HEAD
-            return redirect('index')
-=======
         return redirect('index')
->>>>>>> cf2f0f43a202a242f80d9306e9486d9f7df12095
     return render(request, 'message.html')
 
 
