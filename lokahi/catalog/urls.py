@@ -7,13 +7,14 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
 ]
 
-urlpatterns += [   
+urlpatterns += [
     url(r'^myreports/$', views.ReportsByUserListView.as_view(), name='my-reports'),
-    url(r'^myreports/(?P<pk>\d+)$', views.ReportsByUserListView.as_view(), name='report-detail'),
+    url(r'^myreports/(?P<pk>\d+)$', views.ReportDetailView.as_view(), name='report-detail'),
 ]
 
-urlpatterns += [   
+urlpatterns += [
     url(r'^mymessages/$', views.MessagesByUserListView.as_view(), name='my-messages'),
+    url(r'^mymessages/(?P<pk>\d+)$', views.MessageDetailView.as_view(), name='message-detail'),
 ]
 
 urlpatterns += [
@@ -33,11 +34,11 @@ url(r'^message/$', core_views.message, name='message'),
 #     url(r'^book/(?P<pk>\d+)$', views.BookDetailView.as_view(), name='book-detail'),
 # ]
 
-# urlpatterns += [   
+# urlpatterns += [
 #     url(r'^book/(?P<pk>[-\w]+)/renew/$', views.renew_book_librarian, name='renew-book-librarian'),
 # ]
 
-# urlpatterns += [  
+# urlpatterns += [
 #     url(r'^author/create/$', views.AuthorCreate.as_view(), name='author_create'),
 #     url(r'^author/(?P<pk>\d+)/update/$', views.AuthorUpdate.as_view(), name='author_update'),
 #     url(r'^author/(?P<pk>\d+)/delete/$', views.AuthorDelete.as_view(), name='author_delete'),
