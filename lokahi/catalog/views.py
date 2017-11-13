@@ -22,12 +22,12 @@ def index(request):
     # Number of visits to this view, as counted in the session variable.
     num_visits=request.session.get('num_visits', 0)
     request.session['num_visits'] = num_visits+1
-    
+
     # Render the HTML template index.html with the data in the context variable
     return render(
         request,
         'index.html',
-        context={'num_visits':num_visits}, 
+        context={'num_visits':num_visits},
     )
 
 
@@ -70,18 +70,18 @@ class ReportListView(generic.ListView):
 
 class ReportDetailView(generic.DetailView):
     model = Report
-
+    template_name = 'catalog/detailedreport.html'
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 class ReportsByUserListView(LoginRequiredMixin,generic.ListView):
     """
-    Generic class-based view accessible reports to current user. 
+    Generic class-based view accessible reports to current user.
     """
     model = Report
     template_name ='catalog/list_reports.html'
     paginate_by = 10
-    
+
     # Need to get user reports by privacy accessibility
 
     # def get_queryset(self):
@@ -90,6 +90,10 @@ class ReportsByUserListView(LoginRequiredMixin,generic.ListView):
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+
+class MessageDetailView(generic.DetailView):
+    model = Message
+    template_name = 'catalog/detailmessage.html'
 
 class MessageCreate(CreateView):
     model = Message
@@ -109,7 +113,7 @@ class MessageDelete(DeleteView):
 
 class MessagesByUserListView(LoginRequiredMixin,generic.ListView):
     """
-    Generic class-based view accessible reports to current user. 
+    Generic class-based view accessible messages to current user.
     """
     model = Message
     template_name ='catalog/list_messages.html'
@@ -191,4 +195,8 @@ def message(request):
 #         proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
 #         form = RenewBookForm(initial={'renewal_date': proposed_renewal_date,})
 
+<<<<<<< HEAD
 #     return render(request, 'catalog/book_renew_librarian.html', {'form': form, 'bookinst':book_inst})
+=======
+#     return render(request, 'catalog/book_renew_librarian.html', {'form': form, 'bookinst':book_inst})
+>>>>>>> 767863616310a2fa46b4b2959a0c1e16e5aa9da0

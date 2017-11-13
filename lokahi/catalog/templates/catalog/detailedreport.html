@@ -1,0 +1,20 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>{{report.report_name}}</h1>
+
+    <ul>
+      <li>
+        Company: {{report.company_name}} <br />
+        Phone #: {{report.company_phone}}<br />
+        Location: {{report.company_location}} <br />
+        Country: {{report.company_country}} <br />
+        Sector: {{report.company_sector}} <br />
+        Industry: {{report.company_industry}} <br />
+        Projects: {{report.current_projects}} <br />
+        Files: {{report.filename}} <br />
+        Privacy: {{report.privacy_setting}}
+      </li>
+    </ul>
+
+{% endblock %}
