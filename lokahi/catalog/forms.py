@@ -11,8 +11,8 @@ class signUp(forms.Form):
     username = forms.CharField(label="Username")
     email = forms.EmailField(label="E-mail")
     OPTIONS = (
-        ('a',"Investor"),
-        ('b',"Company"),
+        ('Invester',"Investor"),
+        ('Company',"Company"),
         )
     user_type = forms.ChoiceField(choices=OPTIONS)
     password = forms.CharField(label="Password")
