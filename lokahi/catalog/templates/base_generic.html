@@ -27,9 +27,13 @@
           {% if user.is_authenticated %}
             <li>User: {{ user.get_username }}</li>
             <li><a href="{% url 'index' %}">Home</a></li>
-            <li><a href="{% url 'my_reports' %}">My Reports</a></li>
+            {% if user.user_type == 'Company' %}
+              <li><a href="{% url 'my_reports' %}">My Reports</a></li>
+            {% else %}
+              <li><a href="{% url 'my_reports' %}">All Reports</a></li>
+            {% endif %}
             <li><a href="{% url 'my_reports' %}">My Messages</a></li>
-            <li><a href="{% url 'logout'%}">Logout</a></li>   
+            <li><a href="{% url 'logout'%}">Logout</a></li>
           {% else %}
             <li><a href="{% url 'index' %}">Home</a></li>
             <li><a href="{% url 'login'%}">Login</a></li>

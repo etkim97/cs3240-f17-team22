@@ -113,23 +113,23 @@ def report_detail(request, report_id):
 
 @csrf_exempt
 def create_report(request):
-	if request.method == 'POST':
-		form = CreateReportForm(request.POST)
-		if form.is_valid():
-			report_name = form.cleaned_data['report_name']
-			company_name = form.cleaned_data['company_name']
-			company_phone = form.cleaned_data['company_phone']
-			company_location = form.cleaned_data['company_location']
-			company_country = form.cleaned_data['company_country']
-			company_sector = form.cleaned_data['company_sector']
-			company_industry = form.cleaned_data['company_industry']
-			current_projects = form.cleaned_data['current_projects']
-			info = form.cleaned_data['info']
-			filename = form.cleaned_data['filename']
-			privacy_setting = form.cleaned_data['privacy_setting']
-
-			try:
-				report = Report(
+    if request.method == 'POST':
+        form = CreateReportForm(request.POST)
+        if form.is_valid():
+            report_name = form.cleaned_data['report_name']
+            company_name = form.cleaned_data['company_name']
+            company_phone = form.cleaned_data['company_phone']
+            company_location = form.cleaned_data['company_location']
+            company_country = form.cleaned_data['company_country']
+            company_sector = form.cleaned_data['company_sector']
+            company_industry = form.cleaned_data['company_industry']
+            current_projects = form.cleaned_data['current_projects']
+            info = form.cleaned_data['info']
+            filename = form.cleaned_data['filename']
+            privacy_setting = form.cleaned_data['privacy_setting']
+            owner = form.cleaned_data['owner']
+            try:
+                report = Report(
 					report_name = report_name,
 					company_name = company_name,
 					company_phone = company_phone,
@@ -141,18 +141,17 @@ def create_report(request):
 					info = info,
 					filename = filename,
 					privacy_setting = privacy_setting,
+                    owner = owner,
 				)
-				report.save()
-				return HttpResponse("report saved", report)
-
-			except Exception as e:
-				return HttpResponse("exception", False)
-		else:
-			return HttpResponse(form.errors.as_data())
-	else:
-		form = CreateReportForm()
-
-	return render(request, 'create_report.html', {'form': form})
+                report.save()
+                return HttpResponse("report saved", report)
+            except Exception as e:
+                return HttpResponse("exception", False)
+        else:
+            return HttpResponse(form.errors.as_data())
+    else:
+        form = CreateReportForm()
+    return render(request, 'create_report.html', {'form': form})
 
 
 @csrf_exempt

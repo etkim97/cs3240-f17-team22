@@ -1,26 +1,53 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-    <h1>Your Reports</h1>
-
+    {% if user.is_authenticated and user.user_type == 'Company'%}
+      <h1>My Reports</h1>
+    {% elif user.user_type == 'Investor' or user.username == 'admin'%}
+      <h1>All Reports</h1>
+    {% endif %}
     {% if report_list %}
     <ul>
-
-      {% for report in report_list %}
-      <li>
-        <a href="{{ report.get_absolute_url }}">Name: {{report.report_name}}</a>,
-         Company: {{report.company_name}},
-         Phone #: {{report.company_phone}},
-         Files: {{report.filename}},
-         Privacy: {{report.privacy_setting}}
-      </li>
-      {% endfor %}
+      {% if user.username == "admin" %}
+        {% for report in report_list %}
+        <li>
+          <a href="{{ report.get_absolute_url }}">Name: {{report.report_name}}</a>,
+           Company: {{report.company_name}},
+           Phone #: {{report.company_phone}},
+           Files: {{report.filename}},
+           Privacy: {{report.privacy_setting}}
+        </li>
+        {% endfor %}
+      {% elif user.user_type == 'Investor' %}
+        {% for report in report_list %}
+        {% if report.privacy_setting == 'Public' %}
+        <li>
+          <a href="{{ report.get_absolute_url }}">Name: {{report.report_name}}</a>,
+           Company: {{report.company_name}},
+           Phone #: {{report.company_phone}},
+           Files: {{report.filename}},
+           Privacy: {{report.privacy_setting}}
+        </li>
+        {% endif %}
+        {% endfor %}
+\     {% else %}
+        {% for report in report_list %}
+        {% if user.username == report.owner %}
+          <li>
+            <a href="{{ report.get_absolute_url }}">Name: {{report.report_name}}</a>,
+             Company: {{report.company_name}},
+             Phone #: {{report.company_phone}},
+             Files: {{report.filename}},
+             Privacy: {{report.privacy_setting}}
+        {% endif %}
+        {% endfor %}
+      {% endif %}
     </ul>
 
     {% else %}
       <p>There are no reports.</p>
     {% endif %}
-    {% if user.is_authenticated %}
-    <a href="{% url 'create_report'%}">Create A Report</a>
+    {% if user.user_type == 'Company' %}
+      <a href="{% url 'create_report'%}">Create A Report</a>
     {% endif %}
 {% endblock %}
