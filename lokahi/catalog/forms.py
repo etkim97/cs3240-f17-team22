@@ -3,23 +3,6 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 import datetime #for checking renewal date range.
-    
-class RenewBookForm(forms.Form):
-    renewal_date = forms.DateField(help_text="Enter a date between now and 4 weeks (default 3).")
-
-    def clean_renewal_date(self):
-        data = self.cleaned_data['renewal_date']
-        
-        #Check date is not in past. 
-        if data < datetime.date.today():
-            raise ValidationError(_('Invalid date - renewal in past'))
-
-        #Check date is in range librarian allowed to change (+4 weeks).
-        if data > datetime.date.today() + datetime.timedelta(weeks=4):
-            raise ValidationError(_('Invalid date - renewal more than 4 weeks ahead'))
-
-        # Remember to always return the cleaned data.
-        return data
 
 class signUp(forms.Form):
     first_name = forms.CharField(label="First Name")
@@ -33,3 +16,20 @@ class signUp(forms.Form):
         )
     user_type = forms.ChoiceField(choices=OPTIONS)
     password = forms.CharField(label="Password")
+
+class CreateReportForm(forms.Form):
+    report_name = forms.CharField(label="Report Name")
+    company_name = forms.CharField()
+    company_phone = forms.CharField()
+    company_location = forms.CharField()
+    company_country = forms.CharField()
+    company_sector = forms.CharField()
+    company_industry = forms.CharField()
+    current_projects =  forms.CharField()
+    info = forms.CharField()
+    filename = forms.CharField()
+    privacy_setting = forms.CharField()
+
+    # class Meta:
+    #     model = Report
+    #     fields = ["report_name","company_name","company_phone","company_location","company_country","company_sector","company_industry", "current_project", "info"]

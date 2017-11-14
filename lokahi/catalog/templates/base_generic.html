@@ -27,8 +27,8 @@
           {% if user.is_authenticated %}
             <li>User: {{ user.get_username }}</li>
             <li><a href="{% url 'index' %}">Home</a></li>
-            <li><a href="{% url 'my-reports' %}">My Reports</a></li>
-            <li><a href="{% url 'my-messages' %}">My Messages</a></li>
+            <li><a href="{% url 'my_reports' %}">My Reports</a></li>
+            <li><a href="{% url 'my_reports' %}">My Messages</a></li>
             <li><a href="{% url 'logout'%}">Logout</a></li>   
           {% else %}
             <li><a href="{% url 'index' %}">Home</a></li>

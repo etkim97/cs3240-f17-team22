@@ -57,7 +57,7 @@ class Report(models.Model):
 		"""
 		Returns the url to access a particular report instance.
 		"""
-		return reverse_lazy('report-detail', args=[str(self.id)])
+		return reverse_lazy('report_detail', args=[str(self.id)])
 
 
 # A user can leave a private message for a specific user. A user will have the ability to see a list of
