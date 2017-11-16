@@ -46,7 +46,6 @@ def createAccount(request):
 		)
 
 def signup(request):
-<<<<<<< HEAD
 	if request.method == 'POST':
 		form = signUp(request.POST)
 		if form.is_valid():
@@ -64,26 +63,26 @@ def signup(request):
 		form = signUp()
 	return render(request, 'signup.html', {'form': form})
 
-=======
-    if request.method == 'POST':
-        form = signUp(request.POST)
-        if form.is_valid():
-           user = User.objects.create_user(form.cleaned_data['username'])
-           # USERNAME_FIELD = form.cleaned_data['username']
-           user.first_name = form.cleaned_data['first_name']
-           user.last_name = form.cleaned_data['last_name']
-           user.company = form.cleaned_data['company']
-           passw = make_password(form.cleaned_data['password'])
-           user.password = passw
-           user.email = form.cleaned_data['email']
-           user.user_type = form.cleaned_data['user_type']
-           user.save()
-           login(request, user)
-           # print(form.cleaned_data['username'])
-           return redirect('/')
-    else:
-        form = signUp()
-    return render(request, 'signup.html', {'form': form})
+# =======
+#     if request.method == 'POST':
+#         form = signUp(request.POST)
+#         if form.is_valid():
+#            user = User.objects.create_user(form.cleaned_data['username'])
+#            # USERNAME_FIELD = form.cleaned_data['username']
+#            user.first_name = form.cleaned_data['first_name']
+#            user.last_name = form.cleaned_data['last_name']
+#            user.company = form.cleaned_data['company']
+#            passw = make_password(form.cleaned_data['password'])
+#            user.password = passw
+#            user.email = form.cleaned_data['email']
+#            user.user_type = form.cleaned_data['user_type']
+#            user.save()
+#            login(request, user)
+#            # print(form.cleaned_data['username'])
+#            return redirect('/')
+#     else:
+#         form = signUp()
+#     return render(request, 'signup.html', {'form': form})
 
 def log_in(request, template_name="registration/login.html"):
     if request.method == "POST":
@@ -98,7 +97,7 @@ def log_in(request, template_name="registration/login.html"):
         except: 
             error = True
     return render(request, template_name, locals())
->>>>>>> 9cd703112eb5ec1e32c1f054e1c953c18296fe39
+# >>>>>>> 9cd703112eb5ec1e32c1f054e1c953c18296fe39
 
 class ReportsByUserListView(LoginRequiredMixin,generic.ListView):
 	"""
