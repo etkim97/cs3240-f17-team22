@@ -1,32 +1,27 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from datetime import date
 
 
 # Create your models here.
 
 
-class User(models.Model):
-	username = models.CharField(max_length=200, default="none")
+class User(AbstractUser):
+	username = models.CharField(max_length=200, default="none", unique=True)
 	password = models.CharField(max_length=200, default="none")
 	first_name = models.CharField(max_length=200, default="none")
 	last_name = models.CharField(max_length=200, default="none")
 	company = models.CharField(max_length=200, default="none")
 	email = models.EmailField(max_length=200, default="none")
 	user_type = models.CharField(max_length=1, default=1)
-
 	def __str__(self):
 		return "%s - %s - %s - %s" % (self.username, 
 			self.password, self.first_name, self.last_name)	
-
 
 from django.urls import reverse_lazy
 # Used to generate URLS by reversing the URL patterns
 
 class Report(models.Model):
-	"""
-	Model representing a report (but not a specific copy of a book).
-	"""
 	report_name = models.CharField(max_length=200)
 	company_name = models.CharField(max_length=40)
 	company_phone = models.CharField(max_length=15)
@@ -36,7 +31,7 @@ class Report(models.Model):
 	company_industry = models.CharField(max_length=40)
 	current_projects = 	models.TextField(help_text = "Enter a list of the current projects")
 	info = models.TextField(help_text = "Enter information about the business plan and/or project")
-
+	owner = models.CharField(max_length=50, default="admin")
 	# Need to actually upload the file here
 	filename = models.CharField(max_length=200)
 

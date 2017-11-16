@@ -11,8 +11,8 @@ class signUp(forms.Form):
     username = forms.CharField(label="Username")
     email = forms.EmailField(label="E-mail")
     OPTIONS = (
-        ('a',"Investor"),
-        ('b',"Company"),
+        ('Investor',"Investor"),
+        ('Company',"Company"),
         )
     user_type = forms.ChoiceField(choices=OPTIONS)
     password = forms.CharField(label="Password")
@@ -28,7 +28,12 @@ class CreateReportForm(forms.Form):
     current_projects =  forms.CharField()
     info = forms.CharField()
     filename = forms.CharField()
-    privacy_setting = forms.CharField()
+    OPTIONS = (
+        ('Private',"Private"),
+        ('Public',"Public"),
+        )
+    privacy_setting = forms.ChoiceField(choices=OPTIONS)
+    owner = forms.CharField(label = "Owner (enter your username)")
 
     # class Meta:
     #     model = Report
