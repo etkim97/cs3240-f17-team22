@@ -8,7 +8,6 @@ urlpatterns = [
     url(r'^report/(?P<report_id>[0-9]+)$', views.report_detail, name='report_detail'),
     url(r'^report/create$', views.create_report, name='create_report'),
     url(r'^report/delete/(?P<report_id>[0-9]+)$', views.delete_report, name='delete_report'),
-
     #DO SAME FOR MESSAGES HERE
     url(r'^mymessages/$', views.MessagesByUserListView.as_view(), name='my_messages'),
     url(r'^message/(?P<message_id>[0-9]+)$', views.message_detail, name='message_detail'),
