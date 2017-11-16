@@ -10,6 +10,10 @@ urlpatterns = [
     url(r'^report/delete/(?P<report_id>[0-9]+)$', views.delete_report, name='delete_report'),
 
     #DO SAME FOR MESSAGES HERE
+    url(r'^mymessages/$', views.MessagesByUserListView.as_view(), name='my_messages'),
+    url(r'^message/(?P<message_id>[0-9]+)$', views.message_detail, name='message_detail'),
+    url(r'^message/create$', views.create_message, name='create_message'),
+    url(r'^message/delete/(?P<message_id>[0-9]+)$', views.delete_message, name='delete_message'),
 
     url(r'^signup/$', views.signup, name='signup'),
 ]

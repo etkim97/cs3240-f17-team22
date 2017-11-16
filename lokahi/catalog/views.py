@@ -64,7 +64,6 @@ def signup(request):
 	return render(request, 'signup.html', {'form': form})
 
 
-
 class ReportsByUserListView(LoginRequiredMixin,generic.ListView):
 	"""
 	Generic class-based view accessible reports to current user.
@@ -154,3 +153,57 @@ def delete_report(request, report_id):
 
 
 #DO SAME FOR MESSAGES HERE
+class MessagesByUserListView(LoginRequiredMixin,generic.ListView):
+	"""
+	Generic class-based view accessible reports to current user.
+	"""
+	model = Message
+	template_name ='catalog/list_messages.html'
+	paginate_by = 10
+
+@csrf_exempt
+def message_detail(request, message_id):
+    """
+    """
+    try:
+        message = Message.objects.get(pk=message_id)
+        context = {
+            "recipient": message.recipient,
+            "message_body": message.message_body,
+        }
+        return render(request, 'catalog/detailedmessage.html', context=context)
+    except Exception as e:
+        return HttpResponse(e)
+
+@csrf_exempt
+def create_message(request):
+    if request.method == 'POST':
+        form = CreateMessageForm(request.POST)
+        if form.is_valid():
+            recipient = form.cleaned_data['recipient']
+            message_body = form.cleaned_data['message_body']
+            try:
+                message = Message(
+                    recipient = recipient,
+                    message_body = message_body,
+                )
+                message.save()
+                return HttpResponse("message saved", message)
+
+            except Exception as e:
+                return HttpResponse("exception", False)
+        else:
+            return HttpResponse(form.errors.as_data())
+    else:
+        form = CreateMessageForm()
+
+    return render(request, 'create_message.html', {'form': form})
+
+@csrf_exempt
+def delete_message(request, report_id):
+    try:
+        message = Message.objects.get(pk=report_id)
+        message.delete()
+        return HttpResponse("message deleted", True, message)
+    except:
+        return HttpResponse("message does not exist", False)

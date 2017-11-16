@@ -17,6 +17,7 @@ class signUp(forms.Form):
     user_type = forms.ChoiceField(choices=OPTIONS)
     password = forms.CharField(label="Password")
 
+
 class CreateReportForm(forms.Form):
     report_name = forms.CharField(label="Report Name")
     company_name = forms.CharField()
@@ -33,3 +34,8 @@ class CreateReportForm(forms.Form):
     # class Meta:
     #     model = Report
     #     fields = ["report_name","company_name","company_phone","company_location","company_country","company_sector","company_industry", "current_project", "info"]
+
+
+class CreateMessageForm(forms.Form):
+    recipient = forms.CharField()
+    message_body = forms.CharField()
