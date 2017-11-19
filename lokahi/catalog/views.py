@@ -214,18 +214,25 @@ def create_message(request):
     if request.method == 'POST':
         form = CreateMessageForm(request.POST)
         if form.is_valid():
-            recipient = form.cleaned_data['recipient']
+            user = User.objects.create_user(form.cleaned_data['recipient'])
+            #recipient = form.cleaned_data['recipient']
             message_body = form.cleaned_data['message_body']
-            try:
-                message = Message(
-                    recipient = recipient,
-                    message_body = message_body,
-                )
-                message.save()
-                return HttpResponse("message saved", message)
-
-            except Exception as e:
-                return HttpResponse("exception", False)
+            # try:
+            #     message = Message(
+            #         recipient=user,
+            #         message_body=message_body,
+            #     )
+            #     message.save()
+            #     return HttpResponse("message saved", message)
+            #
+            # except Exception as e:
+            #     return HttpResponse("exception", False)
+            message = Message(
+                recipient=user,
+                message_body=message_body,
+            )
+            message.save()
+            return HttpResponse("message saved", message)
         else:
             return HttpResponse(form.errors.as_data())
     else:
