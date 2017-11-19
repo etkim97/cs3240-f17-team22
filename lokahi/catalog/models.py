@@ -66,6 +66,7 @@ class Message(models.Model):
 
 	recipient = models.ForeignKey(User, on_delete = models.CASCADE)
 	message_body = models.TextField(help_text = "Enter your private message.")
+	isItPrivate = models.BooleanField(default=True)
 
 	def __str__(self):
 		"""
