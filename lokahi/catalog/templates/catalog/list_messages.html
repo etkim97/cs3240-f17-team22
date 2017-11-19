@@ -8,8 +8,9 @@
 
       {% for message in message_list %}
       <li>
-         Recipient: {{ message.recipient.username }},
-         Message: {{ message.message_body }}
+        <a href="{{ message.get_absolute_url }}">Recipient: {{ message.recipient.username }}</a>,
+         Message: {{ message.message_body }},
+         Privacy: {{ message.privacy }}
       </li>
       {% endfor %}
     </ul>

@@ -26,7 +26,7 @@ class CreateReportForm(forms.Form):
     company_country = forms.CharField()
     company_sector = forms.CharField()
     company_industry = forms.CharField()
-    current_projects =  forms.CharField()
+    current_projects = forms.CharField()
     info = forms.CharField()
     filename = forms.CharField()
     OPTIONS = (
@@ -44,3 +44,4 @@ class CreateReportForm(forms.Form):
 class CreateMessageForm(forms.Form):
     recipient = forms.CharField()
     message_body = forms.CharField()
+    privacy = forms.BooleanField(initial=True)

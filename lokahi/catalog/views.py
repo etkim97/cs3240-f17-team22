@@ -204,6 +204,7 @@ def message_detail(request, message_id):
         context = {
             "recipient": message.recipient,
             "message_body": message.message_body,
+            "privacy:": message.isItPrivate
         }
         return render(request, 'catalog/detailedmessage.html', context=context)
     except Exception as e:
@@ -214,14 +215,17 @@ def create_message(request):
     if request.method == 'POST':
         form = CreateMessageForm(request.POST)
         if form.is_valid():
-            user = User.objects.create_user(form.cleaned_data['recipient'])
+            user = User.objects.get(username=form.cleaned_data['recipient'])
             #recipient = form.cleaned_data['recipient']
             message_body = form.cleaned_data['message_body']
+            privacy = form.cleaned_data['privacy']
             # try:
             #     message = Message(
             #         recipient=user,
             #         message_body=message_body,
+            #         privacy=privacy
             #     )
+            #     user.save()
             #     message.save()
             #     return HttpResponse("message saved", message)
             #
@@ -230,6 +234,7 @@ def create_message(request):
             message = Message(
                 recipient=user,
                 message_body=message_body,
+                isItPrivate = privacy,
             )
             message.save()
             return HttpResponse("message saved", message)
