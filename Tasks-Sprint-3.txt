@@ -4,7 +4,8 @@
   i.e. follow the naming convention I used with _ not -)
 3. Make different User types (site managers, investor user, company user) each with their own permissions [Gina]
   -> see issues like A2, C5, B4, B5; will need to change models code and create account code 
-4. Create groups for users to be put into [Elliott]
+4. Create basic groups for users to be put into [Elliott]
   -> should be changing model code to create a Group object, and users can select which groups they are a part of
+  -> add to the basic groups code in Sprint 4
 5. Messages are sent from one user to another i.e. show up in My Messages (Sprint 2-4) [Jennifer]
 6. Create a privacy status button for Messages that users can toggle to make messages private or public [Rohan]
