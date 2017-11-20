@@ -1,0 +1,22 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Your Groups</h1>
+
+    {% if group_list %}
+    <ul>
+
+      {% for group in group_list %}
+      <li>
+        <a href="{{ group.get_absolute_url }}">Name: {{ group.name }}</a>,
+      </li>
+      {% endfor %}
+    </ul>
+
+    {% else %}
+      <p>There are no groups.</p>
+    {% endif %}
+    {% if user.is_authenticated %}
+    <a href="{% url 'create_group'%}">Create A Group</a>
+    {% endif %}
+{% endblock %}
