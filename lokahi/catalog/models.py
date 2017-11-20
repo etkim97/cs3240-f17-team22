@@ -14,6 +14,7 @@ class User(AbstractUser):
 	company = models.CharField(max_length=200, default="none")
 	email = models.EmailField(max_length=200, default="none")
 	user_type = models.CharField(max_length=1, default=1)
+	is_suspended = False
 	def __str__(self):
 		return "%s - %s - %s - %s" % (self.username,
 			self.password, self.first_name, self.last_name)
@@ -78,7 +79,7 @@ class Message(models.Model):
 		"""
 		Returns the url to access a particular report instance.
 		"""
-		return reverse_lazy('message-detail', args=[str(self.id)])
+		return reverse_lazy('message_detail', args=[str(self.id)])
 
 
 

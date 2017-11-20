@@ -1,0 +1,25 @@
+{% extends "base_generic.html" %}
+
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+
+{% block content %}
+<body>
+	{% load static %}
+	<h1>Users</h1>
+	{% if user.is_authenticated %}
+		{% if data %}
+			{% for user in data %}
+			<p>{{user.first_name}} {{user.last_name}} ({{user.username}}) <a style="font-size: 0.5em">Suspend Account</a></p>
+			{% endfor %}
+		{% else %}
+		<p> No available users </p>
+		{% endif %}
+  	{% endif %}
+</body>
+
+{% endblock %}

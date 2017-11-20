@@ -39,11 +39,13 @@ def index(request):
 	)
 
 
-def createAccount(request):
+def users(request):
+	data = User.objects.all()
 	return render(
 		request,
-		'create_account.html',
-		)
+		'users.html',
+		{'data' : data,},
+	)
 
 def signup(request):
     if request.method == 'POST':

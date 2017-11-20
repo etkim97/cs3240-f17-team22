@@ -19,4 +19,5 @@ urlpatterns = [
     url(r'^group/create$', views.create_group, name='create_group'),
 
     url(r'^signup/$', views.signup, name='signup'),
+    url(r'^users/$', views.users, name='users'),
 ]
