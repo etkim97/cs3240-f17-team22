@@ -2,6 +2,7 @@ from django import forms
 
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
+from .models import User
 import datetime #for checking renewal date range.
 
 class signUp(forms.Form):
@@ -45,3 +46,9 @@ class CreateMessageForm(forms.Form):
     recipient = forms.CharField()
     message_body = forms.CharField()
     privacy = forms.BooleanField(initial=True)
+
+class CreateGroupForm(forms.Form):
+    #users = forms.ModelMultipleChoiceField(queryset=User.objects.all(), required=False, widget=forms.CheckboxSelectMultiple)
+    users = forms.CharField()
+    group_name = forms.CharField()
+    group_reports = forms.CharField() 

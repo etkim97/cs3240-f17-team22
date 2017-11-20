@@ -15,8 +15,8 @@ class User(AbstractUser):
 	email = models.EmailField(max_length=200, default="none")
 	user_type = models.CharField(max_length=1, default=1)
 	def __str__(self):
-		return "%s - %s - %s - %s" % (self.username, 
-			self.password, self.first_name, self.last_name)	
+		return "%s - %s - %s - %s" % (self.username,
+			self.password, self.first_name, self.last_name)
 
 from django.urls import reverse_lazy
 # Used to generate URLS by reversing the URL patterns
@@ -57,7 +57,7 @@ class Report(models.Model):
 
 # A user can leave a private message for a specific user. A user will have the ability to see a list of
 # messages left for him or her, and be able to delete a message. Private messages will be encrypted, and
-# the recipient can choose to decrypt it and then read 
+# the recipient can choose to decrypt it and then read
 
 class Message(models.Model):
 	"""
@@ -82,7 +82,22 @@ class Message(models.Model):
 
 
 
+class Group(models.Model):
+	"""
+	Model representing groups that users can create
+	"""
 
+	name = models.CharField(max_length=50, default="group")
+	users = models.CharField(max_length=50, default="admin")
+	group_reports = models.CharField(max_length=50, default="report")
+	#users = models.ManyToManyField(User)
+	#reports = models.ManyToManyField(Report)
 
+	def __str__(self):
+		return self.name
 
-
+	def get_absolute_url(self):
+		"""
+		Returns the url to access a particular group instance.
+		"""
+		return reverse_lazy('group-detail', args=[str(self.id)])

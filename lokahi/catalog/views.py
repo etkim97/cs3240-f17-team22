@@ -16,7 +16,7 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 import datetime
-from .models import User, Report, Message
+from .models import User, Report, Message, Group
 from .forms import *
 
 def index(request):
@@ -76,7 +76,7 @@ def log_in(request, template_name="registration/login.html"):
             user = authenticate(username=username, password=password)
             login(request, user)
             return HttpResponseRedirect('/')
-        except: 
+        except:
             error = True
     return render(request, template_name, locals())
 # >>>>>>> 9cd703112eb5ec1e32c1f054e1c953c18296fe39
@@ -235,3 +235,51 @@ def delete_message(request, report_id):
         return HttpResponse("message deleted", True, message)
     except:
         return HttpResponse("message does not exist", False)
+
+
+class GroupsByUserListView(LoginRequiredMixin,generic.ListView):
+	"""
+	Generic class-based view accessible groups to current user.
+	"""
+	model = Group
+	template_name ='catalog/list_groups.html'
+	paginate_by = 10
+
+
+@csrf_exempt
+def group_detail(request, group_id):
+    """
+    """
+    try:
+        group = Group.objects.get(pk=group_id)
+        context = {
+            "name": group.name,
+            "users": group.users,
+            "reports:": group.group_reports
+        }
+        return render(request, 'catalog/detailedgroup.html', context=context)
+    except Exception as e:
+        return HttpResponse(e)
+
+
+@csrf_exempt
+def create_group(request):
+	if request.method == 'POST':
+		form = CreateGroupForm(request.POST)
+		if form.is_valid():
+			users = form.cleaned_data['users']
+			group_name = form.cleaned_data['group_name']
+			group_reports = form.cleaned_data['group_reports']
+			group = Group(
+				name = group_name,
+				users = users,
+				group_reports = group_reports,
+			)
+			group.save()
+			return HttpResponse("group saved", group)
+		else:
+			return HttpResponse(form.errors.as_data())
+	else:
+		form = CreateGroupForm()
+
+	return render(request, 'create_group.html', {'form': form})

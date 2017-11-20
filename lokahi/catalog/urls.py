@@ -14,6 +14,9 @@ urlpatterns = [
     url(r'^message/create$', views.create_message, name='create_message'),
     url(r'^message/delete/(?P<message_id>[0-9]+)$', views.delete_message, name='delete_message'),
 
+    url(r'^mygroups/$', views.GroupsByUserListView.as_view(), name='my_groups'),
+    url(r'^group/(?P<group_id>[0-9]+)$', views.group_detail, name='group_detail'),
+    url(r'^group/create$', views.create_group, name='create_group'),
+
     url(r'^signup/$', views.signup, name='signup'),
 ]
-
