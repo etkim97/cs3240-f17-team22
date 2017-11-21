@@ -14,7 +14,7 @@
 	{% if user.is_authenticated %}
 		{% if data %}
 			{% for user in data %}
-			<p>{{user.first_name}} {{user.last_name}} ({{user.username}}) <a style="font-size: 0.5em">Suspend Account</a></p>
+			<p>{{user.first_name}} {{user.last_name}} ({{user.username}}) {% if user.is_suspended == False %}<a style="font-size: 0.5em">Suspend Account</a> {% else %}<a style="font-size: 0.5em">Unsuspend Account</a>{% endif %}</p>
 			{% endfor %}
 		{% else %}
 		<p> No available users </p>

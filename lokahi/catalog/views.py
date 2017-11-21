@@ -61,6 +61,7 @@ def signup(request):
            user.email = form.cleaned_data['email']
            user.user_type = form.cleaned_data['user_type']
            user.save()
+           # user.is_suspended = False
            login(request, user)
            # print(form.cleaned_data['username'])
            return redirect('/')
