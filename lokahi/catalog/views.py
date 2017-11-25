@@ -61,6 +61,7 @@ def signup(request):
            user.email = form.cleaned_data['email']
            user.user_type = form.cleaned_data['user_type']
            user.save()
+           # user.is_suspended = False
            login(request, user)
            # print(form.cleaned_data['username'])
            return redirect('/')
@@ -73,15 +74,37 @@ def log_in(request, template_name="registration/login.html"):
         postdata = request.POST.copy()
         username = postdata.get('username', '')
         password = postdata.get('password', '')
-
         try:
-            user = authenticate(username=username, password=password)
-            login(request, user)
-            return HttpResponseRedirect('/')
+        	user = authenticate(username=username, password=password)
+        	login(request, user)
+        	return HttpResponseRedirect('/')
         except:
             error = True
     return render(request, template_name, locals())
-# >>>>>>> 9cd703112eb5ec1e32c1f054e1c953c18296fe39
+
+def suspend(request, uname):
+	try: 
+		users = User.objects.all()
+		for u in users:
+			if uname == u.username:
+				if u.is_suspended == False:
+					context = {
+						"username": u.username,
+						"suspended": 'suspended',
+					}
+					u.is_suspended = True
+					u.save()
+					return render(request, 'suspended.html', context=context)
+				else:
+					context = {
+						"username": u.username,
+						"suspended": 'reactivated',
+					}
+					u.is_suspended = False
+					u.save()
+					return render(request, 'suspended.html', context=context)
+	except Exception as e:
+		return HttpResponse(e)
 
 class ReportsByUserListView(LoginRequiredMixin,generic.ListView):
 	"""
@@ -249,19 +272,19 @@ class GroupsByUserListView(LoginRequiredMixin,generic.ListView):
 
 
 @csrf_exempt
-def group_detail(request, group_id):
-    """
-    """
-    try:
-        group = Group.objects.get(pk=group_id)
-        context = {
-            "name": group.name,
-            "users": group.users,
-            "reports:": group.group_reports
-        }
-        return render(request, 'catalog/detailedgroup.html', context=context)
-    except Exception as e:
-        return HttpResponse(e)
+def group_detail(request, group_name):
+	try:
+		groups = Group.objects.all()
+		for group in groups: 
+			if group.name == group_name:
+				context = {
+				"name": group.name,
+				"users": group.users,
+				"reports": group.group_reports,
+				}
+				return render(request, 'catalog/detailedgroup.html', context=context)
+	except Exception as e:
+		return HttpResponse(e)
 
 
 @csrf_exempt
