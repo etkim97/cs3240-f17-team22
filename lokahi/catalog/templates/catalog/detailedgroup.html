@@ -1,13 +1,13 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-    <h1>Your Group {{group.name}} </h1>
+    <h1>Your Group {{name}} </h1>
 
 
     <ul>
       <li>
-         Users: {{ group.users }},
-         Reports: {{ group.group_reports }},
+         Users: {{ users }},
+         Reports: {{ reports }},
       </li>
     </ul>
 {% endblock %}

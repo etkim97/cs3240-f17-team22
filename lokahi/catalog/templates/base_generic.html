@@ -24,7 +24,7 @@
       <nav id = "menu">
         <h2>Menu</h2>
        <ul>
-          {% if user.is_authenticated %}
+          {% if user.is_authenticated and user.is_suspended == False %}
             <li>User: {{ user.get_username }}</li>
             <li><a href="{% url 'index' %}">Home</a></li>
             {% if user.user_type == 'Company' %}

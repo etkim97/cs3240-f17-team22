@@ -11,4 +11,6 @@
 6. Create a privacy status button for Messages that users can toggle to make messages private or public [Rohan]
 
 
-Risks identified: if code written in earlier sprints is not extendable or is not structured correctly, it is hard to build upon that in later sprints and it might take much more effort to redo the foundation code to add on additional features in later sprints. 
+Risks identified: if code written in earlier sprints is not extendable or is not structured correctly, 
+it is hard to build upon that in later sprints and it might take much more effort to redo the foundation code 
+to add on additional features in later sprints.  

@@ -8,7 +8,7 @@
 
       {% for group in group_list %}
       <li>
-        <a href="{{ group.get_absolute_url }}">Name: {{ group.name }}</a>,
+        <a href="{% url 'group_detail' group_name=group.name%}">Name: {{ group.name }}</a>,
       </li>
       {% endfor %}
     </ul>
