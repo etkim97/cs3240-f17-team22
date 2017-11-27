@@ -12,10 +12,9 @@
         {% for report in report_list %}
         <li>
           <a href="{{ report.get_absolute_url }}">Name: {{report.report_name}}</a>,
-           Company: {{report.company_name}},
-           Phone #: {{report.company_phone}},
-           Files: {{report.filename}},
+           Company: {{report.company_name}}, 
            Privacy: {{report.privacy_setting}}
+           <a href="{{ report.get_edit_url }}">Edit this report</a>,
         </li>
         {% endfor %}
       {% elif user.user_type == 'Investor' %}
@@ -24,25 +23,29 @@
         <li>
           <a href="{{ report.get_absolute_url }}">Name: {{report.report_name}}</a>,
            Company: {{report.company_name}},
-           Phone #: {{report.company_phone}},
-           Files: {{report.filename}},
            Privacy: {{report.privacy_setting}}
+           <a href="{{ report.get_edit_url }}">Edit this report</a>,
         </li>
         {% endif %}
         {% endfor %}
-\     {% else %}
+      {% else %}
         {% for report in report_list %}
         {% if user.username == report.owner %}
           <li>
             <a href="{{ report.get_absolute_url }}">Name: {{report.report_name}}</a>,
              Company: {{report.company_name}},
-             Phone #: {{report.company_phone}},
-             Files: {{report.filename}},
              Privacy: {{report.privacy_setting}}
+             <a href="{{ report.get_edit_url }}">Edit this report</a>,
         {% endif %}
         {% endfor %}
       {% endif %}
     </ul>
+
+    <h4>
+      To edit a report, click on the link at the end of the report preview and change the fields that need to be changed
+      For fields that should stay the same, copy and paste the old content back into the form. Report name and privacy
+      cannot be updated.
+    </h4>
 
     {% else %}
       <p>There are no reports.</p>
