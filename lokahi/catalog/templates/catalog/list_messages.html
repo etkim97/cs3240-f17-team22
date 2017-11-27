@@ -3,22 +3,28 @@
 {% block content %}
     <h1>Your Messages</h1>
 
+    {% if user.is_authenticated %}
+    <a href="{% url 'create_message'%}">Create A Message</a>
+    {% endif %}
+
     {% if message_list %}
     <ul>
-
       {% for message in message_list %}
-      <li>
-        <a href="{{ message.get_absolute_url }}">Recipient: {{ message.recipient.username }}</a>,
-         Message: {{ message.message_body }},
-         Privacy: {{ message.privacy }}
-      </li>
+        <h3>Message to {{ message.recipient.first_name }} {{ message.recipient.last_name }}</h3>
+          <li>
+            Recipient: {{ message.recipient.username }}
+          </li>
+          <li>
+             <a href="{{ message.get_absolute_url }}"> Click to see message </a>
+          </li>
+          <li>
+              Private? {{ message.isItPrivate }}
+          </li>
       {% endfor %}
     </ul>
 
     {% else %}
       <p>There are no messages.</p>
     {% endif %}
-    {% if user.is_authenticated %}
-    <a href="{% url 'create_message'%}">Create A Message</a>
-    {% endif %}
+ 
 {% endblock %}
