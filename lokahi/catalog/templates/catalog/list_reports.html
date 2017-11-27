@@ -7,8 +7,17 @@
       <h1>All Reports</h1>
     {% endif %}
     {% if report_list %}
+
     <ul>
+
       {% if user.username == "admin" %}
+           <form action="{% url 'my_reports' %}" method="get">
+    <input id="rl-search" type="text"
+           name="report" value="{{ request.GET.report }}"
+           class="form-control" />
+    <input type="submit"
+           value="Search" class="btn btn-success" />
+    </form>
         {% for report in report_list %}
         <li>
           <a href="{{ report.get_absolute_url }}">Name: {{report.report_name}}</a>,
@@ -19,6 +28,13 @@
         </li>
         {% endfor %}
       {% elif user.user_type == 'Investor' %}
+          <form action="{% url 'my_reports' %}" method="get">
+    <input id="rl-search" type="text"
+           name="report" value="{{ request.GET.report }}"
+           class="form-control" />
+    <input type="submit"
+           value="Search" class="btn btn-success" />
+    </form>
         {% for report in report_list %}
         {% if report.privacy_setting == 'Public' %}
         <li>
@@ -31,6 +47,13 @@
         {% endif %}
         {% endfor %}
 \     {% else %}
+          <form action="{% url 'my_reports' %}" method="get">
+    <input id="rl-search" type="text"
+           name="report" value="{{ request.GET.report }}"
+           class="form-control" />
+    <input type="submit"
+           value="Search" class="btn btn-success" />
+    </form>
         {% for report in report_list %}
         {% if user.username == report.owner %}
           <li>
@@ -45,6 +68,13 @@
     </ul>
 
     {% else %}
+        <form action="{% url 'my_reports' %}" method="get">
+    <input id="rl-search" type="text"
+           name="report" value="{{ request.GET.report }}"
+           class="form-control" />
+    <input type="submit"
+           value="Search" class="btn btn-success" />
+    </form>
       <p>There are no reports.</p>
     {% endif %}
     {% if user.user_type == 'Company' %}

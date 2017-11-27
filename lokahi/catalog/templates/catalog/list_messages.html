@@ -5,7 +5,13 @@
 
     {% if message_list %}
     <ul>
-
+    <form action="{% url 'my_messages' %}" method="get">
+    <input id="ml-search" type="text"
+           name="message" value="{{ request.GET.message }}"
+           class="form-control" />
+    <input type="submit"
+           value="Search" class="btn btn-success" />
+    </form>
       {% for message in message_list %}
       <li>
         <a href="{{ message.get_absolute_url }}">Recipient: {{ message.recipient.username }}</a>,
