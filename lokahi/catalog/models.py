@@ -52,6 +52,9 @@ class Report(models.Model):
 	def get_edit_url(self):
 		return reverse_lazy('edit_report', args=[str(self.id)])
 
+	def get_delete_url(self):
+		return reverse_lazy('delete_report', args=[str(self.id)])
+
 
 # A user can leave a private message for a specific user. A user will have the ability to see a list of
 # messages left for him or her, and be able to delete a message. Private messages will be encrypted, and
