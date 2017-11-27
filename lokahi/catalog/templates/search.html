@@ -1,0 +1,21 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    {% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+</head>
+<body>
+<h1> Search Reports</h1>
+<form action="{% url 'my_reports' %}" method="get">
+    <input id="rl-search" type="text"
+           name="report" value="{{ request.GET.report }}"
+           class="form-control" />
+    <input type="submit"
+           value="Search" class="btn btn-success" />
+    </form>
+</body>
+</html>
+{% endblock %}

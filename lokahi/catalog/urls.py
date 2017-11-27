@@ -22,4 +22,6 @@ urlpatterns = [
     url(r'^signup/$', views.signup, name='signup'),
     url(r'^users/$', views.users, name='users'),
     url(r'^suspend/(?P<uname>[\w\-]+)$', views.suspend, name='suspend'),
+    url(r'^search/$', views.search, name='search'),
+    url(r'^search/$results', views.search_results, name='search_results')
 ]

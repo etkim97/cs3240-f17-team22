@@ -12,7 +12,8 @@
 	{% load static %}
 	<h1>Lokahi Fintech Crowdfunding</h1>
 	{% if user.is_authenticated and user.is_suspended == False %}
-		<p>Welcome to Locahi Fintech! A System to Support Secure Crowdfunding Information Sharing between General Venture Capitalists and Companies Seeking Investment.</p>
+        <p>Welcome to Lokahi Fintech! A System to Support Secure Crowdfunding Information Sharing between General Venture Capitalists and Companies Seeking Investment.</p>
+
 	{% elif user.is_suspended == True %}
 		<p>Your account has been suspended. Please contact your site manager.</p>
 	{% else %}
