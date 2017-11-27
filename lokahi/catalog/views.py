@@ -93,6 +93,31 @@ def suspend(request, uname):
 	except Exception as e:
 		return HttpResponse(e)
 
+
+def search(request):
+	template_name = "search.html"
+	# try:
+	# 	a = request.GET.get('report', )
+	# except KeyError:
+	# 	a = None
+	# if a:
+	# 	report_list = Report.objects.filter(
+	# 		name__icontains=a,
+	# 		report_name=Report.filename,
+    #
+	# 	)
+	# else:
+	# 	report_list = Report.objects.filter(owner=request.user)
+	# return report_list
+	try:
+		if request.method == "GET":
+			return render(request, template_name)
+	except Exception as e:
+		return HttpResponse(e)
+
+class search_results(generic.ListView):
+	template_name = 'catalog/list_results.html'
+
 class ReportsByUserListView(LoginRequiredMixin,generic.ListView):
 	"""
 	Generic class-based view accessible reports to current user.
@@ -171,6 +196,31 @@ def create_report(request):
 
 
 @csrf_exempt
+def edit_report(request, report_id):
+    report = Report.objects.get(pk=report_id)
+    if request.method == 'POST':
+        form = EditReportForm(request.POST)
+        if form.is_valid():
+            report.company_name = form.cleaned_data['company_name']
+            report.company_phone = form.cleaned_data['company_phone']
+            report.company_location = form.cleaned_data['company_location']
+            report.company_country = form.cleaned_data['company_country']
+            report.company_sector = form.cleaned_data['company_sector']
+            report.company_industry = form.cleaned_data['company_industry']
+            report.current_projects = form.cleaned_data['current_projects']
+            report.info = form.cleaned_data['info']
+            report.filename = form.cleaned_data['filename']
+            report.owner = form.cleaned_data['owner']
+            report.save()
+            return HttpResponse("report updated", True)
+        else:
+            return HttpResponse(form.errors.as_data())
+    else:
+        form = EditReportForm()
+    return render(request, 'edit_report.html', {'form': form})
+
+
+@csrf_exempt
 def delete_report(request, report_id):
 	try:
 		report = Report.objects.get(pk=report_id)
@@ -192,10 +242,9 @@ class MessagesByUserListView(LoginRequiredMixin,generic.ListView):
 	template_name ='catalog/list_messages.html'
 	paginate_by = 10
 
+
 @csrf_exempt
 def message_detail(request, message_id):
-    """
-    """
     try:
         message = Message.objects.get(pk=message_id)
         context = {
@@ -213,21 +262,8 @@ def create_message(request):
         form = CreateMessageForm(request.POST)
         if form.is_valid():
             user = User.objects.get(username=form.cleaned_data['recipient'])
-            #recipient = form.cleaned_data['recipient']
             message_body = form.cleaned_data['message_body']
             privacy = form.cleaned_data['privacy']
-            # try:
-            #     message = Message(
-            #         recipient=user,
-            #         message_body=message_body,
-            #         privacy=privacy
-            #     )
-            #     user.save()
-            #     message.save()
-            #     return HttpResponse("message saved", message)
-            #
-            # except Exception as e:
-            #     return HttpResponse("exception", False)
             message = Message(
                 recipient=user,
                 message_body=message_body,
@@ -243,11 +279,11 @@ def create_message(request):
     return render(request, 'create_message.html', {'form': form})
 
 @csrf_exempt
-def delete_message(request, report_id):
+def delete_message(request, message_id):
     try:
-        message = Message.objects.get(pk=report_id)
+        message = Message.objects.get(pk=message_id)
         message.delete()
-        return HttpResponse("message deleted", True, message)
+        return HttpResponse("message deleted", True)
     except:
         return HttpResponse("message does not exist", False)
 
@@ -298,3 +334,5 @@ def create_group(request):
 		form = CreateGroupForm()
 
 	return render(request, 'create_group.html', {'form': form})
+
+

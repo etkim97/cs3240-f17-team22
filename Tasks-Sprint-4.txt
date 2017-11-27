@@ -1,7 +1,7 @@
 1. Continue working on Groups [Elliott] (Sprint 4-5)
   -> See issues like A5, A6, A7 to work through all the use cases 
 2. Work on suspending and deleting accounts, deleting reports; all leftover admin functionality [Gina]
-3. Work on Search functionality [Rohan + others when they finish their tasks] (Sprint 4-6)
+3. Work on Search functionality [Rohan] (Sprint 4-6)
 4. Edit reports [Jennifer] 
 5. Message detail page fix [Jennifer]
 6. Work on uploading files to reports [Gina]

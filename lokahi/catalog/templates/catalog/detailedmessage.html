@@ -1,12 +1,10 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-    <h1>Your Message from {{ message.recipient.username}}</h1>
-
-
-    <ul>
-      <li>
-         Message: {{ message.message_body }},
-      </li>
-    </ul>
+    <h1>Your Message from {{ recipient.username}}</h1>
+	    <ul>
+	      <li>
+	         Message: {{ message_body }}
+	      </li>
+	    </ul>
 {% endblock %}

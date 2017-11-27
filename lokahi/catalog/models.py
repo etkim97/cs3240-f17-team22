@@ -44,16 +44,13 @@ class Report(models.Model):
 	# Need to allow investor users to upload files
 
 	def __str__(self):
-		"""
-		String for representing the Model object.
-		"""
 		return self.report_name
 
 	def get_absolute_url(self):
-		"""
-		Returns the url to access a particular report instance.
-		"""
 		return reverse_lazy('report_detail', args=[str(self.id)])
+
+	def get_edit_url(self):
+		return reverse_lazy('edit_report', args=[str(self.id)])
 
 
 # A user can leave a private message for a specific user. A user will have the ability to see a list of
@@ -70,16 +67,13 @@ class Message(models.Model):
 	isItPrivate = models.BooleanField(default=True)
 
 	def __str__(self):
-		"""
-		String for representing the Model object.
-		"""
 		return "Message for " + str(self.recipient.username)
 
 	def get_absolute_url(self):
-		"""
-		Returns the url to access a particular report instance.
-		"""
 		return reverse_lazy('message_detail', args=[str(self.id)])
+
+	def get_delete_url(self):
+		return reverse_lazy('delete_message', args=[str(self.id)])
 
 
 
@@ -98,7 +92,4 @@ class Group(models.Model):
 		return self.name
 
 	def get_absolute_url(self):
-		"""
-		Returns the url to access a particular group instance.
-		"""
 		return reverse_lazy('group-detail', args=[str(self.id)])
