@@ -229,8 +229,6 @@ class MessagesByUserListView(LoginRequiredMixin,generic.ListView):
 
 @csrf_exempt
 def message_detail(request, message_id):
-    """
-    """
     try:
         message = Message.objects.get(pk=message_id)
         context = {
@@ -248,21 +246,8 @@ def create_message(request):
         form = CreateMessageForm(request.POST)
         if form.is_valid():
             user = User.objects.get(username=form.cleaned_data['recipient'])
-            #recipient = form.cleaned_data['recipient']
             message_body = form.cleaned_data['message_body']
             privacy = form.cleaned_data['privacy']
-            # try:
-            #     message = Message(
-            #         recipient=user,
-            #         message_body=message_body,
-            #         privacy=privacy
-            #     )
-            #     user.save()
-            #     message.save()
-            #     return HttpResponse("message saved", message)
-            #
-            # except Exception as e:
-            #     return HttpResponse("exception", False)
             message = Message(
                 recipient=user,
                 message_body=message_body,
@@ -278,11 +263,11 @@ def create_message(request):
     return render(request, 'create_message.html', {'form': form})
 
 @csrf_exempt
-def delete_message(request, report_id):
+def delete_message(request, message_id):
     try:
-        message = Message.objects.get(pk=report_id)
+        message = Message.objects.get(pk=message_id)
         message.delete()
-        return HttpResponse("message deleted", True, message)
+        return HttpResponse("message deleted", True)
     except:
         return HttpResponse("message does not exist", False)
 
