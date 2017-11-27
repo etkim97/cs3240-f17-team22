@@ -361,7 +361,3 @@ def create_group(request):
 		form = CreateGroupForm()
 
 	return render(request, 'create_group.html', {'form': form})
-
-@csrf_exempt
-def searchResults(request):
-	form = request.GET.get('reportname')

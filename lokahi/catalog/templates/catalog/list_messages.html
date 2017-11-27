@@ -9,6 +9,13 @@
 
     {% if message_list %}
     <ul>
+    <form action="{% url 'my_messages' %}" method="get">
+    <input id="ml-search" type="text"
+           name="message" value="{{ request.GET.message }}"
+           class="form-control" />
+    <input type="submit"
+           value="Search" class="btn btn-success" />
+    </form>
       {% for message in message_list %}
         <h3>Message to {{ message.recipient.first_name }} {{ message.recipient.last_name }}</h3>
           <li>

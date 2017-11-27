@@ -45,7 +45,13 @@
         {% endif %}
         {% endfor %}
       {% else %}
-
+        <form action="{% url 'my_reports' %}" method="get">
+    <input id="rl-search" type="text"
+           name="report" value="{{ request.GET.report }}"
+           class="form-control" />
+    <input type="submit"
+           value="Search" class="btn btn-success" />
+    </form>
         {% for report in report_list %}
         {% if user.username == report.owner %}
           <li>
