@@ -3,3 +3,4 @@
 3. Edit reports functionality restricted to admin only [Jennifer]
 4. Finish search functionality for and/or and redirecting [Rohan]
 5. Finish creating groups [Elliott]
+6. Finish encryption and decryption [Jennifer]
