@@ -37,9 +37,18 @@ class CreateReportForm(forms.Form):
     privacy_setting = forms.ChoiceField(choices=OPTIONS)
     owner = forms.CharField(label = "Owner (enter your username)")
 
-    # class Meta:
-    #     model = Report
-    #     fields = ["report_name","company_name","company_phone","company_location","company_country","company_sector","company_industry", "current_project", "info"]
+
+class EditReportForm(forms.Form):
+    company_name = forms.CharField()
+    company_phone = forms.CharField()
+    company_location = forms.CharField()
+    company_country = forms.CharField()
+    company_sector = forms.CharField()
+    company_industry = forms.CharField()
+    current_projects = forms.CharField()
+    info = forms.CharField()
+    filename = forms.CharField()
+    owner = forms.CharField(label = "Owner (enter your username)")
 
 
 class CreateMessageForm(forms.Form):

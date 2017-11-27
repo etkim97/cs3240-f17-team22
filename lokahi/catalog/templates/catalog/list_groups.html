@@ -3,12 +3,16 @@
 {% block content %}
     <h1>Your Groups</h1>
 
+    {% if user.is_authenticated %}
+    <a href="{% url 'create_group'%}">Create A Group</a>
+    {% endif %}
+
     {% if group_list %}
     <ul>
-
       {% for group in group_list %}
       <li>
-        <a href="{% url 'group_detail' group_name=group.name%}">Name: {{ group.name }}</a>,
+        <h4> Group name: {{ group.name }} </h4>
+        <a href="{% url 'group_detail' group_name=group.name%}"> Click for details </a>
       </li>
       {% endfor %}
     </ul>
@@ -16,7 +20,5 @@
     {% else %}
       <p>There are no groups.</p>
     {% endif %}
-    {% if user.is_authenticated %}
-    <a href="{% url 'create_group'%}">Create A Group</a>
-    {% endif %}
+
 {% endblock %}

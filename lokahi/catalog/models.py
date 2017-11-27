@@ -51,9 +51,17 @@ class Report(models.Model):
 
 	def get_absolute_url(self):
 		"""
-		Returns the url to access a particular report instance.
+		Returns the ID to access a particular report instance.
 		"""
 		return reverse_lazy('report_detail', args=[str(self.id)])
+		
+
+	def get_edit_url(self):
+		"""
+		Returns the ID to edit a particular report instance.
+		"""
+		return reverse_lazy('edit_report', args=[str(self.id)])
+		#return "/catalog/report/edit/" + str(self.id)
 
 
 # A user can leave a private message for a specific user. A user will have the ability to see a list of
