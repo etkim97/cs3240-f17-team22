@@ -5,16 +5,17 @@
 
     <ul>
       <li>
-        Company: {{company_name}} <br />
-        Phone #: {{company_phone}}<br />
-        Location: {{company_location}} <br />
-        Country: {{company_country}} <br />
-        Sector: {{company_sector}} <br />
-        Industry: {{company_industry}} <br />
-        Projects: {{current_projects}} <br />
-        Files: {{filename}} <br />
+        Company: {{company_name}} <br/>
+        Phone #: {{company_phone}}<br/>
+        Location: {{company_location}} <br/>
+        Country: {{company_country}} <br/>
+        Sector: {{company_sector}} <br/>
+        Industry: {{company_industry}} <br/>
+        Projects: {{current_projects}} <br/>
+        Files: {% if filename != 'no file'%}<a href="{{url}}">{{filename}}</a>{% endif %}<br/>
         Privacy: {{privacy_setting}}
       </li>
     </ul>
-
+    <a href="">Delete</a>
+    {% endif %}
 {% endblock %}

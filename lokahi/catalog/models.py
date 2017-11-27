@@ -34,7 +34,7 @@ class Report(models.Model):
 	info = models.TextField(help_text = "Enter information about the business plan and/or project")
 	owner = models.CharField(max_length=50, default="admin")
 	# Need to actually upload the file here
-	filename = models.CharField(max_length=200)
+	filename = models.FileField()
 
 	# Need to set private/public through user settings here
 	privacy_setting = models.CharField(max_length=10)

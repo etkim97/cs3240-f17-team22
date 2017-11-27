@@ -29,7 +29,7 @@ class CreateReportForm(forms.Form):
     company_industry = forms.CharField()
     current_projects = forms.CharField()
     info = forms.CharField()
-    filename = forms.CharField()
+    filename = forms.FileField(label="Select a file")
     OPTIONS = (
         ('Private',"Private"),
         ('Public',"Public"),

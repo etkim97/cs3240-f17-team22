@@ -20,22 +20,9 @@ from .models import User, Report, Message, Group
 from .forms import *
 
 def index(request):
-	"""
-	View function for home page of site.
-	"""
-	# Generate counts of some of the main objects
-	# num_reports=Report.objects.all().count()
-	# num_messages=Message.objects.count()  # The 'all()' is implied by default.
-
-	# Number of visits to this view, as counted in the session variable.
-	num_visits=request.session.get('num_visits', 0)
-	request.session['num_visits'] = num_visits+1
-
-	# Render the HTML template index.html with the data in the context variable
 	return render(
 		request,
 		'index.html',
-		context={'num_visits':num_visits},
 	)
 
 
@@ -129,7 +116,8 @@ def report_detail(request, report_id):
 			"company_industry": report.company_industry,
 			"current_projects": report.current_projects,
 			"info": report.info,
-			"filename": report.filename,
+			"url": report.filename.url,
+			"filename":report.filename,
 			"privacy_setting": report.privacy_setting,
 			"timestamp": report.timestamp,
 		}
@@ -137,10 +125,12 @@ def report_detail(request, report_id):
 	except Exception as e:
 		return HttpResponse(e)
 
+from django.core.files.storage import FileSystemStorage
+
 @csrf_exempt
 def create_report(request):
     if request.method == 'POST':
-        form = CreateReportForm(request.POST)
+        form = CreateReportForm(request.POST, request.FILES)
         if form.is_valid():
             report_name = form.cleaned_data['report_name']
             company_name = form.cleaned_data['company_name']
@@ -151,7 +141,7 @@ def create_report(request):
             company_industry = form.cleaned_data['company_industry']
             current_projects = form.cleaned_data['current_projects']
             info = form.cleaned_data['info']
-            filename = form.cleaned_data['filename']
+            filename = request.FILES['filename']
             privacy_setting = form.cleaned_data['privacy_setting']
             owner = form.cleaned_data['owner']
             try:
@@ -165,7 +155,7 @@ def create_report(request):
 					company_industry = company_industry,
 					current_projects = current_projects,
 					info = info,
-					filename = filename,
+					filename = request.FILES['filename'],
 					privacy_setting = privacy_setting,
                     owner = owner,
 				)
@@ -173,8 +163,8 @@ def create_report(request):
                 return HttpResponse("report saved", report)
             except Exception as e:
                 return HttpResponse("exception", False)
-        else:
-            return HttpResponse(form.errors.as_data())
+        # else:
+        #     return HttpResponse(form.cleaned_data['filename'])
     else:
         form = CreateReportForm()
     return render(request, 'create_report.html', {'form': form})

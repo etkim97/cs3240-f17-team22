@@ -12,7 +12,7 @@
 	{% load static %}
 	<h1>Lokahi Fintech Crowdfunding</h1>
 	{% if user.is_authenticated and user.is_suspended == False %}
-		<p>Welcome!</p>
+		<p>Welcome, {{user.first_name}}!</p>
 	{% elif user.is_suspended == True %}
 		<p>Your account has been suspended. Please contact your site manager.</p>
 	{% else %}
