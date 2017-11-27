@@ -21,5 +21,5 @@ urlpatterns = [
 
     url(r'^signup/$', views.signup, name='signup'),
     url(r'^users/$', views.users, name='users'),
-    url(r'^suspend/(?P<uname>[\w\-]+)$', views.suspend, name='suspend')
+    url(r'^suspend/(?P<uname>[\w\-]+)$', views.suspend, name='suspend'),
 ]

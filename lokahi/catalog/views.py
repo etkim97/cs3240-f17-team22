@@ -114,6 +114,20 @@ class ReportsByUserListView(LoginRequiredMixin,generic.ListView):
 	template_name ='catalog/list_reports.html'
 	paginate_by = 10
 
+	def get_queryset(self):
+		try:
+			a = self.request.GET.get('report', )
+		except KeyError:
+			a = None
+		if a:
+			report_list = Report.objects.filter(
+				name__icontains=a,
+				owner=self.request.user
+			)
+		else:
+			report_list = Report.objects.filter(owner=self.request.user)
+		return report_list
+
 
 @csrf_exempt
 def report_detail(request, report_id):
@@ -226,6 +240,20 @@ class MessagesByUserListView(LoginRequiredMixin,generic.ListView):
 	model = Message
 	template_name ='catalog/list_messages.html'
 	paginate_by = 10
+
+	def get_queryset(self):
+		try:
+			a = self.request.GET.get('message', )
+		except KeyError:
+			a = None
+		if a:
+			message_list = Message.objects.filter(
+				name__icontains=a,
+				owner=self.request.user
+			)
+		else:
+			message_list = Message.objects.filter(recipient=self.request.user)
+		return message_list
 
 @csrf_exempt
 def message_detail(request, message_id):
