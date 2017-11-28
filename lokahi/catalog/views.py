@@ -156,6 +156,7 @@ from django.core.files.storage import FileSystemStorage
 def create_report(request):
     if request.method == 'POST':
         form = CreateReportForm(request.POST, request.FILES)
+        # files = request.FILES.getlist('filename')
         if form.is_valid():
             report_name = form.cleaned_data['report_name']
             company_name = form.cleaned_data['company_name']
@@ -166,9 +167,11 @@ def create_report(request):
             company_industry = form.cleaned_data['company_industry']
             current_projects = form.cleaned_data['current_projects']
             info = form.cleaned_data['info']
-            filename = request.FILES['filename']
+            filename = request.FILES.getlist('filename')
             privacy_setting = form.cleaned_data['privacy_setting']
             owner = form.cleaned_data['owner']
+            if owner != request.user.username: 
+            	return HttpResponse("inputting your username serves as a digital signature, you may not enter an althernate username. Please go back.")
             try:
                 report = Report(
 					report_name = report_name,
@@ -198,6 +201,20 @@ def create_report(request):
 @csrf_exempt
 def edit_report(request, report_id):
     report = Report.objects.get(pk=report_id)
+    context ={
+    	'name' : report.report_name,
+    	'current_cname' : report.company_name,
+    	'current_phone' : report.company_phone,
+    	'current_location' : report.company_location,
+    	'current_country' : report.company_country,
+    	'current_sector' : report.company_sector,
+    	'current_industry' : report.company_industry,
+    	'current_projects' : report.current_projects,
+    	'current_info' : report.info,
+    	'owner' : report.owner,
+    	'files' : report.filename.url,
+    	'file_name' : report.filename,
+    }
     if request.method == 'POST':
         form = EditReportForm(request.POST)
         if form.is_valid():
@@ -209,15 +226,14 @@ def edit_report(request, report_id):
             report.company_industry = form.cleaned_data['company_industry']
             report.current_projects = form.cleaned_data['current_projects']
             report.info = form.cleaned_data['info']
-            report.filename = form.cleaned_data['filename']
-            report.owner = form.cleaned_data['owner']
+            # report.filename = form.cleaned_data['filename']
             report.save()
             return HttpResponse("report updated", True)
         else:
             return HttpResponse(form.errors.as_data())
     else:
         form = EditReportForm()
-    return render(request, 'edit_report.html', {'form': form})
+    return render(request, 'edit_report.html', context= {'form': form, 'context':context}, )
 
 
 @csrf_exempt
@@ -225,7 +241,7 @@ def delete_report(request, report_id):
 	try:
 		report = Report.objects.get(pk=report_id)
 		report.delete()
-		return HttpResponse("report deleted", True, report)
+		return HttpResponse("report deleted", True)
 	except:
 		return HttpResponse("report does not exist", False)
 
