@@ -54,7 +54,11 @@ class EditReportForm(forms.Form):
 class CreateMessageForm(forms.Form):
     recipient = forms.CharField()
     message_body = forms.CharField()
-    privacy = forms.BooleanField(initial=True)
+    OPTIONS = (
+        ('Private',"Private"),
+        ('Public',"Public"),
+        )
+    privacy = forms.ChoiceField(choices=OPTIONS)
 
 class CreateGroupForm(forms.Form):
     #users = forms.ModelMultipleChoiceField(queryset=User.objects.all(), required=False, widget=forms.CheckboxSelectMultiple)

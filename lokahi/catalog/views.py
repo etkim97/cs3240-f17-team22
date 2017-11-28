@@ -322,7 +322,11 @@ def create_message(request):
         if form.is_valid():
             user = User.objects.get(username=form.cleaned_data['recipient'])
             message_body = form.cleaned_data['message_body']
-            privacy = form.cleaned_data['privacy']
+            private_public = form.cleaned_data['privacy']
+            if private_public == 'Private':
+                privacy = True
+            else:
+                privacy = False
             message = Message(
                 recipient=user,
                 message_body=message_body,
