@@ -17,7 +17,7 @@
           <a href="{{ report.get_absolute_url }}">Name: {{report.report_name}}</a>,
            Company: {{report.company_name}}, 
            Privacy: {{report.privacy_setting}}<br/>
-           <a href="{{ report.get_edit_url }}" style="margin-left:1em">Edit this report</a>,
+           <a href="{{ report.get_edit_url }}" style="margin-left:1em">Edit this report</a>
            <a href="{{ report.get_delete_url }}">Delete this report</a>
         </li>
         {% endfor %}
@@ -28,7 +28,11 @@
         <li>
           <a href="{{ report.get_absolute_url }}">Name: {{report.report_name}}</a>,
            Company: {{report.company_name}},
-           Privacy: {{report.privacy_setting}}
+           Privacy: {{report.privacy_setting}}<br/>
+          <!-- <a href="{{ report.get_edit_url }}" style="margin-left:1em">Edit this report</a> -->
+           {% if user.may_delete_r %}
+           <a href="{{ report.get_delete_url }}" style="margin-left:1em">Delete this report</a>
+           {% endif %}
         </li>
         {% endif %}
         {% endfor %}
@@ -40,7 +44,7 @@
           <li>
             <a href="{{ report.get_absolute_url }}">Name: {{report.report_name}}</a>,
              Company: {{report.company_name}},
-             Privacy: {{report.privacy_setting}}
+             Privacy: {{report.privacy_setting}}<br/>
              <a href="{{ report.get_edit_url }}">Edit this report</a>,
         {% endif %}
         {% endfor %}

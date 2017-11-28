@@ -58,3 +58,12 @@ class CreateGroupForm(forms.Form):
     users = forms.CharField()
     group_name = forms.CharField()
     group_reports = forms.CharField() 
+
+class user_privileges(forms.Form):
+    CHOICES = (
+        ('False', "False"),
+        ('True', "True"),
+        )
+    may_suspend_users = forms.ChoiceField(CHOICES)
+    may_delete_reports = forms.ChoiceField(CHOICES)
+    may_delete_users = forms.ChoiceField(CHOICES)
