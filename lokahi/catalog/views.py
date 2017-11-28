@@ -16,7 +16,7 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 import datetime
-from .models import User, Report, Message, Group
+from .models import User, Report, Message, Group, Comment
 from .forms import *
 
 def index(request):
@@ -228,6 +228,24 @@ def delete_report(request, report_id):
 		return HttpResponse("report deleted", True, report)
 	except:
 		return HttpResponse("report does not exist", False)
+
+
+@csrf_exempt
+def get_comments(request, report_id):
+    try:
+        comments = []
+        comment_list = Comment.objects.all()
+        for comment in comment_list:
+            if comment.report == Report.objects.get(pk=report_id):
+                comments.append(comment)
+        context = {
+            "comments": comments,
+            "id": comment.report
+        }
+        return render(request, 'catalog/list_comments.html', context=context)
+    except Exception as e:
+        return HttpResponse(e)
+    
 
 
 
