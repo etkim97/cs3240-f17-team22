@@ -1,7 +1,19 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <h1>Edit report </h1>
+  <h1>Edit Report: {{context.name}}</h1>
+  <p><b>Please copy and paste the information you do not wish to change. Report name, report owner ({{context.owner}}), and privacy cannot be updated.</b></p>
+  <p>Current Information:</p>
+  <ul>
+  	<li>Company Name: {{context.current_cname}}</li>
+  	<li>Company Phone: {{context.current_phone}}</li>
+  	<li>Company Location: {{context.current_location}}</li>
+  	<li>Company Country: {{context.current_country}}</li>
+  	<li>Company Sector: {{context.current_sector}}</li>
+  	<li>Company Industry: {{context.current_industry}}</li>
+  	<li>Current Projects: {{context.current_projects}}</li>
+  	<li>Files: <a href = "{{context.files}}">{{context.file_name}}</a></li>
+  </ul>
     <form action="" method="post">
         {% csrf_token %}
         {{ form.as_p }}
