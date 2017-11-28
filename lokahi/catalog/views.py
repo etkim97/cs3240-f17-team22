@@ -16,7 +16,7 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 import datetime
-from .models import User, Report, Message, Group
+from .models import User, Report, Message, Group, Comment
 from .forms import *
 
 def index(request):
@@ -178,6 +178,8 @@ def report_detail(request, report_id):
 			"filename":report.filename,
 			"privacy_setting": report.privacy_setting,
 			"timestamp": report.timestamp,
+            'get_comments_url': report.get_comments_url,
+            'create_comments_url': report.create_comments_url,
 		}
 		return render(request, 'catalog/detailedreport.html', context=context)
 	except Exception as e:
@@ -279,6 +281,50 @@ def delete_report(request, report_id):
 		return HttpResponse("report does not exist", False)
 
 
+@csrf_exempt
+def get_comments(request, report_id):
+    try:
+        comments = []
+        i_d = ''
+        comment_list = Comment.objects.all()
+        for comment in comment_list:
+            if comment.report == Report.objects.get(pk=report_id):
+                comments.append(comment)
+                if i_d == '':
+                	i_d = comment.report
+        context = {
+            "comments": comments,
+            "id": i_d,
+        }
+        return render(request, 'catalog/list_comments.html', context=context)
+    except Exception as e:
+    	return HttpResponse(e)
+    
+
+@csrf_exempt
+def create_comment(request, report_id):
+    if request.method == 'POST':
+        form = CreateCommentForm(request.POST)
+        if form.is_valid():
+            try:
+                report = Report.objects.get(pk=report_id)
+            except Exception as e:
+                return HttpResponse(e)
+            author = User.objects.get(username=form.cleaned_data['author'])
+            text = form.cleaned_data['text']
+            comment = Comment(
+                report=report,
+                author=author,
+                text=text,
+            )
+            comment.save()
+            return HttpResponse("comment saved", comment)
+        else:
+            return HttpResponse(form.errors.as_data())
+    else:
+        form = CreateCommentForm()
+
+    return render(request, 'create_comment.html', {'form': form})
 
 
 
@@ -312,7 +358,11 @@ def create_message(request):
         if form.is_valid():
             user = User.objects.get(username=form.cleaned_data['recipient'])
             message_body = form.cleaned_data['message_body']
-            privacy = form.cleaned_data['privacy']
+            private_public = form.cleaned_data['privacy']
+            if private_public == 'Private':
+                privacy = True
+            else:
+                privacy = False
             message = Message(
                 recipient=user,
                 message_body=message_body,
@@ -353,9 +403,9 @@ def group_detail(request, group_name):
 		for group in groups: 
 			if group.name == group_name:
 				context = {
-				"name": group.name,
-				"users": group.users,
-				"reports": group.group_reports,
+    				"name": group.name,
+    				"users": group.users,
+    				"reports": group.group_reports,
 				}
 				return render(request, 'catalog/detailedgroup.html', context=context)
 	except Exception as e:
