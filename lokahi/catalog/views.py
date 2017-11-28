@@ -263,7 +263,30 @@ def get_comments(request, report_id):
         return HttpResponse(e)
     
 
+@csrf_exempt
+def create_comment(request, report_id):
+    if request.method == 'POST':
+        form = CreateCommentForm(request.POST)
+        if form.is_valid():
+            try:
+                report = Report.objects.get(pk=report_id)
+            except Exception as e:
+                return HttpResponse(e)
+            author = User.objects.get(username=form.cleaned_data['author'])
+            text = form.cleaned_data['text']
+            comment = Comment(
+                report=report,
+                author=author,
+                text=text,
+            )
+            comment.save()
+            return HttpResponse("comment saved", comment)
+        else:
+            return HttpResponse(form.errors.as_data())
+    else:
+        form = CreateCommentForm()
 
+    return render(request, 'create_comment.html', {'form': form})
 
 
 
@@ -338,9 +361,9 @@ def group_detail(request, group_name):
 		for group in groups: 
 			if group.name == group_name:
 				context = {
-				"name": group.name,
-				"users": group.users,
-				"reports": group.group_reports,
+    				"name": group.name,
+    				"users": group.users,
+    				"reports": group.group_reports,
 				}
 				return render(request, 'catalog/detailedgroup.html', context=context)
 	except Exception as e:

@@ -57,6 +57,9 @@ class Report(models.Model):
 
 	def get_comments_url(self):
 		return reverse_lazy('report_comments', args=[str(self.id)])
+
+	def create_comments_url(self):
+		return reverse_lazy('create_comment', args=[str(self.id)])
 		
 
 class Comment(models.Model):

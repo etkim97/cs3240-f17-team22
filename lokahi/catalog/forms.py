@@ -37,6 +37,9 @@ class CreateReportForm(forms.Form):
     privacy_setting = forms.ChoiceField(choices=OPTIONS)
     owner = forms.CharField(label = "Owner (enter your username)")
 
+class CreateCommentForm(forms.Form):
+    author = forms.CharField(label = "Author (enter your own username)")
+    text = forms.CharField()
 
 class EditReportForm(forms.Form):
     company_name = forms.CharField()
