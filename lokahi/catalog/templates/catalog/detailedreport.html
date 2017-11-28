@@ -17,8 +17,9 @@
       </li>
     </ul>
 
-    <a href="{{ report.create_comments_url }}"> Comment on this report</a>
-    
+    <a href="{{ get_comments_url }}"> Comments </a> <br> <br>
+    <a href="{{ create_comments_url }}"> Comment on this report</a>
+
     {% if user.username == 'admin' %}
     {% endif %}
 {% endblock %}

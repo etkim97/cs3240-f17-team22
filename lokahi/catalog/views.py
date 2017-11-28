@@ -145,6 +145,8 @@ def report_detail(request, report_id):
 			"filename":report.filename,
 			"privacy_setting": report.privacy_setting,
 			"timestamp": report.timestamp,
+            'get_comments_url': report.get_comments_url,
+            'create_comments_url': report.create_comments_url,
 		}
 		return render(request, 'catalog/detailedreport.html', context=context)
 	except Exception as e:
