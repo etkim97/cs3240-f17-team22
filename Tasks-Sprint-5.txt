@@ -7,3 +7,7 @@
 7. Put sent messages into "sent" and received messages into an "inbox" [Rohan]
   -> private messages should not show up on other accounts
   -> messages should show recipient AND sender
+  
+  
+EXTRA TASKS
+[Jennifer] - Commenting on reports (5 points)
