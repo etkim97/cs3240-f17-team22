@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 # Register your models here.
 
-from .models import User, Report, Message
+from .models import User, Report, Message, Comment, Group
 
 # Define the admin class
 class UserAdmin(admin.ModelAdmin):
@@ -20,7 +20,11 @@ class ReportAdmin(admin.ModelAdmin):
 # Register the admin class with the associated model
 admin.site.register(Report, ReportAdmin)
 
-# # Register the Admin classes for Book using the decorator
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('report', 'author', 'text')
+
+admin.site.register(Comment, CommentAdmin)
+
 
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):

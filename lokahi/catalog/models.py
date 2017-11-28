@@ -54,6 +54,15 @@ class Report(models.Model):
 
 	def get_delete_url(self):
 		return reverse_lazy('delete_report', args=[str(self.id)])
+		
+
+class Comment(models.Model):
+	report = models.ForeignKey(Report)
+	author = models.CharField(max_length=200)
+	text = models.TextField()
+
+	def __str__(self):
+		return "Comment by " + author
 
 
 # A user can leave a private message for a specific user. A user will have the ability to see a list of
