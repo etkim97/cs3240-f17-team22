@@ -56,6 +56,39 @@ def signup(request):
         form = signUp()
     return render(request, 'signup.html', {'form': form})
 
+def privileges(request, uname):
+	users = User.objects.all()
+	user = User()
+	for u in users:
+		if u.username == uname:
+			user = u
+	context = {
+		'may_suspend' : user.may_suspend, 
+		'may_delete_r' : user.may_delete_r,
+		'may_delete_u' : user.may_delete_u,
+		'username' : user.username,
+	}
+	if request.method == 'POST':
+		form = user_privileges(request.POST)
+		if form.is_valid():
+			if form.cleaned_data['may_suspend_users'] == 'True':
+				user.may_suspend = True
+			else:
+				user.may_suspend = False
+			if form.cleaned_data['may_delete_users'] == 'True':
+				user.may_delete_u = True
+			else: 
+				user.may_delete_u = False
+			if form.cleaned_data['may_delete_reports'] == 'True':
+				user.may_delete_r = True
+			else:
+				user.may_delete_r = False
+			user.save()
+			return redirect('/')
+	else:
+		form = user_privileges()
+	return render(request, 'privileges.html', {'form':form, 'context':context})
+
 def log_in(request, template_name="registration/login.html"):
     if request.method == "POST":
         postdata = request.POST.copy()
@@ -252,17 +285,20 @@ def delete_report(request, report_id):
 def get_comments(request, report_id):
     try:
         comments = []
+        i_d = ''
         comment_list = Comment.objects.all()
         for comment in comment_list:
             if comment.report == Report.objects.get(pk=report_id):
                 comments.append(comment)
+                if i_d == '':
+                	i_d = comment.report
         context = {
             "comments": comments,
-            "id": comment.report
+            "id": i_d,
         }
         return render(request, 'catalog/list_comments.html', context=context)
     except Exception as e:
-        return HttpResponse(e)
+    	return HttpResponse(e)
     
 
 @csrf_exempt

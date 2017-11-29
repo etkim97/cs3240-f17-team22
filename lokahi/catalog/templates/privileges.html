@@ -1,0 +1,17 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1 style = "margin-bottom:0">User Privileges</h1>
+  <h2 style = "margin:0">{{context.username}}'s current privileges:</h2>
+  <ul>
+  	<li>May suspend other users' accounts: <b>{{context.may_suspend}}</b></li>
+  	<li>May delete reports: <b>{{context.may_delete_r}}</b></li>
+  	<li>May delete other users' accounts: <b>{{context.may_delete_u}}</b></li>
+  </ul>
+  <p>Please update {{context.username}}'s privileges below.</p>
+	<form action="" method="post">
+    	{% csrf_token %}
+    	{{ form.as_p }}
+    	<input type = "submit" value = "Update Privileges"/>
+	</form> 
+{% endblock %}
