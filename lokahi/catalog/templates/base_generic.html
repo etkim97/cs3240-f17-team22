@@ -35,7 +35,7 @@
             <li><a href="{% url 'my_messages' %}">My Messages</a></li>
             <li><a href="{% url 'my_groups' %}">My Groups</a></li>
               <li><a href="{% url 'search' %}">Search</a></li>
-            {% if user.username == 'admin' or user.may_suspend or user.may_delete_u %}
+            {% if user.username == 'admin' or user.has_manager_privileges %}
             <li><a href="{% url 'users' %}">Users</a></li>
             {% endif %}
             <li><a href="{% url 'logout'%}">Logout</a></li>

@@ -15,9 +15,8 @@ class User(AbstractUser):
 	email = models.EmailField(max_length=200, default="none")
 	user_type = models.CharField(max_length=10, default=1)
 	is_suspended = models.BooleanField(default = False)
-	may_suspend = models.BooleanField(default = False)
-	may_delete_r = models.BooleanField(default = False)
-	may_delete_u = models.BooleanField(default = False)
+	has_manager_privileges = models.BooleanField(default = False)
+	accepted_manager_privileges = models.BooleanField(default = False)
 	def __str__(self):
 		return "%s - %s - %s - %s" % (self.username,
 			self.password, self.first_name, self.last_name)

@@ -3,7 +3,9 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    
+    url(r'^acceptprivileges/(?P<uname>[\w\-]+)$', views.accept_privileges, name='accept_privileges'),
+
+
     url(r'^myreports/$', views.ReportsByUserListView.as_view(), name='my_reports'),
     url(r'^report/(?P<report_id>[0-9]+)$', views.report_detail, name='report_detail'),
     url(r'^report/create$', views.create_report, name='create_report'),

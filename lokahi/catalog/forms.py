@@ -71,6 +71,4 @@ class user_privileges(forms.Form):
         ('False', "False"),
         ('True', "True"),
         )
-    may_suspend_users = forms.ChoiceField(CHOICES)
-    may_delete_reports = forms.ChoiceField(CHOICES)
-    may_delete_users = forms.ChoiceField(CHOICES)
+    has_manager_privileges = forms.ChoiceField(CHOICES)

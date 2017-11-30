@@ -12,7 +12,9 @@
 	{% load static %}
 	<h1>Lokahi Fintech Crowdfunding</h1>
 	{% if user.is_authenticated and user.is_suspended == False %}
-
+		{% if user.has_manager_privileges and user.accepted_manager_privileges == False %}
+		<p><b>ATTENTION:</b> your site manager has offered you manager privileges. If you choose to accept, you may view and update all reports, and suspend other users' accounts. In order to accept, please <a href = "{% url 'accept_privileges' uname=user.username %}">click here.</a></p>
+		{% endif %}
         <p>Welcome to Lokahi Fintech! A System to Support Secure Crowdfunding Information Sharing between General Venture Capitalists and Companies Seeking Investment.</p>
 
 	{% elif user.is_suspended == True %}

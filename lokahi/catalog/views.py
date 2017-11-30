@@ -56,6 +56,16 @@ def signup(request):
         form = signUp()
     return render(request, 'signup.html', {'form': form})
 
+def accept_privileges(request, uname):
+	users = User.objects.all()
+	for u in users:
+		if u.username == uname:
+			u.accepted_manager_privileges = True
+			u.save()
+			return render(request, 'accept_privileges.html')
+	return render(request, 'accept_privileges.html')
+
+
 def privileges(request, uname):
 	users = User.objects.all()
 	user = User()
@@ -63,26 +73,17 @@ def privileges(request, uname):
 		if u.username == uname:
 			user = u
 	context = {
-		'may_suspend' : user.may_suspend, 
-		'may_delete_r' : user.may_delete_r,
-		'may_delete_u' : user.may_delete_u,
+		'has_manager_privileges' : user.has_manager_privileges,
 		'username' : user.username,
 	}
 	if request.method == 'POST':
 		form = user_privileges(request.POST)
 		if form.is_valid():
-			if form.cleaned_data['may_suspend_users'] == 'True':
-				user.may_suspend = True
+			if form.cleaned_data['has_manager_privileges'] == 'True':
+				user.has_manager_privileges = True
 			else:
-				user.may_suspend = False
-			if form.cleaned_data['may_delete_users'] == 'True':
-				user.may_delete_u = True
-			else: 
-				user.may_delete_u = False
-			if form.cleaned_data['may_delete_reports'] == 'True':
-				user.may_delete_r = True
-			else:
-				user.may_delete_r = False
+				user.has_manager_privileges = False
+				user.accepted_manager_privileges = False
 			user.save()
 			return redirect('/')
 	else:

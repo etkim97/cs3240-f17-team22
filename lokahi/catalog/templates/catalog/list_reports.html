@@ -10,7 +10,7 @@
 
     <ul>
 
-      {% if user.username == "admin" %}
+      {% if user.username == "admin" or user.accepted_manager_privileges %}
 
         {% for report in report_list %}
         <li>
@@ -31,9 +31,6 @@
            Company: {{report.company_name}},
            Privacy: {{report.privacy_setting}}<br/>
           <!-- <a href="{{ report.get_edit_url }}" style="margin-left:1em">Edit this report</a> -->
-           {% if user.may_delete_r %}
-           <a href="{{ report.get_delete_url }}" style="margin-left:1em">Delete this report</a>
-           {% endif %}
            <a href="{{ report.get_comments_url }}"> Comments </a>
 
         </li>
