@@ -20,7 +20,7 @@ class User(AbstractUser):
 	accepted_manager_privileges = models.BooleanField(default = False)
 	def __str__(self):
 		return "%s - %s - %s - %s - %s" % (self.username,
-			self.password, self.first_name, self.last_name, self.public_key)
+			self.password, self.first_name, self.last_name)
 
 class File(models.Model):
 	file = models.FileField()
@@ -97,7 +97,7 @@ class Message(models.Model):
 	decrypted_msg_file = models.FileField(upload_to='decrypted_messages', blank=True)
 
 	def __str__(self):
-		return "Message for " + str(self.recipient.username) + str(self.encrypted_msg_filename)
+		return "Message for " + str(self.recipient.username)
 
 	def get_absolute_url(self):
 		return reverse_lazy('message_detail', args=[str(self.id)])
