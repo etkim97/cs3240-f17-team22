@@ -15,7 +15,7 @@
 		{% if data %}
 			{% for user in data %}
 			{% if user.username != 'admin' %}
-			<p>{{user.first_name}} {{user.last_name}} ({{user.username}}) 
+			<p>{{user.first_name}} {{user.last_name}} ({{user.username}} {{user.public_key}}) 
 					{% if user.is_suspended == False %}<a href="{% url 'suspend' uname=user.username%}" style="font-size: 0.5em">Suspend Account</a> 
 					{% else %}<a href="{% url 'suspend' uname=user.username%}" style="font-size: 0.5em">Unsuspend Account</a>{% endif %}</p>
 			{% endif %}

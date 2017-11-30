@@ -59,6 +59,14 @@ class CreateMessageForm(forms.Form):
         ('Public',"Public"),
         )
     privacy = forms.ChoiceField(choices=OPTIONS)
+    OPTIONS = (
+        ('Encrypted',"Encrypted  (only if private message)"),
+        ('Unencrypted',"Unencrypted"),
+        )
+    encryption = forms.ChoiceField(choices=OPTIONS)
+
+class DownloadMessageForm(forms.Form):
+    private_key = forms.CharField(widget=forms.Textarea)
 
 class CreateGroupForm(forms.Form):
     #users = forms.ModelMultipleChoiceField(queryset=User.objects.all(), required=False, widget=forms.CheckboxSelectMultiple)

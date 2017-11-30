@@ -15,9 +15,10 @@ class User(AbstractUser):
 	email = models.EmailField(max_length=200, default="none")
 	user_type = models.CharField(max_length=10, default=1)
 	is_suspended = models.BooleanField(default = False)
+	public_key = models.TextField()
 	def __str__(self):
-		return "%s - %s - %s - %s" % (self.username,
-			self.password, self.first_name, self.last_name)
+		return "%s - %s - %s - %s - %s" % (self.username,
+			self.password, self.first_name, self.last_name, self.public_key)
 
 from django.urls import reverse_lazy
 # Used to generate URLS by reversing the URL patterns
@@ -33,7 +34,6 @@ class Report(models.Model):
 	current_projects = 	models.TextField(help_text = "Enter a list of the current projects")
 	info = models.TextField(help_text = "Enter information about the business plan and/or project")
 	owner = models.CharField(max_length=50, default="admin")
-	# Need to actually upload the file here
 	filename = models.FileField()
 
 	# Need to set private/public through user settings here
@@ -83,15 +83,23 @@ class Message(models.Model):
 	recipient = models.ForeignKey(User, on_delete = models.CASCADE)
 	message_body = models.TextField(help_text = "Enter your private message.")
 	isItPrivate = models.BooleanField(default=True)
+	is_encrypted = models.BooleanField(default=False)
+	public_key = models.TextField()
+	encrypted_msg_filename = models.FilePathField()
+	decrypted_msg_filename = models.FilePathField()
+	decrypted_msg_file = models.FileField(upload_to='decrypted_messages', blank=True)
 
 	def __str__(self):
-		return "Message for " + str(self.recipient.username)
+		return "Message for " + str(self.recipient.username) + str(self.encrypted_msg_filename)
 
 	def get_absolute_url(self):
 		return reverse_lazy('message_detail', args=[str(self.id)])
 
 	def get_delete_url(self):
 		return reverse_lazy('delete_message', args=[str(self.id)])
+
+	def get_download_url(self):
+		return reverse_lazy('download_message', args=[str(self.id)])
 
 
 

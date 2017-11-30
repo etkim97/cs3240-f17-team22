@@ -1,0 +1,10 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Enter your saved private key to decrypt this message</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type = "submit" value = "Decrypt your message"/>
+    </form> 
+{% endblock %}
