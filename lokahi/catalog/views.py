@@ -56,7 +56,7 @@ def signup(request):
 			user.password = passw
 			user.email = form.cleaned_data['email']
 			user.user_type = form.cleaned_data['user_type']
- 
+
 			random_generator = Random.new().read
 			key = RSA.generate(1024, random_generator)
 			public_key = key.publickey()
@@ -120,7 +120,7 @@ def log_in(request, template_name="registration/login.html"):
 	return render(request, template_name, locals())
 
 def suspend(request, uname):
-	try: 
+	try:
 		users = User.objects.all()
 		for u in users:
 			if uname == u.username:
@@ -169,7 +169,7 @@ def report_detail(request, report_id):
 		report = Report.objects.get(pk=report_id)
 		files = File.objects.all()
 		for_report_files = []
-		for f in files: 
+		for f in files:
 			if f.report == report_id:
 				for_report_files.append(f)
 		context = {
@@ -214,7 +214,7 @@ def create_report(request):
             files = request.FILES.getlist('filename')
             privacy_setting = form.cleaned_data['privacy_setting']
             owner = form.cleaned_data['owner']
-            if owner != request.user.username: 
+            if owner != request.user.username:
             	return HttpResponse("inputting your username serves as a digital signature, you may not enter an althernate username. Please go back.")
             try:
                 report = Report(
@@ -312,7 +312,7 @@ def get_comments(request, report_id):
         return render(request, 'catalog/list_comments.html', context=context)
     except Exception as e:
     	return HttpResponse(e)
-    
+
 
 @csrf_exempt
 def create_comment(request, report_id):
@@ -471,7 +471,7 @@ class GroupsByUserListView(LoginRequiredMixin,generic.ListView):
 def group_detail(request, group_name):
 	try:
 		groups = Group.objects.all()
-		for group in groups: 
+		for group in groups:
 			if group.name == group_name:
 				context = {
 					"name": group.name,
@@ -488,21 +488,19 @@ def create_group(request):
 	if request.method == 'POST':
 		form = CreateGroupForm(request.POST)
 		if form.is_valid():
-			users = form.cleaned_data['users']
-			group_name = form.cleaned_data['group_name']
-			group_reports = form.cleaned_data['group_reports']
+			form_users = form.cleaned_data['users']
+			form_name = form.cleaned_data['group_name']
+			form_reports = form.cleaned_data['group_reports']
 			group = Group(
-				name = group_name,
-				users = users,
-				group_reports = group_reports,
+				name = form_name,
+				users = form_users,
+				group_reports = form_reports,
 			)
 			group.save()
-			return HttpResponse("group saved", group)
+			return HttpResponse("group saved", {'group': group})
 		else:
 			return HttpResponse(form.errors.as_data())
 	else:
 		form = CreateGroupForm()
 
 	return render(request, 'create_group.html', {'form': form})
-
-
