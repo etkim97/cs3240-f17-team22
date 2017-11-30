@@ -4,22 +4,29 @@
     <h1>{{report_name}}</h1>
 
     <ul>
-      <li>
-        Company: {{company_name}} <br/>
-        Phone #: {{company_phone}}<br/>
-        Location: {{company_location}} <br/>
-        Country: {{company_country}} <br/>
-        Sector: {{company_sector}} <br/>
-        Industry: {{company_industry}} <br/>
-        Projects: {{current_projects}} <br/>
-        Files: {% if filename != 'no file'%}<a href="{{url}}">{{filename}}</a>{% endif %}<br/>
-        Privacy: {{privacy_setting}}
-      </li>
+        <li>Company: {{company_name}}</li>
+        <li>Phone #: {{company_phone}}</li>
+        <li>Location: {{company_location}}</li>
+        <li>Country: {{company_country}}</li>
+        <li>Sector: {{company_sector}}</li>
+        <li>Industry: {{company_industry}}</li>
+        <li>Projects: {{current_projects}}</li>
+        <li>Privacy: {{privacy_setting}}</li>
+        <li>Files:
+        {% if files.length != 0 %}
+            <ul>
+            {% for f in files %}
+                <li><a href="{{f.file.url}}">{{ f.file }}</a></li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+        </li>
     </ul>
 
-    <a href="{{ get_comments_url }}"> Comments </a> <br> <br>
+    <a href="{{ get_comments_url }}"> Comments </a> <br/>
     <a href="{{ create_comments_url }}"> Comment on this report</a>
 
     {% if user.username == 'admin' %}
     {% endif %}
 {% endblock %}
+

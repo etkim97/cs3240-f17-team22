@@ -16,9 +16,15 @@ class User(AbstractUser):
 	user_type = models.CharField(max_length=10, default=1)
 	is_suspended = models.BooleanField(default = False)
 	public_key = models.TextField()
+	has_manager_privileges = models.BooleanField(default = False)
+	accepted_manager_privileges = models.BooleanField(default = False)
 	def __str__(self):
 		return "%s - %s - %s - %s - %s" % (self.username,
 			self.password, self.first_name, self.last_name, self.public_key)
+
+class File(models.Model):
+	file = models.FileField()
+	report = models.CharField(max_length=200,default = 'none')
 
 from django.urls import reverse_lazy
 # Used to generate URLS by reversing the URL patterns
@@ -34,7 +40,8 @@ class Report(models.Model):
 	current_projects = 	models.TextField(help_text = "Enter a list of the current projects")
 	info = models.TextField(help_text = "Enter information about the business plan and/or project")
 	owner = models.CharField(max_length=50, default="admin")
-	filename = models.FileField()
+	# Need to actually upload the file here
+	# filename = models.FileField()
 
 	# Need to set private/public through user settings here
 	privacy_setting = models.CharField(max_length=10)

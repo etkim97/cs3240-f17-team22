@@ -73,3 +73,10 @@ class CreateGroupForm(forms.Form):
     users = forms.CharField()
     group_name = forms.CharField()
     group_reports = forms.CharField() 
+
+class user_privileges(forms.Form):
+    CHOICES = (
+        ('False', "False"),
+        ('True', "True"),
+        )
+    has_manager_privileges = forms.ChoiceField(CHOICES)

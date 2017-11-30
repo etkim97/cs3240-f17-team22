@@ -13,11 +13,11 @@
 	<h1>Users</h1>
 	{% if user.is_authenticated %}
 		{% if data %}
-			{% for user in data %}
-			{% if user.username != 'admin' %}
-			<p>{{user.first_name}} {{user.last_name}} ({{user.username}} {{user.public_key}}) 
-					{% if user.is_suspended == False %}<a href="{% url 'suspend' uname=user.username%}" style="font-size: 0.5em">Suspend Account</a> 
-					{% else %}<a href="{% url 'suspend' uname=user.username%}" style="font-size: 0.5em">Unsuspend Account</a>{% endif %}</p>
+			{% for u in data %}
+			{% if u.username != 'admin' %}
+			<p>{{u.first_name}} {{u.last_name}} ({{u.username}}) 
+					{% if u.is_suspended == False %}<a href="{% url 'suspend' uname=u.username%}" style="font-size: 0.5em">Suspend Account</a> 
+					{% else %}<a href="{% url 'suspend' uname=u.username%}" style="font-size: 0.5em">Unsuspend Account</a>{% endif %} {% if user.username == 'admin' %}<a href="{% url 'privileges' uname=u.username%}" style="font-size: 0.5em">Privileges</a></p>{% endif %}
 			{% endif %}
 			{% endfor %}
 		{% else %}

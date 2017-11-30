@@ -1,0 +1,12 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1 style = "margin-bottom:0">User Privileges</h1>
+  <h2 style = "margin:0">{{context.username}}'s current privilege status: {{context.has_manager_privileges}}</h2>
+  <p>Please update {{context.username}}'s privileges below.</p>
+	<form action="" method="post">
+    	{% csrf_token %}
+    	{{ form.as_p }}
+    	<input type = "submit" value = "Update Privileges"/>
+	</form> 
+{% endblock %}

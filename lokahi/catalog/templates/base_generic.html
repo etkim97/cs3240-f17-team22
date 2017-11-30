@@ -25,7 +25,10 @@
         <h2>Menu</h2>
        <ul>
           {% if user.is_authenticated and user.is_suspended == False %}
-            <li>User: {{ user.get_username }}</li>
+            <li>User: {{ user.get_username }}
+              {% if user.accepted_manager_privileges %}<br/>
+              (you have manager privileges){% endif %}
+            </li>
             <li><a href="{% url 'index' %}">Home</a></li>
             {% if user.user_type == 'Company' %}
               <li><a href="{% url 'my_reports' %}">My Reports</a></li>
@@ -35,7 +38,7 @@
             <li><a href="{% url 'my_messages' %}">My Messages</a></li>
             <li><a href="{% url 'my_groups' %}">My Groups</a></li>
               <li><a href="{% url 'search' %}">Search</a></li>
-            {% if user.username == 'admin' %}
+            {% if user.username == 'admin' or user.accepted_manager_privileges %}
             <li><a href="{% url 'users' %}">Users</a></li>
             {% endif %}
             <li><a href="{% url 'logout'%}">Logout</a></li>

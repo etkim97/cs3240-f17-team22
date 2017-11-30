@@ -3,7 +3,8 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    
+    url(r'^acceptprivileges/(?P<uname>[\w\-]+)$', views.accept_privileges, name='accept_privileges'),
+
     url(r'^myreports/$', views.ReportsByUserListView.as_view(), name='my_reports'),
     url(r'^report/(?P<report_id>[0-9]+)$', views.report_detail, name='report_detail'),
     url(r'^report/create$', views.create_report, name='create_report'),
@@ -22,9 +23,9 @@ urlpatterns = [
     url(r'^mygroups/$', views.GroupsByUserListView.as_view(), name='my_groups'),
     url(r'^group/create$', views.create_group, name='create_group'),
     url(r'^group/(?P<group_name>[\w\-]+)$', views.group_detail, name='group_detail'),
-
     url(r'^signup/$', views.signup, name='signup'),
     url(r'^users/$', views.users, name='users'),
+    url(r'^users/privileges/(?P<uname>[\w\-]+)$', views.privileges, name='privileges'),
     url(r'^suspend/(?P<uname>[\w\-]+)$', views.suspend, name='suspend'),
     url(r'^search/$', views.search, name='search'),
     url(r'^search/$results', views.search_results, name='search_results')
