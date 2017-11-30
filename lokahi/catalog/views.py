@@ -16,7 +16,7 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 import datetime
-from .models import User, Report, Message, Group, Comment
+from .models import User, Report, Message, Group, Comment, File
 from .forms import *
 
 def index(request):
@@ -165,6 +165,11 @@ class ReportsByUserListView(LoginRequiredMixin,generic.ListView):
 def report_detail(request, report_id):
 	try:
 		report = Report.objects.get(pk=report_id)
+		files = File.objects.all()
+		for_report_files = []
+		for f in files: 
+			if f.report == report_id:
+				for_report_files.append(f)
 		context = {
 			"report_name": report.report_name,
 			"company_name": report.company_name,
@@ -175,10 +180,11 @@ def report_detail(request, report_id):
 			"company_industry": report.company_industry,
 			"current_projects": report.current_projects,
 			"info": report.info,
-			"url": report.filename.url,
-			"filename":report.filename,
+			# "url": report.filename.url,
+			# "filename":report.filename,
 			"privacy_setting": report.privacy_setting,
 			"timestamp": report.timestamp,
+			"files" : for_report_files,
             'get_comments_url': report.get_comments_url,
             'create_comments_url': report.create_comments_url,
 		}
@@ -203,7 +209,7 @@ def create_report(request):
             company_industry = form.cleaned_data['company_industry']
             current_projects = form.cleaned_data['current_projects']
             info = form.cleaned_data['info']
-            filename = request.FILES.getlist('filename')
+            files = request.FILES.getlist('filename')
             privacy_setting = form.cleaned_data['privacy_setting']
             owner = form.cleaned_data['owner']
             if owner != request.user.username: 
@@ -219,11 +225,15 @@ def create_report(request):
 					company_industry = company_industry,
 					current_projects = current_projects,
 					info = info,
-					filename = request.FILES['filename'],
+					# filename = request.FILES['filename'],
 					privacy_setting = privacy_setting,
                     owner = owner,
 				)
                 report.save()
+                for f in files:
+                	new_file = File(file = f)
+                	new_file.report = report.id
+                	new_file.save()
                 return HttpResponse("report saved", report)
             except Exception as e:
                 return HttpResponse("exception", False)
@@ -248,8 +258,8 @@ def edit_report(request, report_id):
     	'current_projects' : report.current_projects,
     	'current_info' : report.info,
     	'owner' : report.owner,
-    	'files' : report.filename.url,
-    	'file_name' : report.filename,
+    	# 'files' : report.filename.url,
+    	# 'file_name' : report.filename,
     }
     if request.method == 'POST':
         form = EditReportForm(request.POST)

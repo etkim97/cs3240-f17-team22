@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 # Register your models here.
 
-from .models import User, Report, Message, Comment, Group
+from .models import User, Report, Message, Comment, Group, File
 
 # Define the admin class
 class UserAdmin(admin.ModelAdmin):
@@ -15,7 +15,7 @@ admin.site.register(User, UserAdmin)
 # Define the admin class
 
 class ReportAdmin(admin.ModelAdmin):
-    list_display = ('report_name', 'info', 'filename', 'privacy_setting', 'owner')
+    list_display = ('report_name', 'info', 'privacy_setting', 'owner')
 
 # Register the admin class with the associated model
 admin.site.register(Report, ReportAdmin)
@@ -25,6 +25,10 @@ class CommentAdmin(admin.ModelAdmin):
 
 admin.site.register(Comment, CommentAdmin)
 
+class FileAdmin(admin.ModelAdmin):
+	list_display = ('file', 'report')
+
+admin.site.register(File, FileAdmin)
 
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):

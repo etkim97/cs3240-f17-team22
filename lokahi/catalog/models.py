@@ -21,6 +21,10 @@ class User(AbstractUser):
 		return "%s - %s - %s - %s" % (self.username,
 			self.password, self.first_name, self.last_name)
 
+class File(models.Model):
+	file = models.FileField()
+	report = models.CharField(max_length=200,default = 'none')
+
 from django.urls import reverse_lazy
 # Used to generate URLS by reversing the URL patterns
 
@@ -36,7 +40,7 @@ class Report(models.Model):
 	info = models.TextField(help_text = "Enter information about the business plan and/or project")
 	owner = models.CharField(max_length=50, default="admin")
 	# Need to actually upload the file here
-	filename = models.FileField()
+	# filename = models.FileField()
 
 	# Need to set private/public through user settings here
 	privacy_setting = models.CharField(max_length=10)
