@@ -2,12 +2,18 @@
 
 {% block content %}
     <h1>Your Group: {{name}} </h1>
-    <ul>
+    <ul><b>Users:</b>
+    	{% for u in users %}
       <li>
-         Users: {{ users }}
+         {{u.username}} <a href="{% url 'remove_from_group' group_name=id uname=u.username%}" style ="font-size:0.5em">Remove from group</a>
       </li>
+      	{% endfor %}
+     </ul>
+     <ul><b>Reports:</b>
+     	{% for r in reports %}
       <li>
-         Reports: {{ reports }}
+         <a href="{{ r.get_absolute_url }}">{{ r.report_name }}</a>
       </li>
+      	{% endfor %}
     </ul>
 {% endblock %}

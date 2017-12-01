@@ -113,15 +113,16 @@ class Group(models.Model):
 	"""
 	Model representing groups that users can create
 	"""
-
+	users = models.CharField(max_length=200, default="")
 	name = models.CharField(max_length=50, default="group")
-	users = models.ManyToManyField(User)
-	group_reports = models.ManyToManyField(Report)
+	reports = models.CharField(max_length=200, default="")
+	# users = models.ManyToManyField(User)
+	# group_reports = models.ManyToManyField(Report)
 	#users = models.ManyToManyField(User)
 	#reports = models.ManyToManyField(Report)
 
-	def __str__(self):
-		return self.name
+	# def __str__(self):
+	# 	return self.name
 
-	def get_absolute_url(self):
-		return reverse_lazy('group-detail', args=[str(self.id)])
+	# def get_absolute_url(self):
+	# 	return reverse_lazy('group-detail', args=[str(self.name)])

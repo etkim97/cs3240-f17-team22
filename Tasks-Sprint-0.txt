@@ -1,0 +1,8 @@
+Sprint 0 Tasks: 
+
+Task 1 - Elliot will create a group message.
+Task 2 - All will add more issues to the product backlog. 
+Task 3 - All will consider technical requirements needed for project.
+Task 4 - All will consider the questions related to the project vision statement.
+Task 5 - Create a demo solving the technical issues of login redirection, logout redirection, and creating accounts.
+Task 6 - All will learn how to use Github Issues for tracking stories.

@@ -1,0 +1,13 @@
+1. Add file uploading and downloading for multiple files [Gina]
+2. Add site manager permissions for groups (~2 issues left on this) [Gina]
+3. Edit reports functionality restricted to admin only [Jennifer]
+4. Finish search functionality for and/or and redirecting [Rohan]
+5. Finish creating groups [Elliott]
+6. Finish encryption and decryption [Jennifer]
+7. Put sent messages into "sent" and received messages into an "inbox" [Rohan]
+  -> private messages should not show up on other accounts
+  -> messages should show recipient AND sender
+  
+  
+EXTRA TASKS
+[Jennifer] - Commenting on reports (5 points)
