@@ -22,7 +22,9 @@ urlpatterns = [
 
     url(r'^mygroups/$', views.GroupsByUserListView.as_view(), name='my_groups'),
     url(r'^group/create$', views.create_group, name='create_group'),
-    url(r'^group/(?P<group_name>[\w\-]+)$', views.group_detail, name='group_detail'),
+    url(r'^group/(?P<group_name>[0-9]+)$', views.group_detail, name='group_detail'),
+    url(r'^group/(?P<group_name>[0-9]+)/remove/(?P<uname>[\w\-]+)$', views.remove_from_group, name='remove_from_group'),
+    
     url(r'^signup/$', views.signup, name='signup'),
     url(r'^users/$', views.users, name='users'),
     url(r'^users/privileges/(?P<uname>[\w\-]+)$', views.privileges, name='privileges'),
