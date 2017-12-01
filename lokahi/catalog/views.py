@@ -489,6 +489,7 @@ def group_detail(request, group_name):
 			"name": group.name,
 			"users": actual_users,
 			"reports": actual_reports,
+			"id": group_name,
 		}
 		return render(request, 'catalog/detailedgroup.html', context=context)
 	except Exception as e:
@@ -522,3 +523,14 @@ def create_group(request):
 		form = CreateGroupForm()
 
 	return render(request, 'create_group.html', {'form': form})
+
+def remove_from_group(request, group_name, uname):
+	group = Group.objects.get(pk=group_name)
+	users = group.users.split(',')
+	users.remove(uname)
+	new_users = ""
+	for u in users: 
+		new_users = new_users + u + ','
+	group.users = new_users
+	group.save()
+	return render(request, 'remove_user.html')

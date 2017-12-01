@@ -5,7 +5,7 @@
     <ul><b>Users:</b>
     	{% for u in users %}
       <li>
-         {{u.username}} <a href="" style ="font-size:0.5em">Remove from group</a>
+         {{u.username}} <a href="{% url 'remove_from_group' group_name=id uname=u.username%}" style ="font-size:0.5em">Remove from group</a>
       </li>
       	{% endfor %}
      </ul>
