@@ -67,7 +67,7 @@ class Report(models.Model):
 
 	def create_comments_url(self):
 		return reverse_lazy('create_comment', args=[str(self.id)])
-		
+
 
 class Comment(models.Model):
 	report = models.ForeignKey(Report, related_name='comments')
@@ -116,8 +116,8 @@ class Group(models.Model):
 	"""
 
 	name = models.CharField(max_length=50, default="group")
-	users = models.CharField(max_length=50, default="admin")
-	group_reports = models.CharField(max_length=50, default="report")
+	users = models.ManyToManyField(User)
+	group_reports = models.ManyToManyField(Report)
 	#users = models.ManyToManyField(User)
 	#reports = models.ManyToManyField(Report)
 
