@@ -12,7 +12,7 @@
       {% for group in group_list %}
       <li>
         <h4> Group name: {{ group.name }} </h4>
-        <a href="{% url 'group_detail' group_name=group.name%}"> Click for details </a>
+        <a href="{% url 'group_detail' group_name=group.id%}"> Click for details </a>
       </li>
       {% endfor %}
     </ul>

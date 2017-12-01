@@ -470,15 +470,27 @@ class GroupsByUserListView(LoginRequiredMixin,generic.ListView):
 @csrf_exempt
 def group_detail(request, group_name):
 	try:
-		groups = Group.objects.all()
-		for group in groups:
-			if group.name == group_name:
-				context = {
-					"name": group.name,
-					"users": group.users,
-					"reports": group.group_reports,
-				}
-				return render(request, 'catalog/detailedgroup.html', context=context)
+		group = Group.objects.get(pk=group_name)
+		users = group.users.split(',')
+		actual_users = []
+		all_users = User.objects.all()
+		for u in all_users: 
+			if u.username in users:
+				actual_users.append(u)
+
+		reports = group.reports.split(',')
+		actual_reports = []
+		all_reports = Report.objects.all()
+		for r in all_reports:
+			if r.report_name in reports:
+				actual_reports.append(r)
+
+		context = {
+			"name": group.name,
+			"users": actual_users,
+			"reports": actual_reports,
+		}
+		return render(request, 'catalog/detailedgroup.html', context=context)
 	except Exception as e:
 		return HttpResponse(e)
 
@@ -491,10 +503,16 @@ def create_group(request):
 			form_users = form.cleaned_data['users']
 			form_name = form.cleaned_data['group_name']
 			form_reports = form.cleaned_data['group_reports']
+			rep = ""
+			users = ""
+			for u in form_users:
+				users = users + u.username + ',' 
+			for r in form_reports:
+				rep = rep + r.report_name + ','
 			group = Group(
 				name = form_name,
-				users = form_users,
-				group_reports = form_reports,
+				users = users,
+				reports = rep,
 			)
 			group.save()
 			return HttpResponse("group saved", {'group': group})

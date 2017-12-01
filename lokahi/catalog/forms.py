@@ -69,9 +69,10 @@ class DownloadMessageForm(forms.Form):
     private_key = forms.CharField(widget=forms.Textarea)
 
 class CreateGroupForm(forms.Form):
-    users = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple, queryset=User.objects.all())
     group_name = forms.CharField()
-    group_reports = forms.CharField()
+    users = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple, queryset=User.objects.all())
+    group_reports = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple, queryset=Report.objects.all())
+
 
 class user_privileges(forms.Form):
     CHOICES = (

@@ -34,3 +34,7 @@ admin.site.register(File, FileAdmin)
 class MessageAdmin(admin.ModelAdmin):
     list_display = ('recipient', 'message_body')
 
+class GroupAdmin(admin.ModelAdmin):
+	list_display = ['name']
+
+admin.site.register(Group, GroupAdmin)
