@@ -1,8 +1,0 @@
-1. Create account page (with different roles i.e. investor user, site manager, etc ...) [Gina]
-2. Add all fields listed in C2 (timestamp, etc ...) to models for report [Jenny]
-3. Button/page to create report [Rohan]
-4. Button/page to create message [Rohan]
-5. Detail page for reports [Elliott]
-6. Detail page for messages [Elliott]
-7. Ensure that messages are sent from one user to another (Sprint 2-4) [Jenny]
-8. Add CSS/HTML [Gina]

@@ -19,8 +19,7 @@ class User(AbstractUser):
 	has_manager_privileges = models.BooleanField(default = False)
 	accepted_manager_privileges = models.BooleanField(default = False)
 	def __str__(self):
-		return "%s - %s - %s - %s - %s" % (self.username,
-			self.password, self.first_name, self.last_name)
+		return "%s" % (self.username)
 
 class File(models.Model):
 	file = models.FileField()
