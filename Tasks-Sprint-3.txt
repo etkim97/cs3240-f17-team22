@@ -1,0 +1,16 @@
+1. Redo and clean up models code for Reports [Jennifer]
+2. Copy the Reports code for Messages to make the create, detail view, and delete work for Messages [Rohan]
+  -> (Messages redirects to my_reports for now; make sure to keep the formatting of URL's the same 
+  i.e. follow the naming convention I used with _ not -)
+3. Make different User types (site managers, investor user, company user) each with their own permissions [Gina]
+  -> see issues like A2, C5, B4, B5; will need to change models code and create account code 
+4. Create basic groups for users to be put into [Elliott]
+  -> should be changing model code to create a Group object, and users can select which groups they are a part of
+  -> add to the basic groups code in Sprint 4
+5. Messages are sent from one user to another i.e. show up in My Messages (Sprint 2-4) [Jennifer]
+6. Create a privacy status button for Messages that users can toggle to make messages private or public [Rohan]
+
+
+Risks identified: if code written in earlier sprints is not extendable or is not structured correctly, 
+it is hard to build upon that in later sprints and it might take much more effort to redo the foundation code 
+to add on additional features in later sprints.  
