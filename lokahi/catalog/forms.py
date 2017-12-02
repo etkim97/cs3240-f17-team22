@@ -80,3 +80,6 @@ class user_privileges(forms.Form):
         ('True', "True"),
         )
     has_manager_privileges = forms.ChoiceField(CHOICES)
+
+class searchForm(forms.Form):
+    search = forms.CharField()

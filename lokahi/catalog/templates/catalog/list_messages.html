@@ -8,8 +8,10 @@
     {% endif %}
 
     {% if message_list %}
+        <h2> Received</h2>
     <ul>
       {% for message in message_list %}
+          {% if user.username == message.recipient.username %}
         <h3>Message to {{ message.recipient.first_name }} {{ message.recipient.last_name }}</h3>
           <li>
             Recipient: {{ message.recipient.username }}
@@ -25,7 +27,9 @@
           <a href="{{ message.get_delete_url }}">Click to delete your private message</a>
           {% endif %}
           <li>
+          {% endif %}
       {% endfor %}
+
     </ul>
 
     {% else %}

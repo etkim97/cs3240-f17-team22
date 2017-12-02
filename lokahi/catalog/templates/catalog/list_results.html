@@ -8,8 +8,12 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
 </head>
 <body>
-<h1> Search Results</h1>
-
+<h1> Search Results for {{ search }}</h1>
+    {% for r in reports %}
+        <li>
+          <a href="{{ r.get_absolute_url }}"> Name: {{r.report_name}} </a>
+        </li>
+    {% endfor %}
 </body>
 </html>
 {% endblock %}
