@@ -37,7 +37,7 @@
             {% endif %}
             <li><a href="{% url 'my_messages' %}">My Messages</a></li>
             <li><a href="{% url 'my_groups' uname=user.username %}">My Groups</a></li>
-              <li><a href="{% url 'search' %}">Search</a></li>
+            <li><a href="{% url 'search' %}">Search</a></li>
             {% if user.username == 'admin' or user.accepted_manager_privileges %}
             <li><a href="{% url 'users' %}">Users</a></li>
             {% endif %}

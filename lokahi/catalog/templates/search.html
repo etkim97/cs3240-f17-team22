@@ -9,12 +9,9 @@
 </head>
 <body>
 <h1> Search Reports</h1>
-<form action="{% url 'my_reports' %}" method="get">
-    <input id="rl-search" type="text"
-           name="report" value="{{ request.GET.report }}"
-           class="form-control" />
-    <input type="submit"
-           value="Search" class="btn btn-success" />
+    <form action="{% url 'search' %}" method="post">
+        {{ form.as_p }}
+        <input type = "submit" value = "Search!"/>
     </form>
 </body>
 </html>

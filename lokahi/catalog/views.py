@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-
+from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.middleware.csrf import get_token
 from django.contrib.auth.decorators import permission_required
@@ -144,17 +144,37 @@ def suspend(request, uname):
 		return HttpResponse(e)
 
 
+@csrf_exempt
 def search(request):
 	template_name = "search.html"
-	try:
-		if request.method == "GET":
-			return render(request, template_name)
-	except Exception as e:
-		return HttpResponse(e)
+	form = searchForm(request.POST or None)
+	if request.method == 'POST':
+		if form.is_valid():
+			try:
+				a = form.cleaned_data['search']
+				rep = []
+				try:
+					rep.extend(Report.objects.filter(
+						Q(report_name = a) |
+						Q(company_name = a) |
+						Q(company_phone = a) |
+						Q(company_industry=a)|
+						Q(company_location=a)|
+						Q(company_sector=a)|
+						Q(company_country=a)|
+						Q(current_projects=a)|
+						Q(info = a)|
+						Q(owner = a)
+					))
+				except:
+					pass
 
-
-class search_results(generic.ListView):
-	template_name = 'catalog/list_results.html'
+			except Exception as e:
+				return HttpResponse(e)
+		return render(request, 'catalog/list_results.html', {'reports': rep, 'search': a})
+	else:
+		form = searchForm()
+	return render(request, template_name, {'form': form})
 
 
 class ReportsByUserListView(LoginRequiredMixin,generic.ListView):
