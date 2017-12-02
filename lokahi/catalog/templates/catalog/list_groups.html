@@ -7,9 +7,9 @@
     <a href="{% url 'create_group'%}">Create A Group</a>
     {% endif %}
 
-    {% if group_list %}
+    {% if list_groups %}
     <ul>
-      {% for group in group_list %}
+      {% for group in list_groups %}
       <li>
         <h4> Group name: {{ group.name }} </h4>
         <a href="{% url 'group_detail' group_name=group.id%}"> Click for details </a>

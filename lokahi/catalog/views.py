@@ -534,3 +534,18 @@ def remove_from_group(request, group_name, uname):
 	group.users = new_users
 	group.save()
 	return render(request, 'remove_user.html')
+
+def my_groups(request, uname):
+	groups = Group.objects.all()
+	in_groups = []
+	if uname == 'admin':
+		in_groups = groups
+	else:
+		for g in groups:
+			users = g.users.split(',')
+			if uname in users:
+				in_groups.append(g)
+	context = {
+		'list_groups':in_groups,
+	}
+	return render(request,'catalog/list_groups.html', context=context)
