@@ -370,7 +370,7 @@ def rate_report(request, report_id):
 		new_rating = total/report.num_ratings
 		report.rating = new_rating
 		report.save()
-		return HttpResponse(total, True)
+		return HttpResponse("thank you for rating this report", True)
 	return render(request, 'rate.html', context=context)
 
 def delete_file(request, file_id, report_id):
