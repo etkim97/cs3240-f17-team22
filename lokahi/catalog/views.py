@@ -208,6 +208,8 @@ def report_detail(request, report_id):
             'get_comments_url': report.get_comments_url,
             'create_comments_url': report.create_comments_url,
             'id' : report_id,
+            'current_rating' : report.rating,
+            'num_ratings' : report.num_ratings,
 		}
 		return render(request, 'catalog/detailedreport.html', context=context)
 	except Exception as e:
@@ -340,6 +342,36 @@ def delete_report(request, report_id):
 		return HttpResponse("report deleted", True)
 	except:
 		return HttpResponse("report does not exist", False)
+
+@csrf_exempt
+def rate_report(request, report_id):
+	report = Report.objects.get(pk=report_id)
+	context = {
+		"name" : report.report_name,
+		"current_rating" : report.rating,
+	}
+	if request.method == 'POST':
+		stars = request.POST.get('rating')
+		curr_rating = report.rating
+		total = curr_rating*report.num_ratings		
+		report.num_ratings += 1
+		if stars == "half":
+			total += 0.5
+		elif stars == "1 and a half":
+			total += 1.5
+		elif stars == "2 and a half":
+			total += 2.5
+		elif stars == "3 and a half":
+			total += 3.5
+		elif stars == "4 and a half":
+			total += 4.5
+		else:
+			total += int(stars)
+		new_rating = total/report.num_ratings
+		report.rating = new_rating
+		report.save()
+		return HttpResponse(total, True)
+	return render(request, 'rate.html', context=context)
 
 def delete_file(request, file_id, report_id):
 	try:

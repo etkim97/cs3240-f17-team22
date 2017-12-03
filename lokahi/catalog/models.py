@@ -39,13 +39,10 @@ class Report(models.Model):
 	current_projects = 	models.TextField(help_text = "Enter a list of the current projects")
 	info = models.TextField(help_text = "Enter information about the business plan and/or project")
 	owner = models.CharField(max_length=50, default="admin")
-	# Need to actually upload the file here
-	# filename = models.FileField()
-
-	# Need to set private/public through user settings here
 	privacy_setting = models.CharField(max_length=10)
 	timestamp = models.DateTimeField(auto_now_add = True)
-
+	rating = models.IntegerField(default = 0)
+	num_ratings = models.IntegerField(default = 0)
 
 	# Need to allow investor users to upload files
 
