@@ -1,5 +1,9 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<p>user has been removed from the group</p>
+{% if user.username == username %}
+<p>You have been removed from <b>{{group_name}}</b>.</p>
+{% else %}
+<p>{{username}} has been removed from <b>{{group_name}}</b>.</p>
+{% endif %}
 {% endblock %}

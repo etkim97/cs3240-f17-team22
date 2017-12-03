@@ -552,8 +552,13 @@ def add_user(request, group_name):
 		if form.is_valid():
 			form_user = form.cleaned_data['user']
 			group = Group.objects.get(pk=group_name)
+			all_users = User.objects.all()
+			usernames = []
+			for u in all_users:
+				usernames.append(u.username)
 			users = group.users.split(',')
-			users.append(form_user)
+			if form_user in usernames and form_user not in users:
+				users.append(form_user)
 			new_users = ""
 			for u in users:
 				new_users = new_users + u + ','
@@ -572,12 +577,16 @@ def remove_from_group(request, group_name, uname):
 	group = Group.objects.get(pk=group_name)
 	users = group.users.split(',')
 	users.remove(uname)
+	context = {
+		'group_name' : group.name,
+		'username' : uname,
+	}
 	new_users = ""
 	for u in users:
 		new_users = new_users + u + ','
 	group.users = new_users
 	group.save()
-	return render(request, 'remove_user.html')
+	return render(request, 'remove_user.html', context=context)
 
 def my_groups(request, uname):
 	groups = Group.objects.all()

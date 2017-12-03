@@ -3,11 +3,19 @@
 {% block content %}
     <h1>Your Group: {{name}} </h1>
     <ul><b>Users:</b>
+    	{% if user.username == "admin" %}
     	{% for u in users %}
       <li>
-         {{u.username}} {% if user.username == "admin" or user.username == u.username%}<a href="{% url 'remove_from_group' group_name=id uname=u.username%}" style ="font-size:0.5em">Remove from group</a>{% endif %}
+         {{u.username}}<a href="{% url 'remove_from_group' group_name=id uname=u.username%}" style ="font-size:0.5em">Remove from group</a>
       </li>
       	{% endfor %}
+      	{% else %}
+        {% for u in users %}
+      <li>
+         {{u.username}}{%if user.username == u.username%}<a href="{% url 'remove_from_group' group_name=id uname=u.username%}" style ="font-size:0.5em">Leave group</a>{% endif %}
+      </li>
+      	{% endfor %}
+      	{% endif %}
         <a href="{% url 'add_user' group_name=id%}">Add a user</a>
      </ul>
      <ul><b>Reports:</b>
