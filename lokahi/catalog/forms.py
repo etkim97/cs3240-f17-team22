@@ -53,6 +53,7 @@ class EditReportForm(forms.Form):
 
 class CreateMessageForm(forms.Form):
     recipient = forms.CharField()
+    sender = forms.CharField()
     message_body = forms.CharField()
     OPTIONS = (
         ('Private',"Private"),

@@ -86,7 +86,8 @@ class Message(models.Model):
 	Model representing a message between users
 	"""
 
-	recipient = models.ForeignKey(User, on_delete = models.CASCADE)
+	recipient = models.ForeignKey(User, on_delete = models.CASCADE, related_name="recipient")
+	sender = models.ForeignKey(User, on_delete= models.CASCADE,related_name="sender")
 	message_body = models.TextField(help_text = "Enter your private message.")
 	isItPrivate = models.BooleanField(default=True)
 	is_encrypted = models.BooleanField(default=False)

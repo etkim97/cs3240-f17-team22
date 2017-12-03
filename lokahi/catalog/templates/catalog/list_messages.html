@@ -31,8 +31,29 @@
           {% endif %}
 
       {% endfor %}
-    </ul>
+     <h2>Sent</h2>
+      {% for message in message_list %}
+          {% if user.username == message.sender.username %}
 
+        <h3>Message from {{ message.sender.first_name }} {{ message.sender.last_name }}</h3>
+          <li>
+            Recipient: {{ message.recipient.username }}
+          </li>
+          <li>
+             <a href="{{ message.get_absolute_url }}"> Click to see message </a>
+          </li>
+          <li>
+              Private? {{ message.isItPrivate }}
+          </li>
+          <li>
+          {% if message.isItPrivate == True %}
+          <a href="{{ message.get_delete_url }}">Click to delete your private message</a>
+          {% endif %}
+          <li>
+          {% endif %}
+
+      {% endfor %}
+    </ul>
     {% else %}
       <p>There are no messages.</p>
     {% endif %}

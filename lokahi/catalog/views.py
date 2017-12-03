@@ -388,6 +388,7 @@ def create_message(request):
 		form = CreateMessageForm(request.POST)
 		if form.is_valid():
 			user = User.objects.get(username=form.cleaned_data['recipient'])
+			user2 = User.objects.get(username=form.cleaned_data['sender'])
 			message_body = form.cleaned_data['message_body']
 			private_public = form.cleaned_data['privacy']
 			encryption = form.cleaned_data['encryption']
@@ -417,6 +418,7 @@ def create_message(request):
 				message_text = message_body
 			message = Message(
 				recipient=user,
+				sender = user2,
 				message_body=message_text,
 				isItPrivate = privacy,
 				is_encrypted=is_encrypted,
