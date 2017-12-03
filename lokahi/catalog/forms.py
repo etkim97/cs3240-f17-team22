@@ -74,7 +74,9 @@ class CreateGroupForm(forms.Form):
     users = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple, queryset=User.objects.all())
     group_reports = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple, queryset=Report.objects.all())
 
-
+class AddUserForm(forms.Form):
+    user = forms.CharField()
+    
 class user_privileges(forms.Form):
     CHOICES = (
         ('False', "False"),

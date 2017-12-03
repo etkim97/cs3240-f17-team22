@@ -496,7 +496,7 @@ def group_detail(request, group_name):
 		users = group.users.split(',')
 		actual_users = []
 		all_users = User.objects.all()
-		for u in all_users: 
+		for u in all_users:
 			if u.username in users:
 				actual_users.append(u)
 
@@ -529,7 +529,7 @@ def create_group(request):
 			rep = ""
 			users = ""
 			for u in form_users:
-				users = users + u.username + ',' 
+				users = users + u.username + ','
 			for r in form_reports:
 				rep = rep + r.report_name + ','
 			group = Group(
@@ -546,12 +546,34 @@ def create_group(request):
 
 	return render(request, 'create_group.html', {'form': form})
 
+def add_user(request, group_name):
+	if request.method == "POST":
+		form = AddUserForm(request.POST)
+		if form.is_valid():
+			form_user = form.cleaned_data['user']
+			group = Group.objects.get(pk=group_name)
+			users = group.users.split(',')
+			users.append(form_user)
+			new_users = ""
+			for u in users:
+				new_users = new_users + u + ','
+			group.users = new_users
+			group.save()
+			return HttpResponse("group saved", {'group': group})
+		else:
+			return HttpResponse(form.errors.as_data())
+	else:
+		form = AddUserForm()
+
+	return render(request, 'add_user.html', {'form': form})
+
+
 def remove_from_group(request, group_name, uname):
 	group = Group.objects.get(pk=group_name)
 	users = group.users.split(',')
 	users.remove(uname)
 	new_users = ""
-	for u in users: 
+	for u in users:
 		new_users = new_users + u + ','
 	group.users = new_users
 	group.save()
