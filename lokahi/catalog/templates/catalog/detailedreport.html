@@ -9,7 +9,8 @@
 
 </head>
     <h1>{{report_name}}</h1>
-    <h2>Rating:  {% if num_ratings == 0 %} no ratings {% elif current_rating == 1 %}<i class="fa fa-star"></i> {% elif current_rating == 2 %}<i class="fa fa-star"></i><i class="fa fa-star"></i> {% elif current_rating == 3 %} <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> {% elif current_rating == 4 %}<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>{% else %}<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>{% endif %} <a href="{% url 'rate_report' report_id=id%}" style="font-size: 0.5em">Rate this Report</a></h2>
+    <h2>Rating:  {% if num_ratings == 0 %} no ratings {% elif current_rating == 1 %}<i class="fa fa-star"></i> {% elif current_rating == 2 %}<i class="fa fa-star"></i><i class="fa fa-star"></i> {% elif current_rating == 3 %} <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> {% elif current_rating == 4 %}<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>{% else %}<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>{% endif %} {% if user.username != owner %}
+    <a href="{% url 'rate_report' report_id=id%}" style="font-size: 0.5em">Rate this Report</a>{% endif %}</h2>
     <ul>
         <li>Company: {{company_name}}</li>
         <li>Phone #: {{company_phone}}</li>

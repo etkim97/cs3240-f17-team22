@@ -210,6 +210,7 @@ def report_detail(request, report_id):
             'id' : report_id,
             'current_rating' : report.rating,
             'num_ratings' : report.num_ratings,
+            'owner' : report.owner,
 		}
 		return render(request, 'catalog/detailedreport.html', context=context)
 	except Exception as e:
