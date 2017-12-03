@@ -202,13 +202,12 @@ def report_detail(request, report_id):
 			"company_industry": report.company_industry,
 			"current_projects": report.current_projects,
 			"info": report.info,
-			# "url": report.filename.url,
-			# "filename":report.filename,
 			"privacy_setting": report.privacy_setting,
 			"timestamp": report.timestamp,
 			"files" : for_report_files,
             'get_comments_url': report.get_comments_url,
             'create_comments_url': report.create_comments_url,
+            'id' : report_id,
 		}
 		return render(request, 'catalog/detailedreport.html', context=context)
 	except Exception as e:
@@ -269,6 +268,11 @@ def create_report(request):
 @csrf_exempt
 def edit_report(request, report_id):
     report = Report.objects.get(pk=report_id)
+    files = File.objects.all()
+    for_report_files = []
+    for f in files:
+    	if f.report == report_id:
+    		for_report_files.append(f)
     context ={
     	'name' : report.report_name,
     	'current_cname' : report.company_name,
@@ -280,11 +284,12 @@ def edit_report(request, report_id):
     	'current_projects' : report.current_projects,
     	'current_info' : report.info,
     	'owner' : report.owner,
-    	# 'files' : report.filename.url,
+    	'files' : for_report_files,
+    	'id' : report_id,
     	# 'file_name' : report.filename,
     }
     if request.method == 'POST':
-        form = EditReportForm(request.POST)
+        form = EditReportForm(request.POST, request.FILES)
         if form.is_valid():
             report.company_name = form.cleaned_data['company_name']
             report.company_phone = form.cleaned_data['company_phone']
@@ -296,6 +301,11 @@ def edit_report(request, report_id):
             report.info = form.cleaned_data['info']
             # report.filename = form.cleaned_data['filename']
             report.save()
+            new_files = request.FILES.getlist('filename')
+            for f in new_files:
+              	new_file = File(file = f)
+              	new_file.report = report.id
+              	new_file.save()
             return HttpResponse("report updated", True)
         else:
             return HttpResponse(form.errors.as_data())
@@ -303,6 +313,24 @@ def edit_report(request, report_id):
         form = EditReportForm()
     return render(request, 'edit_report.html', context= {'form': form, 'context':context}, )
 
+def add_files(request, report_id):
+    if request.method == 'POST':
+        form = addFiles(request.POST, request.FILES)
+        if form.is_valid():
+            files = request.FILES.getlist('filename')
+            try:
+                for f in files:
+                	new_file = File(file = f)
+                	new_file.report = report_id
+                	new_file.save()
+                return HttpResponse("files added")
+            except Exception as e:
+                return HttpResponse("exception", False)
+        # else:
+        #     return HttpResponse(form.cleaned_data['filename'])
+    else:
+        form = addFiles()
+    return render(request, 'add_files.html', {'form': form})
 
 @csrf_exempt
 def delete_report(request, report_id):
@@ -313,6 +341,13 @@ def delete_report(request, report_id):
 	except:
 		return HttpResponse("report does not exist", False)
 
+def delete_file(request, file_id, report_id):
+	try:
+		file = File.objects.get(pk=file_id)
+		file.delete()
+		return HttpResponse("file deleted", True)
+	except:
+		return HttpResponse("file does not exist", False)
 
 @csrf_exempt
 def get_comments(request, report_id):

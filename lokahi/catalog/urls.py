@@ -7,8 +7,10 @@ urlpatterns = [
 
     url(r'^myreports/$', views.ReportsByUserListView.as_view(), name='my_reports'),
     url(r'^report/(?P<report_id>[0-9]+)$', views.report_detail, name='report_detail'),
+    url(r'^report/(?P<report_id>[0-9]+)/addfiles$', views.add_files, name='add_files'),
     url(r'^report/create$', views.create_report, name='create_report'),
     url(r'^report/edit/(?P<report_id>[0-9]+)$', views.edit_report, name='edit_report'),
+    url(r'^report/edit/(?P<report_id>[0-9]+)/delete/(?P<file_id>[0-9]+)$', views.delete_file, name='delete_file'),
     url(r'^report/delete/(?P<report_id>[0-9]+)$', views.delete_report, name='delete_report'),
     url(r'^report/comments/(?P<report_id>[0-9]+)$', views.get_comments, name='report_comments'),
     url(r'^report/comments/create/(?P<report_id>[0-9]+)$', views.create_comment, name='create_comment'),

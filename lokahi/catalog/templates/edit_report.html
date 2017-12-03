@@ -12,9 +12,17 @@
   	<li>Company Sector: {{context.current_sector}}</li>
   	<li>Company Industry: {{context.current_industry}}</li>
   	<li>Current Projects: {{context.current_projects}}</li>
-  	<li>Files: <a href = "{{context.files}}">{{context.file_name}}</a></li>
-  </ul>
-    <form action="" method="post">
+    <li>Files: 
+    {% if context.files.length != 0 %}
+        <ul>
+        {% for f in context.files %}
+            <li><a href="{{f.file.url}}">{{ f.file }}</a> <a href = "{% url 'delete_file' file_id=f.id report_id=context.id%}" style="font-size:0.5em">Delete File</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}<p>none</p>
+    {% endif %}
+    </li>  </ul>
+    <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <input type = "submit" value = "Edit Report"/>

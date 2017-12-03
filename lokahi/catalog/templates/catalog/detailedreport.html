@@ -19,12 +19,14 @@
                 <li><a href="{{f.file.url}}">{{ f.file }}</a></li>
             {% endfor %}
             </ul>
+        {% else %}<p>none</p>
         {% endif %}
         </li>
     </ul>
-
-    <a href="{{ get_comments_url }}"> Comments </a> <br/>
-    <a href="{{ create_comments_url }}"> Comment on this report</a>
+    {% if user.user_type == "Investor"%}
+    <a href="{% url 'add_files' report_id=id%}">Add files</a><br/> {%endif%}
+    <a href="{{ get_comments_url }}">Comments </a> <br/>
+    <a href="{{ create_comments_url }}">Comment on this report</a>
 
     {% if user.username == 'admin' %}
     {% endif %}

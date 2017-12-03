@@ -29,7 +29,7 @@ class CreateReportForm(forms.Form):
     company_industry = forms.CharField()
     current_projects = forms.CharField()
     info = forms.CharField()
-    filename = forms.FileField(label="Select a file", widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    filename = forms.FileField(label="Select a file", required=False, widget=forms.ClearableFileInput(attrs={'multiple': True}))
     OPTIONS = (
         ('Private',"Private"),
         ('Public',"Public"),
@@ -50,6 +50,9 @@ class EditReportForm(forms.Form):
     company_industry = forms.CharField()
     current_projects = forms.CharField()
     info = forms.CharField()
+    filename = forms.FileField(label="Add files", required=False, widget=forms.ClearableFileInput(attrs={'multiple': True}))
+
+
 
 class CreateMessageForm(forms.Form):
     recipient = forms.CharField()
@@ -86,3 +89,6 @@ class user_privileges(forms.Form):
 
 class searchForm(forms.Form):
     search = forms.CharField()
+
+class addFiles(forms.Form):
+    filename = forms.FileField(label="Select files", widget=forms.ClearableFileInput(attrs={'multiple': True}))
