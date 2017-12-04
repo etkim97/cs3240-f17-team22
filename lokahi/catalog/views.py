@@ -469,6 +469,7 @@ def message_detail(request, message_id):
 			"isItPrivate": message.isItPrivate,
 			"is_encrypted": message.is_encrypted,
 			"message": message,
+			"encrypted_message_body": message.encrypted_message_body.decode(errors='ignore'),
 		}
 		return render(request, 'catalog/detailedmessage.html', context=context)
 	except Exception as e:
@@ -490,7 +491,12 @@ def create_message(request):
 				privacy = True
 				if encryption == 'Encrypted':
 					is_encrypted = True
-					message_text = "Message is encrypted. Download file to view message."
+					message_text = "Message is encrypted."
+					if privacy and is_encrypted:
+						public_key = RSA.importKey(user.public_key)
+						cipher = PKCS1_OAEP.new(public_key)
+						ciphertext = cipher.encrypt(message_body.encode())
+						encrypted_message_body = ciphertext
 				else:
 					is_encrypted = False
 					message_text = message_body
@@ -502,21 +508,12 @@ def create_message(request):
 				recipient=user,
 				sender=user2,
 				message_body=message_text,
+				encrypted_message_body=encrypted_message_body,
 				isItPrivate=privacy,
 				is_encrypted=is_encrypted,
 				public_key=public_key,
-				encrypted_msg_filename=encrypted_msg_filename,
 			)
 			message.save()
-			if privacy and is_encrypted:
-				public_key = RSA.importKey(user.public_key)
-				cipher = PKCS1_OAEP.new(public_key)
-				ciphertext = cipher.encrypt(message_body.encode())
-				encrypt_filename = os.getcwd() + "/catalog/encrypted_messages/" + user.username + message.get_id()
-				with open (encrypt_filename, 'wb+') as f:
-					f.write(ciphertext)
-				message.encrypted_msg_filename = encrypt_filename
-				message.save()
 			return HttpResponse("message saved", message)
 		else:
 			return HttpResponse(form.errors.as_data())
@@ -540,20 +537,10 @@ def download_message(request, message_id):
 			private_key =  '-----BEGIN RSA PRIVATE KEY-----\n'+ private_key_string.replace(' ','\n') + '\n-----END RSA PRIVATE KEY-----'
 			private_key_object = RSA.importKey(private_key)
 			decrypt_cipher = PKCS1_OAEP.new(private_key_object)
-			with open(message.encrypted_msg_filename, 'rb') as f:
-				ciphertext = b""
-				chunk_size = 8192
-				while True:
-					chunk = f.read(chunk_size)
-					if len(chunk) == 0:
-						break
-					ciphertext += chunk
+			ciphertext = message.encrypted_message_body
 			decrypted_message = decrypt_cipher.decrypt(ciphertext)
-			filename = os.getcwd() + "/catalog/decrypted_messages/" + message.recipient.username + str(message_id)
-			with open(filename, 'wb+') as f:
-				f.write(decrypted_message)
 			response = HttpResponse(content_type='text/plain')
-			response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(message.recipient.username)
+			response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(message.recipient.username + str(message_id))
 			response.write(decrypted_message)
 			return response
 		else:
