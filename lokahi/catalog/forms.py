@@ -27,8 +27,8 @@ class CreateReportForm(forms.Form):
     company_country = forms.CharField()
     company_sector = forms.CharField()
     company_industry = forms.CharField()
-    current_projects = forms.CharField()
-    info = forms.CharField()
+    current_projects = forms.CharField(widget=forms.Textarea)
+    info = forms.CharField(widget=forms.Textarea)
     filename = forms.FileField(label="Select a file", required=False, widget=forms.ClearableFileInput(attrs={'multiple': True}))
     OPTIONS = (
         ('Private',"Private"),
@@ -48,16 +48,14 @@ class EditReportForm(forms.Form):
     company_country = forms.CharField()
     company_sector = forms.CharField()
     company_industry = forms.CharField()
-    current_projects = forms.CharField()
-    info = forms.CharField()
+    current_projects = forms.CharField(widget=forms.Textarea)
+    info = forms.CharField(widget=forms.Textarea)
     filename = forms.FileField(label="Add files", required=False, widget=forms.ClearableFileInput(attrs={'multiple': True}))
-
-
 
 class CreateMessageForm(forms.Form):
     recipient = forms.CharField()
     sender = forms.CharField()
-    message_body = forms.CharField()
+    message_body = forms.CharField(widget=forms.Textarea)
     OPTIONS = (
         ('Private',"Private"),
         ('Public',"Public"),
