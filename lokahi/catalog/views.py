@@ -23,6 +23,7 @@ from django.utils.encoding import smart_str
 
 import random
 import os
+import hashlib
 
 import datetime
 from .models import User, Report, Message, Group, Comment, File
@@ -191,6 +192,7 @@ class FavoritesByUserListView(LoginRequiredMixin,generic.ListView):
 def report_detail(request, report_id):
 	try:
 		report = Report.objects.get(pk=report_id)
+		encode_name = hashlib.sha1(report.report_name.encode('utf-8'))
 		files = File.objects.all()
 		for_report_files = []
 		for f in files:
@@ -216,7 +218,10 @@ def report_detail(request, report_id):
             'num_ratings' : report.num_ratings,
             'owner' : report.owner,
 		}
-		return render(request, 'catalog/detailedreport.html', context=context)
+		if report.hash_name == encode_name.hexdigest():
+			return render(request, 'catalog/detailedreport.html', context=context)
+		else:
+			return HttpResponse("this report has been tampered with.")
 	except Exception as e:
 		return HttpResponse(e)
 
@@ -260,6 +265,7 @@ def create_report(request):
             files = request.FILES.getlist('filename')
             privacy_setting = form.cleaned_data['privacy_setting']
             owner = form.cleaned_data['owner']
+            hash_n = hashlib.sha1(report_name.encode('utf-8'))
             if owner != request.user.username:
             	return HttpResponse("inputting your username serves as a digital signature, you may not enter an althernate username. Please go back.")
             try:
@@ -276,6 +282,7 @@ def create_report(request):
 					# filename = request.FILES['filename'],
 					privacy_setting = privacy_setting,
 					owner = owner,
+					hash_name = hash_n.hexdigest()
 				)
                 report.save()
                 for f in files:
