@@ -504,10 +504,12 @@ def create_message(request):
 				else:
 					is_encrypted = False
 					message_text = message_body
+					decrypted_msg_filename = ""
 			else:
 				privacy = False
 				is_encrypted = False
 				message_text = message_body
+				decrypted_msg_filename = ""
 			message = Message(
 				recipient=user,
 				sender = user2,
