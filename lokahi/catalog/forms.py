@@ -3,7 +3,7 @@ from django.forms import ModelForm, Select
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from .models import User, Report
-import datetime #for checking renewal date range.
+import datetime 
 
 class signUp(forms.Form):
     first_name = forms.CharField(label="First Name")

@@ -1,19 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from datetime import date
-
-
-# Create your models here.
+from django.urls import reverse_lazy
 
 class File(models.Model):
 	file = models.FileField()
 	report = models.CharField(max_length=200,default = 'none')
 	encrypted = models.BooleanField(default=False)
 
-from django.urls import reverse_lazy
-# Used to generate URLS by reversing the URL patterns
 
 class Report(models.Model):
+	"""
+	Model representing a report on LFC
+	"""
 	report_name = models.CharField(max_length=200)
 	company_name = models.CharField(max_length=40)
 	company_phone = models.CharField(max_length=15)
@@ -28,8 +27,6 @@ class Report(models.Model):
 	timestamp = models.DateTimeField(auto_now_add = True)
 	rating = models.IntegerField(default = 0)
 	num_ratings = models.IntegerField(default = 0)
-
-	# Need to allow investor users to upload files
 
 	def __str__(self):
 		return self.report_name
@@ -50,6 +47,9 @@ class Report(models.Model):
 		return reverse_lazy('create_comment', args=[str(self.id)])
 
 class User(AbstractUser):
+	"""
+	Model representing a user of LFC
+	"""
 	username = models.CharField(max_length=200, default="none", unique=True)
 	password = models.CharField(max_length=200, default="none")
 	first_name = models.CharField(max_length=200, default="none")
@@ -66,6 +66,9 @@ class User(AbstractUser):
 		return "%s" % (self.username)
 
 class Comment(models.Model):
+	"""
+	Model representing a comment on a report 
+	"""
 	report = models.ForeignKey(Report, related_name='comments')
 	author = models.ForeignKey(User)
 	text = models.TextField()
@@ -86,13 +89,13 @@ class Message(models.Model):
 	recipient = models.ForeignKey(User, on_delete = models.CASCADE, related_name="recipient")
 	sender = models.ForeignKey(User, on_delete= models.CASCADE,related_name="sender")
 	message_body = models.TextField(help_text = "Enter your private message.")
+	encrypted_message_body = models.BinaryField(default=b"")
 	isItPrivate = models.BooleanField(default=True)
 	is_encrypted = models.BooleanField(default=False)
 	public_key = models.TextField()
-	encrypted_msg_filename = models.FilePathField()
 
 	def __str__(self):
-		return "Message " + str(self.is_encrypted) + str(self.encrypted_msg_filename)
+		return "Message " + str(self.is_encrypted)
 
 	def get_absolute_url(self):
 		return reverse_lazy('message_detail', args=[str(self.id)])
@@ -119,8 +122,8 @@ class Group(models.Model):
 	#users = models.ManyToManyField(User)
 	#reports = models.ManyToManyField(Report)
 
-	# def __str__(self):
-	# 	return self.name
+	def __str__(self):
+		return self.name
 
 	# def get_absolute_url(self):
 	# 	return reverse_lazy('group-detail', args=[str(self.name)])

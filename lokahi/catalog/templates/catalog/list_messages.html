@@ -9,11 +9,11 @@
 
     {% if message_list %}
     <ul>
-     <h2>Received</h2>
+     <ul> <h2>Received</h2> </ul>
       {% for message in message_list %}
           {% if user.username == message.recipient.username %}
 
-        <h3>Message to {{ message.recipient.first_name }} {{ message.recipient.last_name }}</h3>
+        <h3>Message</h3>
           <li>
             Recipient: {{ message.recipient.username }}
           </li>
@@ -31,11 +31,11 @@
           {% endif %}
 
       {% endfor %}
-     <h2>Sent</h2>
+     <ul> <h2>Sent</h2> </ul>
       {% for message in message_list %}
           {% if user.username == message.sender.username %}
 
-        <h3>Message from {{ message.sender.first_name }} {{ message.sender.last_name }}</h3>
+        <h3>Message to {{ message.recipient.first_name }} {{ message.recipient.last_name }}</h3>
           <li>
             Recipient: {{ message.recipient.username }}
           </li>
