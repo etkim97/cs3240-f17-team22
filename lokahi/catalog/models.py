@@ -90,11 +90,9 @@ class Message(models.Model):
 	is_encrypted = models.BooleanField(default=False)
 	public_key = models.TextField()
 	encrypted_msg_filename = models.FilePathField()
-	decrypted_msg_filename = models.FilePathField()
-	decrypted_msg_file = models.FileField(upload_to='decrypted_messages', blank=True)
 
 	def __str__(self):
-		return "Message for " + str(self.recipient.username)
+		return "Message " + str(self.is_encrypted) + str(self.encrypted_msg_filename)
 
 	def get_absolute_url(self):
 		return reverse_lazy('message_detail', args=[str(self.id)])
@@ -105,6 +103,8 @@ class Message(models.Model):
 	def get_download_url(self):
 		return reverse_lazy('download_message', args=[str(self.id)])
 
+	def get_id(self):
+		return str(self.id)
 
 
 class Group(models.Model):

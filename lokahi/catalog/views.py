@@ -466,37 +466,33 @@ def create_message(request):
 				privacy = True
 				if encryption == 'Encrypted':
 					is_encrypted = True
-					public_key = RSA.importKey(user.public_key)
-					cipher = PKCS1_OAEP.new(public_key)
-					ciphertext = cipher.encrypt(message_body.encode())
-					encrypt_filename = os.getcwd() + "/catalog/encrypted_messages/" + user.username
-					with open (encrypt_filename, 'wb+') as f:
-						f.write(ciphertext)
-					encrypted_msg_filename = encrypt_filename
-					decrypted_msg_filename = os.getcwd() + "/catalog/decrypted_messages/" + user.username
-					with open (decrypted_msg_filename, 'wb+') as f:
-						f.write(b"")
 					message_text = "Message is encrypted. Download file to view message."
 				else:
 					is_encrypted = False
 					message_text = message_body
-					decrypted_msg_filename = ""
 			else:
 				privacy = False
 				is_encrypted = False
 				message_text = message_body
-				decrypted_msg_filename = ""
 			message = Message(
 				recipient=user,
-				sender = user2,
+				sender=user2,
 				message_body=message_text,
-				isItPrivate = privacy,
+				isItPrivate=privacy,
 				is_encrypted=is_encrypted,
 				public_key=public_key,
 				encrypted_msg_filename=encrypted_msg_filename,
-				decrypted_msg_filename=decrypted_msg_filename,
 			)
 			message.save()
+			if privacy and is_encrypted:
+				public_key = RSA.importKey(user.public_key)
+				cipher = PKCS1_OAEP.new(public_key)
+				ciphertext = cipher.encrypt(message_body.encode())
+				encrypt_filename = os.getcwd() + "/catalog/encrypted_messages/" + user.username + message.get_id()
+				with open (encrypt_filename, 'wb+') as f:
+					f.write(ciphertext)
+				message.encrypted_msg_filename = encrypt_filename
+				message.save()
 			return HttpResponse("message saved", message)
 		else:
 			return HttpResponse(form.errors.as_data())
@@ -504,6 +500,7 @@ def create_message(request):
 		form = CreateMessageForm()
 
 	return render(request, 'create_message.html', {'form': form})
+
 
 
 @csrf_exempt
@@ -528,8 +525,8 @@ def download_message(request, message_id):
 						break
 					ciphertext += chunk
 			decrypted_message = decrypt_cipher.decrypt(ciphertext)
-			filename = message.decrypted_msg_filename + message.recipient.username
-			with open(filename, 'wb') as f:
+			filename = os.getcwd() + "/catalog/decrypted_messages/" + message.recipient.username + str(message_id)
+			with open(filename, 'wb+') as f:
 				f.write(decrypted_message)
 			response = HttpResponse(content_type='text/plain')
 			response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(message.recipient.username)
