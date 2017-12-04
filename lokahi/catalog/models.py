@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 class File(models.Model):
 	file = models.FileField()
 	report = models.CharField(max_length=200,default = 'none')
+	encrypted = models.BooleanField(default=False)
 
 
 class Report(models.Model):

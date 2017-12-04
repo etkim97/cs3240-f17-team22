@@ -15,9 +15,9 @@
 		{% if data %}
 			{% for u in data %}
 			{% if u.username != 'admin' %}
-			<p style="font-size: 1.3em">First and last name: {{u.first_name}} {{u.last_name}} (Username: {{u.username}}) User type: {{u.user_type}}
+			<p style="font-size: 1.1em">Name: {{u.first_name}} {{u.last_name}} (Username: {{u.username}}) User type: {{u.user_type}}
 					{% if u.is_suspended == False %}<a href="{% url 'suspend' uname=u.username%}" style="font-size: 0.5em">Suspend Account</a> 
-					{% else %}<a href="{% url 'suspend' uname=u.username%}" style="font-size: 0.5em">Unsuspend Account</a>{% endif %} {% if user.username == 'admin' %}<a href="{% url 'privileges' uname=u.username%}" style="font-size: 0.5em">Privileges</a></p>{% endif %}
+					{% else %}<a href="{% url 'suspend' uname=u.username%}" style="font-size: 0.5em">Unsuspend Account</a>{% endif %} {% if user.user_type == 'manager' %}<a href="{% url 'privileges' uname=u.username%}" style="font-size: 0.5em">Privileges</a></p>{% endif %}
 			{% endif %}
 			{% endfor %}
 		{% else %}

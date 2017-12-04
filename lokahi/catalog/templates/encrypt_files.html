@@ -1,0 +1,13 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+ 	<h1>Which of these files are encrypted?</h1>
+ 	<form action="" method="post">
+	  {% for f in files %}
+	  <input type="radio" value="{{f.id}}" name={{f.id}} style="margin-bottom:0.5em">{{f.file}}<br/>
+	  {% endfor %}
+	  <input type="radio" value="none" name="none">None<br/>
+	  <input type="submit" value="Submit">
+	</form>
+ 
+{% endblock %}

@@ -282,7 +282,7 @@ def create_report(request):
                 	new_file = File(file = f)
                 	new_file.report = report.id
                 	new_file.save()
-                return HttpResponse("report saved", report)
+                return redirect('encrypt_files', report_id=report.id)
             except Exception as e:
                 return HttpResponse("exception", False)
         # else:
@@ -291,6 +291,24 @@ def create_report(request):
         form = CreateReportForm()
     return render(request, 'create_report.html', {'form': form})
 
+@csrf_exempt
+def encrypt_files(request, report_id):
+	files = File.objects.all()
+	relevant_files = []
+	for f in files:
+		if f.report == report_id:
+			relevant_files.append(f)
+	context = {
+		"files" : relevant_files,
+	}
+	if request.method=="POST":
+		for key in request.POST.keys():
+			if key != 'none':
+				file = File.objects.get(pk=key)
+				file.encrypted = True
+				file.save()
+		return HttpResponse("report saved")
+	return render(request, "encrypt_files.html", context=context)
 
 @csrf_exempt
 def edit_report(request, report_id):
@@ -668,8 +686,13 @@ def remove_from_group(request, group_name, uname):
 
 def my_groups(request, uname):
 	groups = Group.objects.all()
+	users = User.objects.all()
+	user = User()
+	for u in users:
+		if u.username == uname:
+			user = u
 	in_groups = []
-	if uname == 'admin':
+	if user.user_type == 'manager':
 		in_groups = groups
 	else:
 		for g in groups:

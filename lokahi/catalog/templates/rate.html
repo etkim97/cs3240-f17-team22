@@ -5,14 +5,13 @@
 <html lang="en-US">
 <head>
     {% load static %}
-	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
 </head>
 <body style="margin-left:4em">
 	<h1 style="margin-left:0">Rate {{name}}!</h1>
-	<p>{{name}}'s current rating is: {% if current_rating == 1 %}<i class="fa fa-star"></i> {% elif current_rating == 2 %}<i class="fa fa-star"></i><i class="fa fa-star"></i> {% elif current_rating == 3 %} <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> {% elif current_rating == 4 %}<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>{% else %}<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>{%endif%}</p>
+	<p>{{name}}'s current rating is: {% if current_rating == 1 %}<i class="fa fa-star"></i> {% elif current_rating == 2 %}<i class="fa fa-star"></i><i class="fa fa-star"></i> {% elif current_rating == 3 %} <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> {% elif current_rating == 4 %}<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>{% elif current_rating == 5 %}<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>{% else %}no ratings{%endif%}</p>
 	<p> Your Rating: </p>
 	<form action="" method="post">
 		<fieldset class="rating">

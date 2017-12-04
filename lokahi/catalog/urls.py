@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^report/(?P<report_id>[0-9]+)/rate$', views.rate_report, name='rate_report'),
     url(r'^report/(?P<report_id>[0-9]+)/addfiles$', views.add_files, name='add_files'),
     url(r'^report/create$', views.create_report, name='create_report'),
+    url(r'^report/encrypt/(?P<report_id>[0-9]+)$', views.encrypt_files, name='encrypt_files'),
     url(r'^report/edit/(?P<report_id>[0-9]+)$', views.edit_report, name='edit_report'),
     url(r'^report/edit/(?P<report_id>[0-9]+)/delete/(?P<file_id>[0-9]+)$', views.delete_file, name='delete_file'),
     url(r'^report/delete/(?P<report_id>[0-9]+)$', views.delete_report, name='delete_report'),
