@@ -3,7 +3,6 @@
 {% block content %}
 <head>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
@@ -24,7 +23,9 @@
         {% if files.length != 0 %}
             <ul>
             {% for f in files %}
-                <li><a href="{{f.file.url}}">{{ f.file }}</a></li>
+                {% if f.encrypted == False %}<li><a href="{{f.file.url}}">{{ f.file }}</a></li>
+                {% else %}<li>{{ f.file }} (this file is not encrypted and unavailable for download)</li>
+                {% endif %}
             {% endfor %}
             </ul>
         {% endif %}
@@ -35,7 +36,7 @@
     <a href="{{ get_comments_url }}">Comments </a> <br/>
     <a href="{{ create_comments_url }}">Comment on this report</a>
 
-    {% if user.username == 'admin' %}
+    {% if user.usertype == 'manager' %}
     {% endif %}
 {% endblock %}
 

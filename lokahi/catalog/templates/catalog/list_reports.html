@@ -3,14 +3,14 @@
 {% block content %}
     {% if user.is_authenticated and user.user_type == 'Company'%}
       <h1>My Reports</h1>
-    {% elif user.user_type == 'Investor' or user.username == 'admin'%}
+    {% elif user.user_type == 'Investor' or user.usertype == 'manager'%}
       <h1>All Reports</h1>
     {% endif %}
     {% if report_list %}
 
     <ul>
 
-      {% if user.username == "admin" or user.accepted_manager_privileges %}
+      {% if user.usertype == "manager" or user.accepted_manager_privileges %}
 
         {% for report in report_list %}
         <li>
