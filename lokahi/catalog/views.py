@@ -182,6 +182,10 @@ class ReportsByUserListView(LoginRequiredMixin,generic.ListView):
 	template_name ='catalog/list_reports.html'
 	paginate_by = 10
 
+class FavoritesByUserListView(LoginRequiredMixin,generic.ListView):
+	model = Report
+	template_name ='catalog/list_favorites.html'
+	paginate_by = 10
 
 @csrf_exempt
 def report_detail(request, report_id):
@@ -217,6 +221,26 @@ def report_detail(request, report_id):
 		return HttpResponse(e)
 
 from django.core.files.storage import FileSystemStorage
+
+@csrf_exempt
+def add_to_favorites(request, report_id):
+	try:
+		report = Report.objects.get(pk=report_id)
+		request.user.favorites.add(report)
+		return render(request, 'catalog/list_favorites.html')
+
+	except Exception as e:
+		return HttpResponse(e)
+
+@csrf_exempt
+def remove_from_favorites(request, report_id):
+	try:
+		report = Report.objects.get(pk=report_id)
+		request.user.favorites.remove(report)
+		return render(request, 'catalog/list_favorites.html')
+
+	except Exception as e:
+		return HttpResponse(e)
 
 @csrf_exempt
 def create_report(request):
@@ -354,7 +378,7 @@ def rate_report(request, report_id):
 	if request.method == 'POST':
 		stars = request.POST.get('rating')
 		curr_rating = report.rating
-		total = curr_rating*report.num_ratings		
+		total = curr_rating*report.num_ratings
 		report.num_ratings += 1
 		if stars == "half":
 			total += 0.5

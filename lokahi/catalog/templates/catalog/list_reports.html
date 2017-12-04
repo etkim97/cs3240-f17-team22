@@ -6,6 +6,7 @@
     {% elif user.user_type == 'Investor' or user.username == 'admin'%}
       <h1>All Reports</h1>
     {% endif %}
+    <a href="{% url 'my_favorites' %}">Favorites</a>
     {% if report_list %}
 
     <ul>
@@ -15,7 +16,7 @@
         {% for report in report_list %}
         <li>
           <a href="{{ report.get_absolute_url }}">Name: {{report.report_name}}</a>,
-           Company: {{report.company_name}}, 
+           Company: {{report.company_name}},
            Privacy: {{report.privacy_setting}}<br/>
            <a href="{{ report.get_edit_url }}" style="margin-left:1em">Edit this report</a>,
            <a href="{{ report.get_delete_url }}">Delete this report</a>,
@@ -44,7 +45,7 @@
           <li>
             <a href="{{ report.get_absolute_url }}">Name: {{report.report_name}}</a>,
              Company: {{report.company_name}},
-             Privacy: {{report.privacy_setting}}, 
+             Privacy: {{report.privacy_setting}},
              <a href="{{ report.get_edit_url }}">Edit report</a>,
              <a href="{{ report.get_comments_url }}"> Comments </a>
         {% endif %}

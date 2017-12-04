@@ -5,22 +5,6 @@ from datetime import date
 
 # Create your models here.
 
-
-class User(AbstractUser):
-	username = models.CharField(max_length=200, default="none", unique=True)
-	password = models.CharField(max_length=200, default="none")
-	first_name = models.CharField(max_length=200, default="none")
-	last_name = models.CharField(max_length=200, default="none")
-	company = models.CharField(max_length=200, default="none")
-	email = models.EmailField(max_length=200, default="none")
-	user_type = models.CharField(max_length=10, default=1)
-	is_suspended = models.BooleanField(default = False)
-	public_key = models.TextField()
-	has_manager_privileges = models.BooleanField(default = False)
-	accepted_manager_privileges = models.BooleanField(default = False)
-	def __str__(self):
-		return "%s" % (self.username)
-
 class File(models.Model):
 	file = models.FileField()
 	report = models.CharField(max_length=200,default = 'none')
@@ -64,6 +48,21 @@ class Report(models.Model):
 	def create_comments_url(self):
 		return reverse_lazy('create_comment', args=[str(self.id)])
 
+class User(AbstractUser):
+	username = models.CharField(max_length=200, default="none", unique=True)
+	password = models.CharField(max_length=200, default="none")
+	first_name = models.CharField(max_length=200, default="none")
+	last_name = models.CharField(max_length=200, default="none")
+	company = models.CharField(max_length=200, default="none")
+	email = models.EmailField(max_length=200, default="none")
+	user_type = models.CharField(max_length=10, default=1)
+	is_suspended = models.BooleanField(default = False)
+	public_key = models.TextField()
+	has_manager_privileges = models.BooleanField(default = False)
+	accepted_manager_privileges = models.BooleanField(default = False)
+	favorites = models.ManyToManyField(Report)
+	def __str__(self):
+		return "%s" % (self.username)
 
 class Comment(models.Model):
 	report = models.ForeignKey(Report, related_name='comments')
