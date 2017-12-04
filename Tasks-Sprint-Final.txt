@@ -1,5 +1,6 @@
 1. Prompt user if file is encrypted when investor user adds files [Gina]
 2. Hash report name [Gina]
-3. Add emojis [Elliott]
+3. Add profile pictures [Elliott]
 4. Add search in messages [Rohan]
 5. Digital signature [Jennifer]
+6. Sidebar says all or my reports -> make consistent [Jenny]
