@@ -33,7 +33,7 @@
             {% if user.user_type == 'Company' %}
               <li><a href="{% url 'my_reports' %}">My Reports</a></li>
             {% else %}
-              <li><a href="{% url 'my_reports' %}">All Reports</a></li>
+              <li><a href="{% url 'my_reports' %}">Reports</a></li>
             {% endif %}
             <li><a href="{% url 'my_messages' %}">My Messages</a></li>
             <li><a href="{% url 'my_groups' uname=user.username %}">My Groups</a></li>
