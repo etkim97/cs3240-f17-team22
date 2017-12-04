@@ -182,6 +182,10 @@ class ReportsByUserListView(LoginRequiredMixin,generic.ListView):
 	template_name ='catalog/list_reports.html'
 	paginate_by = 10
 
+class FavoritesByUserListView(LoginRequiredMixin,generic.ListView):
+	model = Report
+	template_name ='catalog/list_favorites.html'
+	paginate_by = 10
 
 @csrf_exempt
 def report_detail(request, report_id):
@@ -217,6 +221,26 @@ def report_detail(request, report_id):
 		return HttpResponse(e)
 
 from django.core.files.storage import FileSystemStorage
+
+@csrf_exempt
+def add_to_favorites(request, report_id):
+	try:
+		report = Report.objects.get(pk=report_id)
+		request.user.favorites.add(report)
+		return render(request, 'catalog/list_favorites.html')
+
+	except Exception as e:
+		return HttpResponse(e)
+
+@csrf_exempt
+def remove_from_favorites(request, report_id):
+	try:
+		report = Report.objects.get(pk=report_id)
+		request.user.favorites.remove(report)
+		return render(request, 'catalog/list_favorites.html')
+
+	except Exception as e:
+		return HttpResponse(e)
 
 @csrf_exempt
 def create_report(request):
@@ -372,7 +396,7 @@ def rate_report(request, report_id):
 	if request.method == 'POST':
 		stars = request.POST.get('rating')
 		curr_rating = report.rating
-		total = curr_rating*report.num_ratings		
+		total = curr_rating*report.num_ratings
 		report.num_ratings += 1
 		if stars == "half":
 			total += 0.5
@@ -484,16 +508,6 @@ def create_message(request):
 				privacy = True
 				if encryption == 'Encrypted':
 					is_encrypted = True
-					public_key = RSA.importKey(user.public_key)
-					cipher = PKCS1_OAEP.new(public_key)
-					ciphertext = cipher.encrypt(message_body.encode())
-					encrypt_filename = os.getcwd() + "/catalog/encrypted_messages/" + user.username
-					with open (encrypt_filename, 'wb+') as f:
-						f.write(ciphertext)
-					encrypted_msg_filename = encrypt_filename
-					decrypted_msg_filename = os.getcwd() + "/catalog/decrypted_messages/" + user.username
-					with open (decrypted_msg_filename, 'wb+') as f:
-						f.write(b"")
 					message_text = "Message is encrypted. Download file to view message."
 				else:
 					is_encrypted = False
@@ -504,15 +518,23 @@ def create_message(request):
 				message_text = message_body
 			message = Message(
 				recipient=user,
-				sender = user2,
+				sender=user2,
 				message_body=message_text,
-				isItPrivate = privacy,
+				isItPrivate=privacy,
 				is_encrypted=is_encrypted,
 				public_key=public_key,
 				encrypted_msg_filename=encrypted_msg_filename,
-				decrypted_msg_filename=decrypted_msg_filename,
 			)
 			message.save()
+			if privacy and is_encrypted:
+				public_key = RSA.importKey(user.public_key)
+				cipher = PKCS1_OAEP.new(public_key)
+				ciphertext = cipher.encrypt(message_body.encode())
+				encrypt_filename = os.getcwd() + "/catalog/encrypted_messages/" + user.username + message.get_id()
+				with open (encrypt_filename, 'wb+') as f:
+					f.write(ciphertext)
+				message.encrypted_msg_filename = encrypt_filename
+				message.save()
 			return HttpResponse("message saved", message)
 		else:
 			return HttpResponse(form.errors.as_data())
@@ -520,6 +542,7 @@ def create_message(request):
 		form = CreateMessageForm()
 
 	return render(request, 'create_message.html', {'form': form})
+
 
 
 @csrf_exempt
@@ -544,8 +567,8 @@ def download_message(request, message_id):
 						break
 					ciphertext += chunk
 			decrypted_message = decrypt_cipher.decrypt(ciphertext)
-			filename = message.decrypted_msg_filename + message.recipient.username
-			with open(filename, 'wb') as f:
+			filename = os.getcwd() + "/catalog/decrypted_messages/" + message.recipient.username + str(message_id)
+			with open(filename, 'wb+') as f:
 				f.write(decrypted_message)
 			response = HttpResponse(content_type='text/plain')
 			response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(message.recipient.username)
@@ -676,8 +699,13 @@ def remove_from_group(request, group_name, uname):
 
 def my_groups(request, uname):
 	groups = Group.objects.all()
+	users = User.objects.all()
+	user = User()
+	for u in users:
+		if u.username == uname:
+			user = u
 	in_groups = []
-	if uname == 'admin':
+	if user.user_type == 'manager':
 		in_groups = groups
 	else:
 		for g in groups:

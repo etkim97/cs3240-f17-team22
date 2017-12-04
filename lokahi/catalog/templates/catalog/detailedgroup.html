@@ -3,7 +3,7 @@
 {% block content %}
     <h1>Your Group: {{name}} </h1>
     <ul><b>Users:</b>
-    	{% if user.usertype == "manager" %}
+    	{% if user.user_type == "manager" %}
     	{% for u in users %}
       <li>
          {{u.username}}<a href="{% url 'remove_from_group' group_name=id uname=u.username%}" style ="font-size:0.5em">Remove from group</a>

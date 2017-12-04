@@ -1,0 +1,22 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Favorite Reports</h1>
+
+    {% if user.favorites.all %}
+      {% for report in user.favorites.all %}
+      <li>
+        <a href="{{ report.get_absolute_url }}">Name: {{report.report_name}}</a>,
+         Company: {{report.company_name}},
+         Privacy: {{report.privacy_setting}}<br/>
+         <a href="{{ report.get_edit_url }}" style="margin-left:1em">Edit this report</a>,
+         <a href="{{ report.get_delete_url }}">Delete this report</a>,
+         <a href="{{ report.get_comments_url }}"> Comments </a>
+      </li>
+      {% endfor %}
+
+    {% else %}
+
+      <p>There are no reports.</p>
+    {% endif %}
+{% endblock %}

@@ -6,7 +6,10 @@ urlpatterns = [
     url(r'^acceptprivileges/(?P<uname>[\w\-]+)$', views.accept_privileges, name='accept_privileges'),
 
     url(r'^myreports/$', views.ReportsByUserListView.as_view(), name='my_reports'),
+    url(r'^myreports/favorites/$', views.FavoritesByUserListView.as_view(), name='my_favorites'),
     url(r'^report/(?P<report_id>[0-9]+)$', views.report_detail, name='report_detail'),
+    url(r'^report/(?P<report_id>[0-9]+)/favorite$', views.add_to_favorites, name='add_to_favorites'),
+    url(r'^myreports/favorites/remove_from_favorites$', views.remove_from_favorites, name='remove_from_favorites'),
     url(r'^report/(?P<report_id>[0-9]+)/rate$', views.rate_report, name='rate_report'),
     url(r'^report/(?P<report_id>[0-9]+)/addfiles$', views.add_files, name='add_files'),
     url(r'^report/create$', views.create_report, name='create_report'),
