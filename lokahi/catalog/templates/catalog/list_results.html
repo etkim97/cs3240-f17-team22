@@ -10,9 +10,11 @@
 <body>
 <h1> Search Results for {{ search }}</h1>
     {% for r in reports %}
+        {% if r.privacy_setting == "Public" %}
         <li>
           <a href="{{ r.get_absolute_url }}"> Name: {{r.report_name}} </a>
         </li>
+        {% endif %}
     {% endfor %}
 </body>
 </html>
