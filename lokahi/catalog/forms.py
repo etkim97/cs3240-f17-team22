@@ -2,8 +2,9 @@ from django import forms
 from django.forms import ModelForm, Select
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
+from django.core.files.images import get_image_dimensions
 from .models import User, Report
-import datetime 
+import datetime
 
 class signUp(forms.Form):
     first_name = forms.CharField(label="First Name")
@@ -77,7 +78,7 @@ class CreateGroupForm(forms.Form):
 
 class AddUserForm(forms.Form):
     user = forms.CharField()
-    
+
 class user_privileges(forms.Form):
     CHOICES = (
         ('False', "False"),

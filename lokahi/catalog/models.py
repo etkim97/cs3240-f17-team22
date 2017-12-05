@@ -67,7 +67,7 @@ class User(AbstractUser):
 
 class Comment(models.Model):
 	"""
-	Model representing a comment on a report 
+	Model representing a comment on a report
 	"""
 	report = models.ForeignKey(Report, related_name='comments')
 	author = models.ForeignKey(User)

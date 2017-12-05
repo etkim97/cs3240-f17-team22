@@ -20,7 +20,8 @@ from Crypto.Cipher import DES
 from Crypto import Random
 from django.core.files import File
 from django.utils.encoding import smart_str
-
+from PIL import Image
+from io import BytesIO
 import random
 import os
 
@@ -142,7 +143,6 @@ def suspend(request, uname):
 					return render(request, 'suspended.html', context=context)
 	except Exception as e:
 		return HttpResponse(e)
-
 
 @csrf_exempt
 def search(request):
