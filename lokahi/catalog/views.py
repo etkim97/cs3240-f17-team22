@@ -177,6 +177,30 @@ def search(request):
 		form = searchForm()
 	return render(request, template_name, {'form': form})
 
+@csrf_exempt
+def search_message(request):
+	template_name = "search_messages.html"
+	form = searchMessageForm(request.POST or None)
+	if request.method == 'POST':
+		if form.is_valid():
+			try:
+				a = form.cleaned_data['search']
+				mes = []
+				try:
+					mes.extend(Message.objects.filter(
+						Q(recipient = a) |
+						Q(sender = a) |
+						Q(message_body = a)
+					))
+				except:
+					pass
+
+			except Exception as e:
+				return HttpResponse(e)
+		return render(request, 'catalog/list_message_results.html', {'messages': mes, 'search': a})
+	else:
+		form = searchMessageForm()
+	return render(request, template_name, {'form': form})
 
 class ReportsByUserListView(LoginRequiredMixin,generic.ListView):
 	model = Report

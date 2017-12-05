@@ -89,5 +89,8 @@ class user_privileges(forms.Form):
 class searchForm(forms.Form):
     search = forms.CharField()
 
+class searchMessageForm(forms.Form):
+    search = forms.CharField()
+
 class addFiles(forms.Form):
     filename = forms.FileField(label="Select files", widget=forms.ClearableFileInput(attrs={'multiple': True}))

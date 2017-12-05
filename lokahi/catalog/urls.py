@@ -38,4 +38,5 @@ urlpatterns = [
     url(r'^users/privileges/(?P<uname>[\w\-]+)$', views.privileges, name='privileges'),
     url(r'^suspend/(?P<uname>[\w\-]+)$', views.suspend, name='suspend'),
     url(r'^search/$', views.search, name='search'),
+    url(r'^search_messages/$', views.search_message, name='search_message'),
 ]

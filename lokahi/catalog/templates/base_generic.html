@@ -41,7 +41,8 @@
             {% endif %}
             <li><a href="{% url 'my_messages' %}">My Messages</a></li>
             <li><a href="{% url 'my_groups' uname=user.username %}">My Groups</a></li>
-            <li><a href="{% url 'search' %}">Search</a></li>
+            <li><a href="{% url 'search' %}">Search Reports</a></li>
+            <li><a href="{% url 'search_message' %}">Search Messages</a></li>
             {% if user.user_type == "manager" or user.accepted_manager_privileges %}
             <li><a href="{% url 'users' %}">Users</a></li>
             {% endif %}

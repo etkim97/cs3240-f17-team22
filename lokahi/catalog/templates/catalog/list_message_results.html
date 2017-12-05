@@ -1,0 +1,19 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    {% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+</head>
+<body>
+<h1> Search Results for {{ search }}</h1>
+    {% for m in messages %}
+        <li>
+          <a href="{{ m.get_absolute_url }}"> Recipient: {{m.recipient.username}} </a>
+        </li>
+    {% endfor %}
+</body>
+</html>
+{% endblock %}

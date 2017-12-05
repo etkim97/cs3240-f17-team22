@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    {% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+</head>
+<body>
+<h1> Search Messages</h1>
+    <form action="{% url 'search_message' %}" method="post">
+        {{ form.as_p }}
+        <input type = "submit" value = "Search!"/>
+    </form>
+</body>
+</html>
+{% endblock %}
