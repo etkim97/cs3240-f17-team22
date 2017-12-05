@@ -165,12 +165,11 @@ def search(request):
 						Q(company_country=a)|
 						Q(current_projects=a)|
 						Q(info = a)|
-						Q(owner = a)|
-						Q(timestamp = a)
+						Q(owner = a)
 					))
+					rep.extend(Report.objects.filter(timestamp = a))
 				except:
 					pass
-
 			except Exception as e:
 				return HttpResponse(e)
 		return render(request, 'catalog/list_results.html', {'reports': rep, 'search': a})
@@ -188,15 +187,16 @@ def search_message(request):
 				a = form.cleaned_data['search']
 				mes2 = []
 				try:
-					mes = Message.objects.all()
-					for m in mes.iterator():
-						if a in m.message_body:
-							mes2.extend(m)
+					mes = Message.objects.filter(message_body = a)
+					#print(mes)
+					# for m in mes.iterator():
+					# 	if a in m.message_body:
+					# 		mes2.extend(m)
 				except Exception as e:
 					return HttpResponse(e)
 			except Exception as e:
 				return HttpResponse(e)
-		return render(request, 'catalog/list_message_results.html', {'messages': mes2, 'search': a})
+		return render(request, 'catalog/list_message_results.html', {'messages': mes, 'search': a})
 	else:
 		form = searchMessageForm()
 	return render(request, template_name, {'form': form})
