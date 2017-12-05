@@ -27,6 +27,7 @@ class Report(models.Model):
 	timestamp = models.DateTimeField(auto_now_add = True)
 	rating = models.IntegerField(default = 0)
 	num_ratings = models.IntegerField(default = 0)
+	hash_name = models.CharField(max_length=200)
 
 	def __str__(self):
 		return self.report_name
