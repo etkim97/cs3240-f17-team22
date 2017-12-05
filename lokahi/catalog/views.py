@@ -165,7 +165,8 @@ def search(request):
 						Q(company_country=a)|
 						Q(current_projects=a)|
 						Q(info = a)|
-						Q(owner = a)
+						Q(owner = a)|
+						Q(timestamp = a)
 					))
 				except:
 					pass
@@ -185,19 +186,17 @@ def search_message(request):
 		if form.is_valid():
 			try:
 				a = form.cleaned_data['search']
-				mes = []
+				mes2 = []
 				try:
-					mes.extend(Message.objects.filter(
-						Q(recipient = a) |
-						Q(sender = a) |
-						Q(message_body = a)
-					))
-				except:
-					pass
-
+					mes = Message.objects.all()
+					for m in mes.iterator():
+						if a in m.message_body:
+							mes2.extend(m)
+				except Exception as e:
+					return HttpResponse(e)
 			except Exception as e:
 				return HttpResponse(e)
-		return render(request, 'catalog/list_message_results.html', {'messages': mes, 'search': a})
+		return render(request, 'catalog/list_message_results.html', {'messages': mes2, 'search': a})
 	else:
 		form = searchMessageForm()
 	return render(request, template_name, {'form': form})
