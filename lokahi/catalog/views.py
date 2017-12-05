@@ -223,6 +223,7 @@ def report_detail(request, report_id):
 			if f.report == report_id:
 				for_report_files.append(f)
 		context = {
+			"owner": report.owner,
 			"report_name": report.report_name,
 			"company_name": report.company_name,
 			"company_phone": report.company_phone,
@@ -291,7 +292,7 @@ def create_report(request):
             owner = form.cleaned_data['owner']
             hash_n = hashlib.sha1(report_name.encode('utf-8'))
             if owner != request.user.username:
-            	return HttpResponse("inputting your username serves as a digital signature, you may not enter an althernate username. Please go back.")
+            	return HttpResponse("Inputting your username serves as a digital signature, you may not enter an alternate username. Please go back.")
             try:
                 report = Report(
 					report_name = report_name,
@@ -549,10 +550,12 @@ def create_message(request):
 				else:
 					is_encrypted = False
 					message_text = message_body
+					encrypted_message_body = b""
 			else:
 				privacy = False
 				is_encrypted = False
 				message_text = message_body
+				encrypted_message_body = b""
 			message = Message(
 				recipient=user,
 				sender=user2,

@@ -43,7 +43,7 @@ class CreateCommentForm(forms.Form):
     text = forms.CharField()
 
 class EditReportForm(forms.Form):
-    company_name = forms.CharField()
+    company_name = forms.CharField(required=False)
     company_phone = forms.CharField()
     company_location = forms.CharField()
     company_country = forms.CharField()
