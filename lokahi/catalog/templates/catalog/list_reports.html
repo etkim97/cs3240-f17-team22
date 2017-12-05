@@ -31,17 +31,17 @@
           <a href="{{ report.get_absolute_url }}">Name: {{report.report_name}}</a>,
            Company: {{report.company_name}},
            Privacy: {{report.privacy_setting}}<br/>
-          <!-- <a href="{{ report.get_edit_url }}" style="margin-left:1em">Edit this report</a> -->
            <a href="{{ report.get_comments_url }}"> Comments </a>
 
         </li>
         {% endif %}
         {% endfor %}
       {% else %}
+        <!--Company users can view all reports that they created (public or private)-->        
         <form action="{% url 'my_reports' %}" method="get">
 
         {% for report in report_list %}
-        {% if user.username == report.owner %}
+        {% if user.username == report.owner or report.privacy_setting == 'Public' %}
           <li>
             <a href="{{ report.get_absolute_url }}">Name: {{report.report_name}}</a>,
              Company: {{report.company_name}},
