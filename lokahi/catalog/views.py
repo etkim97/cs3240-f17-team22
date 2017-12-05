@@ -165,7 +165,8 @@ def search(request):
 						Q(company_country=a)|
 						Q(current_projects=a)|
 						Q(info = a)|
-						Q(owner = a)
+						Q(owner = a)|
+						Q(timestamp = a)
 					))
 				except:
 					pass
