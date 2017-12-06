@@ -167,9 +167,9 @@ def search(request):
 						Q(info = a)|
 						Q(owner = a)
 					))
+					rep.extend(Report.objects.filter(timestamp = a))
 				except:
 					pass
-
 			except Exception as e:
 				return HttpResponse(e)
 		return render(request, 'catalog/list_results.html', {'reports': rep, 'search': a})
@@ -185,16 +185,15 @@ def search_message(request):
 		if form.is_valid():
 			try:
 				a = form.cleaned_data['search']
-				mes = []
+				mes2 = []
 				try:
-					mes.extend(Message.objects.filter(
-						Q(recipient = a) |
-						Q(sender = a) |
-						Q(message_body = a)
-					))
-				except:
-					pass
-
+					mes = Message.objects.filter(message_body = a)
+					#print(mes)
+					# for m in mes.iterator():
+					# 	if a in m.message_body:
+					# 		mes2.extend(m)
+				except Exception as e:
+					return HttpResponse(e)
 			except Exception as e:
 				return HttpResponse(e)
 		return render(request, 'catalog/list_message_results.html', {'messages': mes, 'search': a})
@@ -223,6 +222,7 @@ def report_detail(request, report_id):
 			if f.report == report_id:
 				for_report_files.append(f)
 		context = {
+			"owner": report.owner,
 			"report_name": report.report_name,
 			"company_name": report.company_name,
 			"company_phone": report.company_phone,
@@ -291,7 +291,7 @@ def create_report(request):
 			owner = form.cleaned_data['owner']
 			hash_n = hashlib.sha1(report_name.encode('utf-8'))
 			if owner != request.user.username:
-				return HttpResponse("inputting your username serves as a digital signature, you may not enter an althernate username. Please go back.")
+				return HttpResponse("Inputting your username serves as a digital signature, you may not enter an alternate username. Please go back.")
 			try:
 				report = Report(
 					report_name = report_name,
@@ -557,10 +557,12 @@ def create_message(request):
 				else:
 					is_encrypted = False
 					message_text = message_body
+					encrypted_message_body = b""
 			else:
 				privacy = False
 				is_encrypted = False
 				message_text = message_body
+				encrypted_message_body = b""
 			message = Message(
 				recipient=user,
 				sender=user2,

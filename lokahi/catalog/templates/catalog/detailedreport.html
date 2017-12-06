@@ -11,6 +11,7 @@
     <h2>Rating: {% if num_ratings == 0 %} no ratings {% elif current_rating == 1 %}<i class="fa fa-star"></i> {% elif current_rating == 2 %}<i class="fa fa-star"></i><i class="fa fa-star"></i> {% elif current_rating == 3 %} <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> {% elif current_rating == 4 %}<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>{% else %}<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>{% endif %} {% if user.username != owner %}
     <a href="{% url 'rate_report' report_id=id%}" style="font-size: 0.8em">Rate this report</a>{% endif %}</h2>
     <ul>
+        <li>Owner: {{owner}}</li>
         <li>Company: {{company_name}}</li>
         <li>Phone #: {{company_phone}}</li>
         <li>Location: {{company_location}}</li>
@@ -18,6 +19,7 @@
         <li>Sector: {{company_sector}}</li>
         <li>Industry: {{company_industry}}</li>
         <li>Projects: {{current_projects}}</li>
+        <li>Info: {{info}}</li>
         <li>Privacy: {{privacy_setting}}</li>
         <li>Files:
         {% if files.length != 0 %}
