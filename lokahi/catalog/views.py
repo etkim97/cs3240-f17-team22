@@ -25,6 +25,8 @@ from io import BytesIO
 import random
 import os
 import hashlib
+from calendar import weekday
+import calendar
 
 import datetime
 from .models import User, Report, Message, Group, Comment, File
@@ -154,6 +156,15 @@ def search(request):
 			try:
 				a = form.cleaned_data['search']
 				rep = []
+				for report in Report.objects.all():
+					report_date = str(report.timestamp)[0:10]
+					day = weekday(int(report_date[0:4]),int(report_date[5:7]), int(report_date[8:10]))
+					day = calendar.day_name[day]
+					month = calendar.month_name[int(report_date[5:7])]
+					str_date = month + ' ' + day + ' ' + report_date[0:4]
+					# return HttpResponse(str_date)
+					if str(a) in str_date or str(a) in str_date.lower():
+						rep.append(report)
 				try:
 					rep.extend(Report.objects.filter(
 						Q(report_name__contains=a) |
