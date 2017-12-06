@@ -319,6 +319,7 @@ def create_report(request):
 				for f in files:
 					new_file = File(file = f)
 					new_file.report = report.id
+					new_file.new = True
 					new_file.save()
 				return redirect('encrypt_files', report_id=report.id)				
 			except Exception as e:
@@ -334,7 +335,7 @@ def encrypt_files(request, report_id):
 	files = File.objects.all()
 	relevant_files = []
 	for f in files:
-		if f.report == report_id:
+		if f.report == report_id and f.new == True:
 			relevant_files.append(f)
 	context = {
 		"files" : relevant_files,
@@ -345,6 +346,9 @@ def encrypt_files(request, report_id):
 				file = File.objects.get(pk=key)
 				file.encrypted = True
 				file.save()
+		for file in relevant_files:
+			file.new = False
+			file.save()
 		return HttpResponse("report saved")
 	return render(request, "encrypt_files.html", context=context)
 
@@ -396,8 +400,9 @@ def edit_report(request, report_id):
 			for f in new_files:
 				new_file = File(file = f)
 				new_file.report = report.id
+				new_file.new = True
 				new_file.save()
-			return HttpResponse("report updated", True)
+			return redirect('encrypt_files', report_id=report.id)
 		else:
 			return HttpResponse(form.errors.as_data())
 	else:
@@ -413,10 +418,11 @@ def add_files(request, report_id):
 				for f in files:
 					new_file = File(file = f)
 					new_file.report = report_id
+					new_file.new = True
 					new_file.save()
-				return HttpResponse("files added")
+				return redirect('encrypt_files', report_id=report_id)
 			except Exception as e:
-				return HttpResponse("exception", False)
+				return HttpResponse(e, False)
 		# else:
 		#     return HttpResponse(form.cleaned_data['filename'])
 	else:
