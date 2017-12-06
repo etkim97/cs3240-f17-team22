@@ -14,7 +14,7 @@
 	{% if user.is_authenticated %}
 		{% if data %}
 			{% for u in data %}
-			{% if u.user_type != 'manager' and u.user_type != 'Admin' %}
+			{% if u.user_type != 'manager' and u.username != 'admin' %}
 			<p style="font-size: 1.1em">Name: {{u.first_name}} {{u.last_name}} (Username: {{u.username}}) User type: {{u.user_type}}
 					{% if u.is_suspended == False %}<a href="{% url 'suspend' uname=u.username%}" style="font-size: 0.7em">Suspend Account</a> 
 					{% else %}<a href="{% url 'suspend' uname=u.username%}" style="font-size: 0.7em">Unsuspend Account</a>{% endif %} {% if user.user_type == 'manager' %}<a href="{% url 'privileges' uname=u.username%}" style="font-size: 0.7em">Privileges</a></p>{% endif %}
