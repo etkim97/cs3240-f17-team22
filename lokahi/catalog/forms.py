@@ -43,14 +43,14 @@ class CreateCommentForm(forms.Form):
     text = forms.CharField()
 
 class EditReportForm(forms.Form):
-    company_name = forms.CharField()
-    company_phone = forms.CharField()
-    company_location = forms.CharField()
-    company_country = forms.CharField()
-    company_sector = forms.CharField()
-    company_industry = forms.CharField()
-    current_projects = forms.CharField(widget=forms.Textarea)
-    info = forms.CharField(widget=forms.Textarea)
+    company_name = forms.CharField(required=False)
+    company_phone = forms.CharField(required=False)
+    company_location = forms.CharField(required=False)
+    company_country = forms.CharField(required=False)
+    company_sector = forms.CharField(required=False)
+    company_industry = forms.CharField(required=False)
+    current_projects = forms.CharField(required=False, widget=forms.Textarea)
+    info = forms.CharField(required=False, widget=forms.Textarea)
     filename = forms.FileField(label="Add files", required=False, widget=forms.ClearableFileInput(attrs={'multiple': True}))
 
 class CreateMessageForm(forms.Form):
@@ -72,9 +72,22 @@ class DownloadMessageForm(forms.Form):
     private_key = forms.CharField(widget=forms.Textarea)
 
 class CreateGroupForm(forms.Form):
+    # public_reports = Report.objects.filter(privacy_setting = "Public")
+    # users_reports = Report.objects.filter(owner = uname)
     group_name = forms.CharField()
     users = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple, queryset=User.objects.all())
-    group_reports = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple, queryset=Report.objects.all())
+    # group_reports = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple, queryset=self.merge)
+
+    def __init__(self, *args, **kwargs):
+        uname = kwargs.pop('uname')
+        super(CreateGroupForm, self).__init__(*args, **kwargs)
+        public_reports = Report.objects.filter(privacy_setting = "Public")
+        users_reports = Report.objects.filter(owner = uname)
+        merge = public_reports | users_reports
+        self.fields['group_reports'] = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple, queryset=merge)
+
+
+
 
 class AddUserForm(forms.Form):
     user = forms.CharField()

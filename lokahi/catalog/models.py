@@ -13,7 +13,7 @@ class Report(models.Model):
 	"""
 	Model representing a report on LFC
 	"""
-	report_name = models.CharField(max_length=200)
+	report_name = models.CharField(max_length=200, unique=True)
 	company_name = models.CharField(max_length=40)
 	company_phone = models.CharField(max_length=15)
 	company_location = models.CharField(max_length=40)
@@ -116,7 +116,7 @@ class Group(models.Model):
 	Model representing groups that users can create
 	"""
 	users = models.CharField(max_length=200, default="")
-	name = models.CharField(max_length=50, default="group")
+	name = models.CharField(max_length=50, default="group", unique=True)
 	reports = models.CharField(max_length=200, default="")
 	# users = models.ManyToManyField(User)
 	# group_reports = models.ManyToManyField(Report)

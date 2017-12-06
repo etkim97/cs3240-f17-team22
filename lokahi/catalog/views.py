@@ -235,12 +235,12 @@ def report_detail(request, report_id):
 			"privacy_setting": report.privacy_setting,
 			"timestamp": report.timestamp,
 			"files" : for_report_files,
-            'get_comments_url': report.get_comments_url,
-            'create_comments_url': report.create_comments_url,
-            'id' : report_id,
-            'current_rating' : report.rating,
-            'num_ratings' : report.num_ratings,
-            'owner' : report.owner,
+			'get_comments_url': report.get_comments_url,
+			'create_comments_url': report.create_comments_url,
+			'id' : report_id,
+			'current_rating' : report.rating,
+			'num_ratings' : report.num_ratings,
+			'owner' : report.owner,
 		}
 		if report.hash_name == encode_name.hexdigest():
 			return render(request, 'catalog/detailedreport.html', context=context)
@@ -273,27 +273,27 @@ def remove_from_favorites(request, report_id):
 
 @csrf_exempt
 def create_report(request):
-    if request.method == 'POST':
-        form = CreateReportForm(request.POST, request.FILES)
-        # files = request.FILES.getlist('filename')
-        if form.is_valid():
-            report_name = form.cleaned_data['report_name']
-            company_name = form.cleaned_data['company_name']
-            company_phone = form.cleaned_data['company_phone']
-            company_location = form.cleaned_data['company_location']
-            company_country = form.cleaned_data['company_country']
-            company_sector = form.cleaned_data['company_sector']
-            company_industry = form.cleaned_data['company_industry']
-            current_projects = form.cleaned_data['current_projects']
-            info = form.cleaned_data['info']
-            files = request.FILES.getlist('filename')
-            privacy_setting = form.cleaned_data['privacy_setting']
-            owner = form.cleaned_data['owner']
-            hash_n = hashlib.sha1(report_name.encode('utf-8'))
-            if owner != request.user.username:
-            	return HttpResponse("inputting your username serves as a digital signature, you may not enter an althernate username. Please go back.")
-            try:
-                report = Report(
+	if request.method == 'POST':
+		form = CreateReportForm(request.POST, request.FILES)
+		# files = request.FILES.getlist('filename')
+		if form.is_valid():
+			report_name = form.cleaned_data['report_name']
+			company_name = form.cleaned_data['company_name']
+			company_phone = form.cleaned_data['company_phone']
+			company_location = form.cleaned_data['company_location']
+			company_country = form.cleaned_data['company_country']
+			company_sector = form.cleaned_data['company_sector']
+			company_industry = form.cleaned_data['company_industry']
+			current_projects = form.cleaned_data['current_projects']
+			info = form.cleaned_data['info']
+			files = request.FILES.getlist('filename')
+			privacy_setting = form.cleaned_data['privacy_setting']
+			owner = form.cleaned_data['owner']
+			hash_n = hashlib.sha1(report_name.encode('utf-8'))
+			if owner != request.user.username:
+				return HttpResponse("inputting your username serves as a digital signature, you may not enter an althernate username. Please go back.")
+			try:
+				report = Report(
 					report_name = report_name,
 					company_name = company_name,
 					company_phone = company_phone,
@@ -308,19 +308,19 @@ def create_report(request):
 					owner = owner,
 					hash_name = hash_n.hexdigest()
 				)
-                report.save()
-                for f in files:
-                	new_file = File(file = f)
-                	new_file.report = report.id
-                	new_file.save()
-                return redirect('encrypt_files', report_id=report.id)
-            except Exception as e:
-                return HttpResponse("exception", False)
-        # else:
-        #     return HttpResponse(form.cleaned_data['filename'])
-    else:
-        form = CreateReportForm()
-    return render(request, 'create_report.html', {'form': form})
+				report.save()
+				for f in files:
+					new_file = File(file = f)
+					new_file.report = report.id
+					new_file.save()
+				return redirect('encrypt_files', report_id=report.id)				
+			except Exception as e:
+				return HttpResponse(e, False)
+		# else:
+		#     return HttpResponse(form.cleaned_data['filename'])
+	else:
+		form = CreateReportForm()
+	return render(request, 'create_report.html', {'form': form})
 
 @csrf_exempt
 def encrypt_files(request, report_id):
@@ -343,70 +343,78 @@ def encrypt_files(request, report_id):
 
 @csrf_exempt
 def edit_report(request, report_id):
-    report = Report.objects.get(pk=report_id)
-    files = File.objects.all()
-    for_report_files = []
-    for f in files:
-    	if f.report == report_id:
-    		for_report_files.append(f)
-    context ={
-    	'name' : report.report_name,
-    	'current_cname' : report.company_name,
-    	'current_phone' : report.company_phone,
-    	'current_location' : report.company_location,
-    	'current_country' : report.company_country,
-    	'current_sector' : report.company_sector,
-    	'current_industry' : report.company_industry,
-    	'current_projects' : report.current_projects,
-    	'current_info' : report.info,
-    	'owner' : report.owner,
-    	'files' : for_report_files,
-    	'id' : report_id,
-    	# 'file_name' : report.filename,
-    }
-    if request.method == 'POST':
-        form = EditReportForm(request.POST, request.FILES)
-        if form.is_valid():
-            report.company_name = form.cleaned_data['company_name']
-            report.company_phone = form.cleaned_data['company_phone']
-            report.company_location = form.cleaned_data['company_location']
-            report.company_country = form.cleaned_data['company_country']
-            report.company_sector = form.cleaned_data['company_sector']
-            report.company_industry = form.cleaned_data['company_industry']
-            report.current_projects = form.cleaned_data['current_projects']
-            report.info = form.cleaned_data['info']
-            # report.filename = form.cleaned_data['filename']
-            report.save()
-            new_files = request.FILES.getlist('filename')
-            for f in new_files:
-              	new_file = File(file = f)
-              	new_file.report = report.id
-              	new_file.save()
-            return HttpResponse("report updated", True)
-        else:
-            return HttpResponse(form.errors.as_data())
-    else:
-        form = EditReportForm()
-    return render(request, 'edit_report.html', context= {'form': form, 'context':context}, )
+	report = Report.objects.get(pk=report_id)
+	files = File.objects.all()
+	for_report_files = []
+	for f in files:
+		if f.report == report_id:
+			for_report_files.append(f)
+	context ={
+		'name' : report.report_name,
+		'current_cname' : report.company_name,
+		'current_phone' : report.company_phone,
+		'current_location' : report.company_location,
+		'current_country' : report.company_country,
+		'current_sector' : report.company_sector,
+		'current_industry' : report.company_industry,
+		'current_projects' : report.current_projects,
+		'current_info' : report.info,
+		'owner' : report.owner,
+		'files' : for_report_files,
+		'id' : report_id,
+		# 'file_name' : report.filename,
+	}
+	if request.method == 'POST':
+		form = EditReportForm(request.POST, request.FILES)
+		if form.is_valid():
+			if form.cleaned_data['company_name'] != "":
+				report.company_name = form.cleaned_data['company_name']
+			if form.cleaned_data['company_phone'] != "":
+				report.company_phone = form.cleaned_data['company_phone']
+			if form.cleaned_data['company_location'] != "":
+				report.company_location = form.cleaned_data['company_location']
+			if form.cleaned_data['company_country'] != "":
+				report.company_country = form.cleaned_data['company_country']
+			if form.cleaned_data['company_sector'] != "":
+				report.company_sector = form.cleaned_data['company_sector']
+			if form.cleaned_data['company_industry']:
+				report.company_industry = form.cleaned_data['company_industry']
+			if form.cleaned_data['company_industry'] != "":
+				report.current_projects = form.cleaned_data['current_projects']
+			if form.cleaned_data['info'] != "":
+				report.info = form.cleaned_data['info']
+			# report.filename = form.cleaned_data['filename']
+			report.save()
+			new_files = request.FILES.getlist('filename')
+			for f in new_files:
+				new_file = File(file = f)
+				new_file.report = report.id
+				new_file.save()
+			return HttpResponse("report updated", True)
+		else:
+			return HttpResponse(form.errors.as_data())
+	else:
+		form = EditReportForm()
+	return render(request, 'edit_report.html', context= {'form': form, 'context':context})
 
 def add_files(request, report_id):
-    if request.method == 'POST':
-        form = addFiles(request.POST, request.FILES)
-        if form.is_valid():
-            files = request.FILES.getlist('filename')
-            try:
-                for f in files:
-                	new_file = File(file = f)
-                	new_file.report = report_id
-                	new_file.save()
-                return HttpResponse("files added")
-            except Exception as e:
-                return HttpResponse("exception", False)
-        # else:
-        #     return HttpResponse(form.cleaned_data['filename'])
-    else:
-        form = addFiles()
-    return render(request, 'add_files.html', {'form': form})
+	if request.method == 'POST':
+		form = addFiles(request.POST, request.FILES)
+		if form.is_valid():
+			files = request.FILES.getlist('filename')
+			try:
+				for f in files:
+					new_file = File(file = f)
+					new_file.report = report_id
+					new_file.save()
+				return HttpResponse("files added")
+			except Exception as e:
+				return HttpResponse("exception", False)
+		# else:
+		#     return HttpResponse(form.cleaned_data['filename'])
+	else:
+		form = addFiles()
+	return render(request, 'add_files.html', {'form': form})
 
 @csrf_exempt
 def delete_report(request, report_id):
@@ -457,22 +465,22 @@ def delete_file(request, file_id, report_id):
 
 @csrf_exempt
 def get_comments(request, report_id):
-    try:
-        comments = []
-        i_d = ''
-        comment_list = Comment.objects.all()
-        for comment in comment_list:
-            if comment.report == Report.objects.get(pk=report_id):
-                comments.append(comment)
-                if i_d == '':
-                	i_d = comment.report
-        context = {
-            "comments": comments,
-            "id": i_d,
-        }
-        return render(request, 'catalog/list_comments.html', context=context)
-    except Exception as e:
-    	return HttpResponse(e)
+	try:
+		comments = []
+		i_d = ''
+		comment_list = Comment.objects.all()
+		for comment in comment_list:
+			if comment.report == Report.objects.get(pk=report_id):
+				comments.append(comment)
+				if i_d == '':
+					i_d = comment.report
+		context = {
+			"comments": comments,
+			"id": i_d,
+		}
+		return render(request, 'catalog/list_comments.html', context=context)
+	except Exception as e:
+		return HttpResponse(e)
 
 
 @csrf_exempt
@@ -646,9 +654,10 @@ def group_detail(request, group_name):
 
 
 @csrf_exempt
-def create_group(request):
+def create_group(request, user_id):
+	user = User.objects.get(pk=user_id)
 	if request.method == 'POST':
-		form = CreateGroupForm(request.POST)
+		form = CreateGroupForm(request.POST, uname=user.username)
 		if form.is_valid():
 			form_users = form.cleaned_data['users']
 			form_name = form.cleaned_data['group_name']
@@ -659,17 +668,20 @@ def create_group(request):
 				users = users + u.username + ','
 			for r in form_reports:
 				rep = rep + r.report_name + ','
-			group = Group(
-				name = form_name,
-				users = users,
-				reports = rep,
-			)
-			group.save()
-			return HttpResponse("group saved", {'group': group})
+			try:
+				group = Group(
+					name = form_name,
+					users = users,
+					reports = rep,
+				)
+				group.save()
+				return HttpResponse("group saved", {'group': group})
+			except:
+				return HttpResponse("Group name must be unique")
 		else:
 			return HttpResponse(form.errors.as_data())
 	else:
-		form = CreateGroupForm()
+		form = CreateGroupForm(uname = user.username)
 
 	return render(request, 'create_group.html', {'form': form})
 

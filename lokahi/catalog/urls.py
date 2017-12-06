@@ -28,7 +28,7 @@ urlpatterns = [
     url(r'^message/decrypt$', views.download_message, name='decrypt_message'),
 
     url(r'^mygroups/(?P<uname>[\w\-]+)$', views.my_groups, name='my_groups'),
-    url(r'^group/create$', views.create_group, name='create_group'),
+    url(r'^group/create/(?P<user_id>[0-9]+)$', views.create_group, name='create_group'),
     url(r'^group/(?P<group_name>[0-9]+)$', views.group_detail, name='group_detail'),
     url(r'^group/(?P<group_name>[0-9]+)/remove/(?P<uname>[\w\-]+)$', views.remove_from_group, name='remove_from_group'),
     url(r'^group/(?P<group_name>[0-9]+)/add_user', views.add_user, name='add_user'),

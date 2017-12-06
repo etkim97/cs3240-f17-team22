@@ -4,7 +4,7 @@
     <h1>Your Groups</h1>
 
     {% if user.is_authenticated %}
-    <a href="{% url 'create_group'%}">Create A Group</a>
+    <a href="{% url 'create_group' user_id=user.id %}">Create A Group</a>
     {% endif %}
 
     {% if list_groups %}
