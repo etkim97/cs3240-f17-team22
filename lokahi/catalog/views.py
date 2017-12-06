@@ -156,16 +156,16 @@ def search(request):
 				rep = []
 				try:
 					rep.extend(Report.objects.filter(
-						Q(report_name = a) |
-						Q(company_name = a) |
-						Q(company_phone = a) |
-						Q(company_industry=a)|
-						Q(company_location=a)|
-						Q(company_sector=a)|
-						Q(company_country=a)|
-						Q(current_projects=a)|
-						Q(info = a)|
-						Q(owner = a)
+						Q(report_name__contains=a) |
+						Q(company_name__contains=a) |
+						Q(company_phone=a) |
+						Q(company_industry__contains=a)|
+						Q(company_location__contains=a)|
+						Q(company_sector__contains=a)|
+						Q(company_country__contains=a)|
+						Q(current_projects__contains=a)|
+						Q(info=a)|
+						Q(owner=a)
 					))
 					rep.extend(Report.objects.filter(timestamp = a))
 				except:
@@ -187,11 +187,7 @@ def search_message(request):
 				a = form.cleaned_data['search']
 				mes2 = []
 				try:
-					mes = Message.objects.filter(message_body = a)
-					#print(mes)
-					# for m in mes.iterator():
-					# 	if a in m.message_body:
-					# 		mes2.extend(m)
+					mes = Message.objects.filter(message_body__contains=a)
 				except Exception as e:
 					return HttpResponse(e)
 			except Exception as e:
